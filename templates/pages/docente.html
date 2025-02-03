@@ -21,8 +21,16 @@
     <div class="textoPrincipal">
         <h2>Pagina principal</h2>
         <p>En este apartado podrás gestionar tu grupo, ver alumnos inscritos al grupo y ver el progreso</p>
-
     </div>
+
+    {% include "grupo_info.html" %}
+
+    <script>
+        function mostrarFormulario() {
+            document.getElementById("formGrupo").style.display = "block";  // Mostrar el formulario
+            document.getElementById("mensajeNoGrupo").style.display = "none";  // Ocultar el mensaje y el botón
+        }
+    </script>
 
     <script src="/static/js/docente.js"></script>
 </body>
