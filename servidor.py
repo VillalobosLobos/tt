@@ -47,7 +47,43 @@ def alumno():
 
 @app.route('/docente')
 def docente():
-     return render_template('pages/docente.html')
+    if 'usuario' not in session or session['usuario']['role'] != 'Docente':
+        return redirect(url_for('inicioSesion'))
+
+    correo_docente = session['usuario']['CorreoDocente']
+
+    cursor = coneccion.cursor(dictionary=True)
+    
+    # Buscar la información del docente
+    cursor.execute("SELECT Nombre, Apellido FROM Docente WHERE CorreoDocente = %s;", (correo_docente,))
+    docente_info = cursor.fetchone()
+
+    # Buscar el grupo vinculado al docente
+    cursor.execute("SELECT IdGrupo, Titulo, Codigo, NoAlumnos FROM Grupo WHERE CorreoDocente = %s;", (correo_docente,))
+    grupo = cursor.fetchone()
+
+    cursor.close()
+
+    return render_template('pages/docente.html', docente=docente_info, grupo=grupo)
+
+@app.route('/crearGrupo', methods=['POST'])
+def crear_grupo():
+    if 'usuario' not in session or session['usuario']['role'] != 'Docente':
+        return redirect(url_for('inicioSesion'))
+
+    correo_docente = session['usuario']['CorreoDocente']
+    nombre_grupo = request.form.get('nombreGrupo')
+
+    if not nombre_grupo:
+        return redirect(url_for('docente'))  # Si no hay nombre, vuelve a la página
+
+    cursor = coneccion.cursor()
+    cursor.execute("INSERT INTO Grupo (Titulo, Codigo, NoAlumnos, CorreoDocente) VALUES (%s, %s, %s, %s)", 
+                   (nombre_grupo, 'AUTO-GEN', 0, correo_docente))  # Código puede ser auto-generado
+    coneccion.commit()
+    cursor.close()
+
+    return redirect(url_for('docente'))  # Recarga la página para mostrar el nuevo grupo
 
 @app.route('/docente/info', methods=['GET'])
 def getDocenteInfo():
@@ -59,6 +95,8 @@ def getDocenteInfo():
 def inicioSesion():
     correo=request.form.get('email')
     contraseña=request.form.get('contraseña')
+
+    #print(f'{contraseña} y {correo}')
 
     cursor=coneccion.cursor(dictionary=True)
 
