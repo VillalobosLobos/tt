@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles/docente.css" type="text/css">
+    <title>Docente</title>
+</head>
+<body>
+    <!--  Menú horizontal superior -->
+    <header>
+        <nav>
+            <ul>
+                <li><span id="nombreDocente"></span></li>
+                <li><a href="#configuraciones">Configuraciones</a></li>
+                <li><a href="{{url_for('index')}}">Cerrar sesión</a></li>
+            </ul>
+        </nav>
+    </header>
+    <!--Para el texto principal de docente-->
+    <div class="textoPrincipal">
+        <h2>Pagina principal</h2>
+        <p>En este apartado podrás gestionar tu grupo, ver alumnos inscritos al grupo y ver el progreso</p>
+
+    </div>
+
+    <script src="/static/js/docente.js"></script>
+</body>
+</html>

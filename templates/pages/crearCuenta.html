@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles/crearCuenta.css" type="text/css">
+    <title>Crear una cuenta de alumno</title>
+</head>
+<body>
+    <div class="crearCuenta">
+        <div class="texto">
+            <h1>Crea una cuenta para el alumno</h1> 
+        </div>
+        
+        <div class="campos">
+            <input type="text" id="nombre" name="nombre" placeholder="Nombre(s)"> <br>
+
+            <input type="text" id="nombre" name="nombre" placeholder="Apellido(s)"> <br>
+
+            <input type="email" id="email" name="email" placeholder="Escribe tu correo"> <br>
+
+            <input type="password" id="contraseña" name="contraseña" placeholder="Ingresa tu contraseña"> <br>
+
+            <p>
+                Utilice 8 o más caracteres con una combinación de letras, números y símbolos
+            </p>
+
+            <label>
+                <input type="checkbox" name="remember-me" id="remember-me">
+                Los datos almacenados en este prototipo se utilizarán únicamente para probar la funcionalidad de la aplicación. Estos datos serán eliminados una vez finalizadas las pruebas y no se usarán para ningún otro fin. Al participar, el usuario acepta estos términos.
+            </label> <br> <br>
+
+            <button type="submit">Crear</button>
+        </div>
+
+        <div class="links">
+            <p>¿Ya tienes una cuenta? <a href="{{url_for('sesion')}}"> Inicia sesión</a></p>
+        </div>
+    </div>
+</body>
+</html>

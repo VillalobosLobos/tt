@@ -1,0 +1,12 @@
+body {
+    background-image: url('../img/inicioSesion/fondo.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.crearCuenta{
+    width: 500px;
+    height: max-content;
+    background-color: blueviolet;
+    padding: 30px;
+}
