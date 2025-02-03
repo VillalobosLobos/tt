@@ -1,0 +1,95 @@
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+}
+
+nav{
+    display: flex;
+    justify-content: center;
+}
+
+nav ul{
+    list-style-type: none;
+}
+
+nav li{
+    display: inline;
+    margin-right: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 16px;
+}
+
+/*Para el contenedor de inicio*/
+.inicio{
+    margin: 0 auto;
+    background-color: #333;
+    border: 1px solid aqua;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 8px;
+}
+
+.inicio img{
+    width: 400px;
+    height: auto;
+    border-radius: 8px;
+}
+
+.textoPrincipal{
+    text-align: left;
+    max-width: 60%;
+}
+
+/*Para preguntas frecuentes*/
+.preguntas{
+    margin: 0 auto;
+    background-color: #333;
+    border: 1px solid aqua;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 8px;
+}
+
+.preguntas img{
+    width: 400px;
+    height: auto;
+    border-radius: 8px;
+}
+
+.textoPreguntas{
+    text-align: left;
+    max-width: 60%;
+}
+
+/*Para contactos*/
+.contacto{
+    margin: 0 auto;
+    background-color: #333;
+    border: 1px solid aqua;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 8px;
+}
+
+.contacto img{
+    width: 400px;
+    height: auto;
+    border-radius: 8px;
+}
+
+.textoContacto{
+    text-align: left;
+    max-width: 60%;
+}
+

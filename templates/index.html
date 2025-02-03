@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles/principal.css" type="text/css">
+
+    <title>Menú principal</title>
+</head>
+<body>
+
+    <!--  Menú horizontal superior -->
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#inicio">INICIO</a></li>
+                <li><a href="#preguntas">PREGUNTAS FRECUENTES</a></li>
+                <li><a href="#contacto">CONTACTANOS</a></li>
+                <li><a href="{{url_for('sesion')}}">INICIAR SESION</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Para el texto de inicio y la imagen -->
+     <div id="inicio" class="inicio">
+        <div class="textoPrincipal">
+            <h1>Prototipo de aplicación web empleando speech recognition</h1>
+            <p>Un prototipo de aplicación web interactiva que les permite a los más pequeños a descubrir el mundo de las letras y los números con su voz</p> 
+        </div>
+
+        <img src="/static/img/principal/menu.png" alt="">
+     </div>
+
+     <!-- Para las preguntas frecuentes -->
+     <div id="preguntas" class="preguntas">
+        <img src="/static/img/principal/preguntas.png" alt="">
+
+        <div class="textoPreguntas">
+            <h1>Preguntas Frecuentes</h1>
+            <p>Un prototipo de aplicación web interactiva que les permite a los más pequeños a descubrir el mundo de las letras y los números con su voz</p> 
+        </div>
+     </div>
+
+     <!-- Para contactarnos -->
+     <div id="contacto" class="contacto">
+        <div class="textoContacto">
+            <h1>Contáctanos Ya!</h1>
+            <input type="text" id="nombre" name="nombre" placeholder="Escribe tu nombre"> <br>
+
+            <input type="email" id="email" name="email" placeholder="Escribe tu correo"> <br>
+
+            <input type="text" id="telefono" name="telefono" placeholder="Escribe tu número"> <br>
+
+            <textarea name="mensaje" rows="5" placeholder="Escribe tu mensaje"></textarea> <br>
+
+            <button type="submit">Enviar</button>
+
+        </div>
+
+        <img src="/static/img/principal/contacto.png" alt="">
+     </div>
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles/inicioSesion.css" type="text/css">
+    <title>Inicio de sesión</title>
+</head>
+<body>
+    <div class="inicioSesion">
+        <div class="texto">
+            <h1>Inicio de sesión</h1>
+            <p>Por favor inicie sesión para continuar con su cuenta</p> 
+        </div>
+        
+        <div class="campos">
+            <form id="loginForm" action="http://127.0.0.1:8000/inicioSesion" method="post">
+                <input type="email" id="email" name="email" placeholder="Escribe tu correo"> <br>
+
+                <input type="password" id="contraseña" name="contraseña" placeholder="Ingresa tu contraseña"> <br>
+
+                <label>
+                    <input type="checkbox" name="remember-me" id="remember-me">
+                    Recordar mis datos
+                </label> <br>
+
+                <button type="submit">Ingresar</button>
+            </form>
+
+            <script src="{{ url_for('static', filename='js/errorLogin.js') }}"></script>
+        </div>
+
+        <div class="links">
+            <p>¿Haz olvidado tu contraseña? <a href="{{url_for('recuperarContraseña')}}"> Ingresa aquí</a></p>
+            <p>¿No tienes una cuenta? <a href="{{url_for('crearCuenta')}}"> Crear una</a></p>
+        </div>
+    </div>
+    
+</body>
+</html>
