@@ -1,0 +1,16 @@
+{% if alumno.IdGrupo %}
+    <!-- Si el alumno tiene un grupo -->
+    <h1>Tiene grupo</h1>
+{% else %}
+    <!-- Si el alumno no tiene un grupo -->
+    <div class="form-container">
+        <h2 class="bg-primary text-white p-2 rounded">Bienvenido, {{ alumno.Nombre }} {{ alumno.Apellido }}</h2>
+        <img src="{{ url_for('static', filename='img/perfil.png') }}" class="profile-img" alt="Imagen del alumno">
+        <p>Ingrese el código de la clase proporcionado por el docente</p>
+        <form action="/unirseGrupo" method="POST">
+            <input type="text" name="codigo_clase" class="form-control text-center mb-3" placeholder="#Código" required>
+            <button type="submit" class="btn btn-aceptar mb-2">Aceptar</button>
+            <button type="button" class="btn btn-salir" onclick="window.location.href='/inicioSesion'">Salir</button>
+        </form>
+    </div>
+{% endif %}
