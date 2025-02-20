@@ -43,6 +43,14 @@ def generar_codigo_unico():
 def index():
 	return render_template('index.html')
 
+@app.route('/cerrar_sesion', methods=['POST'])
+def cerrar_sesion():
+    # Eliminar la sesión
+    session.pop('usuario', None)
+    
+    # Redirigir a la ruta principal (index)
+    return redirect(url_for('index'))
+
 @app.route('/sessionInfo')
 def sessionInfo():
     return jsonify(session.get('usuario', 'No hay usuario en sesión'))
@@ -58,6 +66,69 @@ def recuperarContraseña():
 @app.route('/crearCuenta')
 def crearCuenta():
      return render_template('pages/crearCuenta.html')
+
+from flask import redirect, url_for
+
+@app.route('/editar_perfil', methods=['POST'])
+def editar_perfil():
+    # Obtener datos del formulario
+    nombre = request.form.get('nombre')
+    apellido = request.form.get('apellido')
+    email = request.form.get('email')
+
+    cursor.execute("UPDATE Alumno SET Nombre=%s, Apellido=%s WHERE CorreoTutor=%s", (nombre, apellido, email))
+    coneccion.commit()
+
+    # Redirigir a la misma página después de actualizar
+    return redirect(url_for('confAlumno'))
+
+@app.route('/confAlumno')
+def confAlumno():
+    # Verificar que el usuario está logueado y tiene el rol de Tutor
+    if 'usuario' not in session or session['usuario']['role'] != 'Tutor':
+        return redirect(url_for('inicioSesion'))
+
+    # Obtener el correo del tutor desde la sesión
+    correo_tutor = session['usuario'].get('CorreoTutor')
+
+    if not correo_tutor:
+        return redirect(url_for('inicioSesion'))
+
+    cursor = coneccion.cursor(dictionary=True)
+
+    # Obtener la información del alumno relacionado con el tutor
+    cursor.execute("SELECT IdAlumno, Nombre, Apellido, Foto, CorreoTutor, IdGrupo FROM Alumno WHERE CorreoTutor = %s;", (correo_tutor,))
+    alumno_info = cursor.fetchone()
+
+    if not alumno_info:
+        return "Alumno no encontrado", 404
+
+    # Obtener el IdGrupo del alumno
+    id_grupo = alumno_info.get('IdGrupo')
+
+    if not id_grupo:
+        return "El alumno no está asignado a ningún grupo", 404
+
+    # Obtener la información del grupo para obtener el CorreoDocente
+    cursor.execute("SELECT CorreoDocente FROM Grupo WHERE IdGrupo = %s;", (id_grupo,))
+    grupo_info = cursor.fetchone()
+
+    if not grupo_info:
+        return "Grupo no encontrado", 404
+
+    # Obtener la información del docente utilizando el CorreoDocente
+    correo_docente = grupo_info.get('CorreoDocente')
+
+    cursor.execute("SELECT Nombre, Apellido, CorreoDocente FROM Docente WHERE CorreoDocente = %s;", (correo_docente,))
+    docente_info = cursor.fetchone()
+
+    cursor.close()
+
+    if not docente_info:
+        return "Docente no encontrado", 404
+
+    # Pasamos los datos del alumno y del docente a la plantilla
+    return render_template('pages/confAlumno.html', alumno=alumno_info, docente=docente_info)
 
 @app.route('/alumno')
 def alumno():
@@ -78,6 +149,102 @@ def alumno():
         return "Alumno no encontrado", 404
 
     return render_template('pages/alumno.html', alumno=alumno_info)
+
+@app.route('/salir_grupo', methods=['POST'])
+def salir_grupo():
+    if 'usuario' not in session or session['usuario']['role'] != 'Tutor':
+        return redirect(url_for('inicioSesion'))
+
+    correo_tutor = session['usuario'].get('CorreoTutor')
+
+    if not correo_tutor:
+        return redirect(url_for('alumno', error="No se encontró el correo del tutor en la sesión"))
+
+    cursor = coneccion.cursor(dictionary=True)
+
+    # Obtener al alumno asociado al CorreoTutor del usuario en sesión
+    cursor.execute("SELECT * FROM Alumno WHERE CorreoTutor = %s;", (correo_tutor,))
+    alumno = cursor.fetchone()
+
+    if not alumno:
+        return redirect(url_for('alumno', error=f"No se encontró un alumno con el CorreoTutor: {correo_tutor}"))
+
+    print(f"Alumno encontrado: {alumno}")
+
+    # Obtener la información del grupo del alumno
+    id_grupo = alumno.get('IdGrupo')
+
+    if not id_grupo:
+        return redirect(url_for('alumno', error="El alumno no está asignado a ningún grupo"))
+
+    # Obtener la información del grupo
+    cursor.execute("SELECT * FROM Grupo WHERE IdGrupo = %s;", (id_grupo,))
+    grupo = cursor.fetchone()
+
+    if not grupo:
+        return redirect(url_for('alumno', error="No se encontró el grupo al que pertenece el alumno"))
+
+    print(f"Grupo encontrado: {grupo}")
+
+    # Eliminar la asignación del alumno al grupo
+    cursor.execute("UPDATE Alumno SET IdGrupo = NULL WHERE CorreoTutor = %s;", (correo_tutor,))
+    
+    # Decrementar el número de alumnos en el grupo
+    cursor.execute("UPDATE Grupo SET NoAlumnos = NoAlumnos - 1 WHERE IdGrupo = %s;", (id_grupo,))
+
+    coneccion.commit()
+    cursor.close()
+
+    print(f"Alumno {alumno['Nombre']} ha salido del grupo {grupo['Titulo']}")
+
+    return redirect(url_for('alumno'))  # Redirige a la vista de alumno
+
+@app.route('/unirse_grupo', methods=['POST'])
+def unirse_grupo():
+    if 'usuario' not in session or session['usuario']['role'] != 'Tutor':
+        return redirect(url_for('inicioSesion'))
+
+    codigo = request.form.get('codigo')
+
+    if not codigo:
+        return redirect(url_for('alumno', error="No se ingresó un código"))
+
+    print(f"Código ingresado: {codigo}")
+
+    cursor = coneccion.cursor(dictionary=True)
+
+    # Obtener la información del grupo
+    cursor.execute("SELECT * FROM Grupo WHERE Codigo = %s;", (codigo,))
+    grupo = cursor.fetchone()
+
+    if not grupo:
+        return redirect(url_for('alumno', error="Código de grupo no válido"))
+
+    print(f"Grupo encontrado: {grupo}")
+
+    # Obtener al alumno asociado al CorreoTutor del usuario en sesión
+    correo_tutor = session['usuario'].get('CorreoTutor')
+
+    if not correo_tutor:
+        return redirect(url_for('alumno', error="No se encontró el correo del tutor en la sesión"))
+
+    cursor.execute("SELECT * FROM Alumno WHERE CorreoTutor = %s;", (correo_tutor,))
+    alumno = cursor.fetchone()
+
+    if not alumno:
+        return redirect(url_for('alumno', error=f"No se encontró un alumno con el CorreoTutor: {correo_tutor}"))
+
+    print(f"Alumno encontrado: {alumno}")
+
+    # Actualizar el IdGrupo del alumno en la base de datos
+    cursor.execute("UPDATE Alumno SET IdGrupo = %s WHERE CorreoTutor = %s;", (grupo['IdGrupo'], correo_tutor))
+    cursor.execute("UPDATE Grupo SET NoAlumnos = NoAlumnos + 1 WHERE IdGrupo = %s;", (grupo['IdGrupo'],))
+    coneccion.commit()
+    cursor.close()
+
+    print(f"Alumno {alumno['Nombre']} asignado al grupo {grupo['Titulo']}")
+
+    return redirect(url_for('alumno'))  # Redirige a la vista de alumno
 
 @app.route('/docente')
 def docente():
