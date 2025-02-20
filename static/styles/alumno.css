@@ -1,0 +1,85 @@
+header {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-cerrar-sesion {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-cerrar-sesion:hover {
+    background-color: #cc0000;
+}
+
+.contenedor {
+    display: flex; /* Alinea los divs en línea */
+    justify-content: flex-start; /* Los divs estarán alineados a la izquierda */
+    width: 100%; /* Asegura que el contenedor ocupe todo el ancho disponible */
+}
+
+.ejercicios, .opAlumnos {
+    background-color: #f0f0f0; /* Color de fondo */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 20px; /* Espaciado interno */
+    text-align: center; /* Centrar el texto */
+    font-family: Arial, sans-serif; /* Fuente personalizada */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+/* El div de ejercicios tiene un margen a la izquierda */
+.ejercicios {
+    margin-left: 10px; /* Ajusta este valor según lo que necesites */
+}
+
+/* El div de opAlumnos tiene un margen a la derecha */
+.opAlumnos {
+    margin-right: 10px; /* Ajusta este valor según lo que necesites */
+}
+
+.user-img {
+    width: 100px; /* Establece el tamaño deseado en píxeles */
+    height: 100px; /* Establece la altura correspondiente */
+    border-radius: 50%; /* Hace la imagen circular */
+    object-fit: cover; /* Asegura que la imagen se recorte correctamente */
+    margin-top: 10px; /* Agrega espacio superior si es necesario */
+}
+
+.nubes {
+    width: 100px; /* Establece el tamaño deseado en píxeles */
+    height: 100px; /* Establece la altura correspondiente */
+    border-radius: 50%; /* Hace la imagen circular */
+    object-fit: cover; /* Asegura que la imagen se recorte correctamente */
+    margin-top: 10px; /* Agrega espacio superior si es necesario */
+}
+
+/* Estilo de los botones */
+.buttons {
+    justify-content: space-around;
+    width: 100%;
+    margin: 20px 0;
+}
+
+.button {
+    background-color: orange;
+    padding: 15px;
+    border-radius: 30px;
+    text-align: center;
+    flex: 1;
+    font-size: 18px;
+}
+
+.button a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+.button:hover {
+    background-color: #e57300;
+}
