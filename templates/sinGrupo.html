@@ -13,7 +13,9 @@
             <img class="user-img" src="/static/img/alumnos/usaurio.png" alt="">
             <div class="buttons">
                 <div class="button">
-                    <a href="#">Ver progreso</a>
+                    <form action="{{ url_for('progresoAlumno') }}" method="GET">
+                        <button type="submit">Ver progreso</button>
+                    </form>
                 </div>
                 <br>
                 <div class="button">

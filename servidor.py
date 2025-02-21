@@ -67,7 +67,24 @@ def recuperarContraseña():
 def crearCuenta():
      return render_template('pages/crearCuenta.html')
 
-from flask import redirect, url_for
+@app.route('/progresoAlumno')
+def progresoAlumno():
+     if 'usuario' not in session or session['usuario']['role'] != 'Tutor':
+        return redirect(url_for('inicioSesion'))
+     correo_alumno = session['usuario']['CorreoTutor']
+
+     cursor = coneccion.cursor(dictionary=True)
+    
+    # Obtener la información del alumno
+     cursor.execute("SELECT IdAlumno, Nombre, Apellido, Foto, AciertosNumeros,AciertosLetras, IdGrupo, CorreoTutor FROM Alumno WHERE CorreoTutor = %s;", (correo_alumno,))
+     alumno_info = cursor.fetchone()
+
+     cursor.close()
+
+     if not alumno_info:
+        return "Alumno no encontrado", 404
+
+     return render_template('pages/progresoAlumno.html',alumno=alumno_info)
 
 @app.route('/editar_perfil', methods=['POST'])
 def editar_perfil():
@@ -140,7 +157,7 @@ def alumno():
     cursor = coneccion.cursor(dictionary=True)
     
     # Obtener la información del alumno
-    cursor.execute("SELECT IdAlumno, Nombre, Apellido, Foto, Aciertos, IdGrupo, CorreoTutor FROM Alumno WHERE CorreoTutor = %s;", (correo_alumno,))
+    cursor.execute("SELECT IdAlumno, Nombre, Apellido, Foto, AciertosNumeros,AciertosLetras, IdGrupo, CorreoTutor FROM Alumno WHERE CorreoTutor = %s;", (correo_alumno,))
     alumno_info = cursor.fetchone()
 
     cursor.close()
