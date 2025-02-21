@@ -2,7 +2,10 @@
     <!-- Si el docente tiene grupo, muestra la información -->
     <div class="grupo-info">
         <h2>Grupo Asignado</h2>
-        <p><strong>Nombre del Grupo:</strong> {{ grupo.Titulo }}</p>
+        <p><strong>Nombre del Grupo:</strong> <span id="grupo-titulo">{{ grupo.Titulo }}</span></p>
+        <input type="text" id="input-titulo" value="{{ grupo.Titulo }}" style="display: none;">
+        <button id="editar-btn">Editar</button>
+        <button id="guardar-btn" style="display: none;">Guardar</button>
         <p><strong>Código:</strong> {{ grupo.Codigo }}</p>
         <p><strong>Número de Alumnos:</strong> {{ grupo.NoAlumnos }}</p>
     </div>
@@ -14,7 +17,7 @@
     </div>
 
     <!-- Formulario oculto para crear grupo -->
-    <div id="formGrupo">
+    <div id="formGrupo" style="display: none;">
         <h3>Coloca el nombre del grupo:</h3>
         <form action="/crearGrupo" method="POST">
             <input type="text" name="nombreGrupo" placeholder="Nombre del grupo" required>
@@ -22,3 +25,46 @@
         </form>
     </div>
 {% endif %}
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Función para mostrar el formulario al crear un grupo
+    window.mostrarFormulario = function() {
+        document.getElementById("formGrupo").style.display = "block";
+    };
+
+    // Seleccionar los elementos
+    let editarBtn = document.getElementById("editar-btn");
+    let guardarBtn = document.getElementById("guardar-btn");
+    let tituloSpan = document.getElementById("grupo-titulo");
+    let tituloInput = document.getElementById("input-titulo");
+
+    if (editarBtn) {
+        editarBtn.addEventListener("click", function() {
+            tituloSpan.style.display = "none";
+            tituloInput.style.display = "inline";
+            guardarBtn.style.display = "inline";
+            editarBtn.style.display = "none";
+        });
+
+        guardarBtn.addEventListener("click", function() {
+            let nuevoTitulo = tituloInput.value;
+
+            fetch("/actualizarTitulo", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ titulo: nuevoTitulo })
+            })
+            .then(response => response.json())
+            .then(data => {
+                tituloSpan.textContent = data.titulo;
+                tituloSpan.style.display = "inline";
+                tituloInput.style.display = "none";
+                guardarBtn.style.display = "none";
+                editarBtn.style.display = "inline";
+            })
+            .catch(error => console.error("Error:", error));
+        });
+    }
+});
+</script>
