@@ -284,6 +284,26 @@ def docente():
 
     return render_template('pages/docente.html', docente=docente_info, grupo=grupo)
 
+@app.route('/actualizarTitulo', methods=['POST'])
+def actualizar_titulo():
+    if 'usuario' not in session or session['usuario']['role'] != 'Docente':
+        return jsonify({"error": "No autorizado"}), 403  # Mejor manejar errores con JSON
+
+    data = request.get_json()  # 🔹 Obtener datos correctamente desde JSON
+    nuevo_titulo = data.get('titulo')
+
+    if not nuevo_titulo:
+        return jsonify({"error": "Título no válido"}), 400
+
+    correo_docente = session['usuario']['CorreoDocente']
+
+    cursor = coneccion.cursor()
+    cursor.execute("UPDATE Grupo SET Titulo = %s WHERE CorreoDocente = %s", (nuevo_titulo, correo_docente))
+    coneccion.commit()
+    cursor.close()
+
+    return jsonify({"titulo": nuevo_titulo, "success": True})  # 🔹 Respuesta JSON
+
 @app.route('/crearGrupo', methods=['POST'])
 def crear_grupo():
     if 'usuario' not in session or session['usuario']['role'] != 'Docente':
