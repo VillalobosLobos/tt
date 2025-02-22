@@ -12,7 +12,8 @@
         <nav>
             <ul>
                 <li><span id="nombreDocente"></span></li>
-                <li><a href="#configuraciones">Configuraciones</a></li>
+                <!-- Cambiar href para redirigir a /confDocente -->
+                <li><a href="{{ url_for('confDocente') }}">Configuraciones</a></li>
                 <li><a href="{{url_for('index')}}">Cerrar sesión</a></li>
             </ul>
         </nav>

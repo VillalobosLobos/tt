@@ -284,6 +284,134 @@ def docente():
 
     return render_template('pages/docente.html', docente=docente_info, grupo=grupo)
 
+@app.route('/confDocente')
+def confDocente():
+     return render_template('pages/confDocente.html')
+
+@app.route('/dar_de_baja', methods=['GET'])
+def dar_de_baja():
+    if 'usuario' not in session or session['usuario']['role'] != 'Docente':
+        return redirect(url_for('inicioSesion'))
+
+    # Obtener el correo del alumno desde la consulta GET
+    correo_alumno = request.args.get('correo_alumno')
+
+    if not correo_alumno:
+        return "Correo del alumno no proporcionado", 400
+    
+    cursor = coneccion.cursor(dictionary=True)
+
+    # Obtener la información del alumno usando el correo proporcionado
+    cursor.execute("""
+        SELECT IdAlumno, Nombre, Apellido, Foto, AciertosNumeros, AciertosLetras, IdGrupo, CorreoTutor 
+        FROM Alumno 
+        WHERE CorreoTutor = %s
+    """, (correo_alumno,))
+    alumno_info = cursor.fetchone()
+
+    if not alumno_info:
+        cursor.close()
+        return "Alumno no encontrado", 404
+
+    # Guardar el IdGrupo del alumno para actualizarlo más tarde
+    id_grupo = alumno_info['IdGrupo']
+
+    # Actualiza el IdGrupo a NULL para dar de baja al alumno
+    cursor.execute("""
+        UPDATE Alumno 
+        SET IdGrupo = NULL 
+        WHERE CorreoTutor = %s
+    """, (correo_alumno,))
+    
+    # Decrementar el número de alumnos en el grupo correspondiente
+    if id_grupo is not None:
+        cursor.execute("""
+            UPDATE Grupo 
+            SET NoAlumnos = NoAlumnos - 1
+            WHERE IdGrupo = %s
+        """, (id_grupo,))
+    
+    coneccion.commit()  # Realiza la transacción
+
+    # Cierra el cursor
+    cursor.close()
+
+    # Redirige al docente de vuelta a la lista de alumnos (ajustar según el nombre correcto de la ruta de alumnos)
+    return redirect(url_for('listaAlumnos'))
+
+@app.route('/progresoAlumnoDocente')
+def progresoAlumnoDocente():
+    if 'usuario' not in session or session['usuario']['role'] != 'Docente':
+        return redirect(url_for('inicioSesion'))
+
+    # Obtener el correo del alumno desde la consulta GET
+    correo_alumno = request.args.get('correo_alumno')
+
+    if not correo_alumno:
+        return "Correo del alumno no proporcionado", 400
+    
+    cursor = coneccion.cursor(dictionary=True)
+
+    # Obtener la información del alumno usando el correo proporcionado
+    cursor.execute("""
+        SELECT IdAlumno, Nombre, Apellido, Foto, AciertosNumeros, AciertosLetras, IdGrupo, CorreoTutor 
+        FROM Alumno 
+        WHERE CorreoTutor = %s
+    """, (correo_alumno,))
+    alumno_info = cursor.fetchone()
+
+    cursor.close()
+
+    if not alumno_info:
+        return "Alumno no encontrado", 404
+
+    return render_template('pages/progresoAlumnoDocente.html', alumno=alumno_info)
+
+@app.route('/listaAlumnos')
+def listaAlumnos():
+    # Verificar si el usuario está autenticado y es un docente
+    if 'usuario' not in session or session['usuario']['role'] != 'Docente':
+        return redirect(url_for('inicioSesion'))
+
+    correo_docente = session['usuario']['CorreoDocente']
+
+    # Conectar a la base de datos usando el cursor que ya tenías definido
+    cursor = coneccion.cursor(dictionary=True)
+    
+    # Obtener el grupo del docente
+    cursor.execute("SELECT IdGrupo FROM Grupo WHERE CorreoDocente = %s;", (correo_docente,))
+    grupo_info = cursor.fetchone()
+    
+    if not grupo_info:
+        return render_template('pages/listaAlumnos.html', alumnos=[])
+
+    # Obtener la lista de alumnos inscritos en el grupo
+    cursor.execute("""
+        SELECT A.IdAlumno, A.Nombre, A.CorreoTutor
+        FROM Alumno A
+        WHERE A.IdGrupo = %s;
+    """, (grupo_info['IdGrupo'],))
+    
+    alumnos = cursor.fetchall()
+    
+    cursor.close()
+    
+    return render_template('pages/listaAlumnos.html', alumnos=alumnos)
+
+@app.route('/eliminarGrupo', methods=['DELETE'])
+def eliminar_grupo():
+    print('eliminar grupo')  # Verificación para saber si se ejecuta esta ruta
+    if 'usuario' not in session or session['usuario']['role'] != 'Docente':
+        return redirect(url_for('inicioSesion'))
+
+    correo_docente = session['usuario']['CorreoDocente']
+    cursor = coneccion.cursor()
+    cursor.execute("DELETE FROM Grupo WHERE CorreoDocente = %s", (correo_docente,))
+    coneccion.commit()
+    cursor.close()
+
+    return jsonify({"success": True})
+
 @app.route('/actualizarTitulo', methods=['POST'])
 def actualizar_titulo():
     if 'usuario' not in session or session['usuario']['role'] != 'Docente':
