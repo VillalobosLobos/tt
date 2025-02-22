@@ -1,59 +1,144 @@
-{% if grupo %}
-    <!-- Si el docente tiene grupo, muestra la información -->
-    <div class="grupo-info">
-        <h2>Grupo Asignado</h2>
-        <p><strong>Nombre del Grupo:</strong> <span id="grupo-titulo">{{ grupo.Titulo }}</span> 
-            <button id="editar-btn" style="margin-left: 10px;">Editar</button> <!-- Botón de editar al lado del nombre -->
-        </p>
-        <input type="text" id="input-titulo" value="{{ grupo.Titulo }}" style="display: none;">
-        <button id="guardar-btn" style="display: none;">Guardar</button>
-        <p>
-            <strong>Código:</strong> 
-            <span id="codigo-grupo">{{ grupo.Codigo }}</span>
-            <button id="copiar-codigo-btn" onclick="copiarCodigo()">Copiar</button> <!-- Botón para copiar -->
-        </p>
-        <p>
-            <button id="btnListaAlumnos" onclick="window.location.href='/listaAlumnos'" title="Ver lista de alumnos" style="border: none; background: none; cursor: pointer;">
-                <img src="{{ url_for('static', filename='img/docente/alumnos.png') }}" alt="Lista de alumnos" width="30px">
-            </button>
-            <strong>{{ grupo.NoAlumnos }}</strong>
-        </p>
-        <button id="eliminar-btn" style="background-color: red; color: white; margin-top: 20px;">Eliminar Grupo</button> <!-- Botón de eliminar al final -->
-    </div>
-{% else %}
-    <!-- Si el docente NO tiene grupo, muestra mensaje y botón -->
-    <div id="mensajeNoGrupo" class="grupo-info">
-        <h2>No tienes un grupo asignado</h2>
-        <button id="btnCrearGrupo" onclick="mostrarFormulario()">Crear Nuevo Grupo</button>
-    </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles/docente.css" type="text/css">
+    <title>Docente</title>
+</head>
+<body>
+    {% if grupo %}
+        <!-- Si el docente tiene grupo, muestra la información -->
+        <div class="grupo-info">
+            <h2>Grupo Asignado</h2>
+            <p><strong>Nombre del Grupo:</strong> <span id="grupo-titulo">{{ grupo.Titulo }}</span> 
+                <button id="editar-btn" style="margin-left: 10px;">Editar</button> <!-- Botón de editar al lado del nombre -->
+            </p>
+            <input type="text" id="input-titulo" value="{{ grupo.Titulo }}" style="display: none;">
+            <button id="guardar-btn" style="display: none;">Guardar</button>
+            <p>
+                <strong>Código:</strong> 
+                <span id="codigo-grupo">{{ grupo.Codigo }}</span>
+                <button id="copiar-codigo-btn" onclick="copiarCodigo()">Copiar</button> <!-- Botón para copiar -->
+            </p>
+            <p>
+                <button id="btnListaAlumnos" onclick="window.location.href='/listaAlumnos'" title="Ver lista de alumnos" style="border: none; background: none; cursor: pointer;">
+                    <img src="{{ url_for('static', filename='img/docente/alumnos.png') }}" alt="Lista de alumnos" width="30px">
+                </button>
+                <strong>{{ grupo.NoAlumnos }}</strong>
+            </p>
+            <button id="eliminar-btn" style="background-color: red; color: white; margin-top: 20px;">Eliminar Grupo</button> <!-- Botón de eliminar al final -->
+        </div>
+    {% else %}
+        <!-- Si el docente NO tiene grupo, muestra mensaje y botón -->
+        <div id="mensajeNoGrupo" class="grupo-info">
+            <h2>No tienes un grupo asignado</h2>
+            <button id="btnCrearGrupo" onclick="mostrarFormulario()">Crear Nuevo Grupo</button>
+        </div>
 
-    <!-- Formulario oculto para crear grupo -->
-    <div id="formGrupo" style="display: none;">
-        <h3>Coloca el nombre del grupo:</h3>
-        <form action="/crearGrupo" method="POST">
-            <input type="text" name="nombreGrupo" placeholder="Nombre del grupo" required>
-            <button type="submit">Crear</button>
-        </form>
-    </div>
-{% endif %}
+        <!-- Formulario oculto para crear grupo -->
+        <div id="formGrupo" style="display: none;">
+            <h3>Coloca el nombre del grupo:</h3>
+            <form action="/crearGrupo" method="POST">
+                <input type="text" name="nombreGrupo" placeholder="Nombre del grupo" required>
+                <button type="submit">Crear</button>
+            </form>
+        </div>
+    {% endif %}
 
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    // Función para mostrar el formulario al crear un grupo
-    window.mostrarFormulario = function() {
-        document.getElementById("formGrupo").style.display = "block";
-    };
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Función para mostrar el formulario al crear un grupo
+            window.mostrarFormulario = function() {
+                document.getElementById("formGrupo").style.display = "block";
+            };
 
-    // Función para copiar el código del grupo al portapapeles
-    window.copiarCodigo = function() {
-        var codigo = document.getElementById("codigo-grupo").textContent;
-        var textarea = document.createElement("textarea");
-        textarea.value = codigo;
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand("copy");
-        document.body.removeChild(textarea);
-        alert("Código copiado al portapapeles");
-    };
-});
-</script>
+            // Función para copiar el código del grupo al portapapeles
+            window.copiarCodigo = function() {
+                var codigo = document.getElementById("codigo-grupo").textContent;
+                var textarea = document.createElement("textarea");
+                textarea.value = codigo;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand("copy");
+                document.body.removeChild(textarea);
+                alert("Código copiado al portapapeles");
+            };
+
+            // Función para editar el nombre del grupo
+            const editarBtn = document.getElementById('editar-btn');
+            const inputTitulo = document.getElementById('input-titulo');
+            const guardarBtn = document.getElementById('guardar-btn');
+            const grupoTitulo = document.getElementById('grupo-titulo');
+
+            editarBtn.addEventListener('click', function() {
+                inputTitulo.style.display = 'block';
+                guardarBtn.style.display = 'inline-block';
+                grupoTitulo.style.display = 'none';
+                editarBtn.style.display = 'none';
+            });
+
+            guardarBtn.addEventListener('click', function() {
+                const nuevoTitulo = inputTitulo.value;
+                if (nuevoTitulo) {
+                    // Enviar la solicitud al servidor para actualizar el título del grupo
+                    fetch('/actualizarTitulo', {
+                        method: 'POST',
+                        body: JSON.stringify({ titulo: nuevoTitulo }),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Actualizar el título en la vista
+                            grupoTitulo.textContent = nuevoTitulo;
+                            inputTitulo.style.display = 'none';
+                            guardarBtn.style.display = 'none';
+                            grupoTitulo.style.display = 'inline';
+                            editarBtn.style.display = 'inline-block';
+                            alert("Grupo actualizado exitosamente");
+                        } else {
+                            alert(data.error || "Error al actualizar el grupo");
+                        }
+                    })
+                    .catch(error => {
+                        alert("Hubo un error al actualizar el grupo");
+                    });
+                }
+            });
+
+            // Función para eliminar el grupo
+            const eliminarBtn = document.getElementById('eliminar-btn');
+
+            eliminarBtn.addEventListener('click', function() {
+                const confirmation = confirm("¿Estás seguro de que quieres eliminar este grupo?");
+                if (confirmation) {
+                    // Enviar la solicitud al servidor para eliminar el grupo
+                    fetch('/eliminarGrupo', {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert("Grupo eliminado exitosamente");
+                            location.reload();  // Recargar la página para reflejar los cambios
+                        } else {
+                            alert("Hubo un error al eliminar el grupo");
+                        }
+                    })
+                    .catch(error => {
+                        alert("Hubo un error al eliminar el grupo");
+                    });
+                }
+            });
+        });
+    </script>
+
+    <script src="/static/js/docente.js"></script>
+</body>
+</html>
