@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de alumnos</title>
+</head>
+<body>
+    <!-- Botón de regreso -->
+    <button onclick="window.history.back();">← Regresar</button>
+
+    <h1>Lista de alumnos</h1>
+    <p>A continuación te mostramos un listado de alumnos que se encuentran inscritos en tu grupo</p>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Alumno</th>
+                <th>Correo</th>
+                <th>Ver Progreso</th>
+                <th>Dar de baja</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for alumno in alumnos %}
+            <tr>
+                <td>{{ alumno.Nombre }}</td>
+                <td>{{ alumno.CorreoTutor }}</td>
+                <td>
+                    <!-- El botón "Ver Progreso" lleva a la ruta con el correo del alumno como parámetro -->
+                    <a href="{{ url_for('progresoAlumnoDocente') }}?correo_alumno={{ alumno.CorreoTutor }}">
+                        <button>Ver Progreso</button>
+                    </a>
+                </td>
+                <td>
+                    <!-- El botón "Dar de baja" llama a la ruta para dar de baja al alumno -->
+                    <a href="{{ url_for('dar_de_baja', correo_alumno=alumno.CorreoTutor) }}">
+                        <button>Dar de baja</button>
+                    </a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4">No hay alumnos inscritos en tu grupo.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

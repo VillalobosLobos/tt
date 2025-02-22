@@ -2,12 +2,23 @@
     <!-- Si el docente tiene grupo, muestra la información -->
     <div class="grupo-info">
         <h2>Grupo Asignado</h2>
-        <p><strong>Nombre del Grupo:</strong> <span id="grupo-titulo">{{ grupo.Titulo }}</span></p>
+        <p><strong>Nombre del Grupo:</strong> <span id="grupo-titulo">{{ grupo.Titulo }}</span> 
+            <button id="editar-btn" style="margin-left: 10px;">Editar</button> <!-- Botón de editar al lado del nombre -->
+        </p>
         <input type="text" id="input-titulo" value="{{ grupo.Titulo }}" style="display: none;">
-        <button id="editar-btn">Editar</button>
         <button id="guardar-btn" style="display: none;">Guardar</button>
-        <p><strong>Código:</strong> {{ grupo.Codigo }}</p>
-        <p><strong>Número de Alumnos:</strong> {{ grupo.NoAlumnos }}</p>
+        <p>
+            <strong>Código:</strong> 
+            <span id="codigo-grupo">{{ grupo.Codigo }}</span>
+            <button id="copiar-codigo-btn" onclick="copiarCodigo()">Copiar</button> <!-- Botón para copiar -->
+        </p>
+        <p>
+            <button id="btnListaAlumnos" onclick="window.location.href='/listaAlumnos'" title="Ver lista de alumnos" style="border: none; background: none; cursor: pointer;">
+                <img src="{{ url_for('static', filename='img/docente/alumnos.png') }}" alt="Lista de alumnos" width="30px">
+            </button>
+            <strong>{{ grupo.NoAlumnos }}</strong>
+        </p>
+        <button id="eliminar-btn" style="background-color: red; color: white; margin-top: 20px;">Eliminar Grupo</button> <!-- Botón de eliminar al final -->
     </div>
 {% else %}
     <!-- Si el docente NO tiene grupo, muestra mensaje y botón -->
@@ -33,38 +44,16 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("formGrupo").style.display = "block";
     };
 
-    // Seleccionar los elementos
-    let editarBtn = document.getElementById("editar-btn");
-    let guardarBtn = document.getElementById("guardar-btn");
-    let tituloSpan = document.getElementById("grupo-titulo");
-    let tituloInput = document.getElementById("input-titulo");
-
-    if (editarBtn) {
-        editarBtn.addEventListener("click", function() {
-            tituloSpan.style.display = "none";
-            tituloInput.style.display = "inline";
-            guardarBtn.style.display = "inline";
-            editarBtn.style.display = "none";
-        });
-
-        guardarBtn.addEventListener("click", function() {
-            let nuevoTitulo = tituloInput.value;
-
-            fetch("/actualizarTitulo", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ titulo: nuevoTitulo })
-            })
-            .then(response => response.json())
-            .then(data => {
-                tituloSpan.textContent = data.titulo;
-                tituloSpan.style.display = "inline";
-                tituloInput.style.display = "none";
-                guardarBtn.style.display = "none";
-                editarBtn.style.display = "inline";
-            })
-            .catch(error => console.error("Error:", error));
-        });
-    }
+    // Función para copiar el código del grupo al portapapeles
+    window.copiarCodigo = function() {
+        var codigo = document.getElementById("codigo-grupo").textContent;
+        var textarea = document.createElement("textarea");
+        textarea.value = codigo;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+        alert("Código copiado al portapapeles");
+    };
 });
 </script>
