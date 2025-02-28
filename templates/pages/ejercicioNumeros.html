@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/actividades.css') }}">
+    <title>Ejercicio Números</title>
+</head>
+<body>
+
+    <div>
+        <h1>Repite el siguiente número:</h1>
+        <p id="numero">1</p>
+        
+        <div class="opciones">
+            <button onclick="window.history.back()">
+                <img class="boton" src="/static/img/actividades/salir.png" alt="">
+            </button>
+            <button onclick="iniciarReconocimiento()">
+                <img class="boton" src="/static/img/actividades/microfono.png" alt="">
+            </button>
+            <button onclick="reproducirAudio()">
+                <img class="boton" src="/static/img/actividades/recargar.png" alt="">
+            </button>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/deepSpeach.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/reconocerNumeros.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/audioNumeros.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/numeros.js') }}"></script>
+</body>
+</html>

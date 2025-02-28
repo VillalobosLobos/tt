@@ -1,0 +1,53 @@
+body {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    height: 100vh; /* Hace que el body ocupe toda la altura de la pantalla */
+    margin: 0;
+    background-color: #f4f4f4; /* Color de fondo opcional */
+}
+
+div {
+    text-align: center; /* Centra el texto dentro del div */
+    background: white; /* Opcional: fondo blanco */
+    padding: 20px;
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+}
+
+@font-face {
+    font-family: 'Eracake';
+    src: url('/static/fonts/Eracake.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+p {
+    font-family: 'Eracake', sans-serif;
+    font-size: 150px; /* Ajusta el tamaño si es necesario */
+    color: #333; /* Color opcional */
+    text-align: center; /* Centrar el texto si lo necesitas */
+}
+
+h1, p {
+    margin: 5px 0; /* Reduce el margen superior e inferior */
+    padding: 0; /* Elimina cualquier relleno */
+}
+
+.opciones {
+    display: flex;
+    justify-content: center; /* Alinea los botones en el centro */
+    gap: 40px; /* Espacio entre los botones */
+    margin-top: 5px;
+}
+
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.boton {
+    width: 50px; /* Ajusta el tamaño de los íconos */
+    height: auto;
+}

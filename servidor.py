@@ -6,6 +6,10 @@ from mysql.connector import Error
 from flask import jsonify
 import mysql.connector
 import random
+import os
+import deepspeech
+import numpy as np
+import wave
 import string
 
 coneccion=mysql.connector.connect(
@@ -28,7 +32,6 @@ app.config['SESSION_FILE_DIR'] = './flask_session'
 Session(app)
 
 def generar_codigo_unico():
-    """ Genera un código aleatorio de 5 caracteres y verifica que no esté en la base de datos. """
     while True:
         codigo = ''.join(random.choices(string.ascii_uppercase + string.digits, k=5))  # Ej: "A1B2C"
         cursor = coneccion.cursor()
@@ -38,6 +41,78 @@ def generar_codigo_unico():
 
         if not resultado:  # Si el código no está en la BD, es único y lo usamos
             return codigo
+
+# Definir la carpeta donde se guardarán los archivos subidos
+UPLOAD_FOLDER = 'static/audio/respuesta'
+ALLOWED_EXTENSIONS = {'wav'}
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+#Para el modelo de deepSpeach
+MODEL_FILE_PATH = 'deepspeech-0.9.3-models.pbmm'
+SCORER_FILE_PATH = 'deepspeech-0.9.3-models.scorer'
+#inicializando el modelo
+model = deepspeech.Model(MODEL_FILE_PATH)
+model.enableExternalScorer(SCORER_FILE_PATH)
+
+def transcribir_audio(archivo_wav):
+    # Abre el archivo WAV
+    with wave.open(archivo_wav, 'rb') as wf:
+        # Verifica si el archivo tiene la frecuencia de muestreo correcta
+        if wf.getframerate() != 16000:
+            raise ValueError("La frecuencia de muestreo debe ser de 16kHz")
+
+        # Lee los frames de audio
+        frames = wf.getnframes()
+        buffer = wf.readframes(frames)
+
+        # Convierte los datos de audio a un array de NumPy
+        audio_data = np.frombuffer(buffer, dtype=np.int16)
+
+        # Transcribe el audio usando el modelo de DeepSpeech
+        transcripcion = model.stt(audio_data)
+        return transcripcion
+
+# Función para verificar la extensión del archivo
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/subir', methods=['POST'])
+def subir_archivo():
+    # Verificar si se subió un archivo
+    if 'file' not in request.files:
+        return 'No se seleccionó ningún archivo', 400
+
+    file = request.files['file']
+    
+    # Si no se seleccionó ningún archivo
+    if file.filename == '':
+        return 'No se seleccionó un archivo', 400
+
+    # Si la letra fue enviada
+    if 'letra' not in request.form:
+        return 'No se recibió la letra', 400
+    
+    letra = request.form['letra']  # Obtener la letra del formulario
+
+    # Si el archivo tiene la extensión permitida
+    if file and allowed_file(file.filename):
+        # Guardar el archivo con un nombre seguro
+        filename = file.filename
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+        # Realiza los procesos necesarios con el archivo de audio
+        os.system("ffmpeg -i static/audio/respuesta/audio.wav -c:a pcm_s16le -ar 16000 static/audio/respuesta/output.wav")
+
+        resultado=""
+        resultado = transcribir_audio("static/audio/respuesta/output.wav")
+        print(f"Letra recibida: {letra}")
+        print(f"Resultado de la transcripción: {resultado}")
+        os.system("rm static/audio/respuesta/*.wav")
+
+        # Aquí se muestra la letra junto con el resultado de la transcripción
+        return f'Archivo {filename} subido exitosamente! La letra era: {letra} y dijo: {resultado}', 200
+    else:
+        return 'Archivo no permitido', 400
 
 @app.route('/')
 def index():
@@ -66,6 +141,44 @@ def recuperarContraseña():
 @app.route('/crearCuenta')
 def crearCuenta():
      return render_template('pages/crearCuenta.html')
+
+@app.route('/ejercicioNumeros')
+def ejercicioNumeros():
+     return render_template('pages/ejercicioNumeros.html')
+
+@app.route('/acabarNumeros')
+def acabarNumeros():
+    if 'usuario' not in session or session['usuario']['role'] != 'Tutor':
+        return redirect(url_for('inicioSesion'))
+    
+    correo_alumno = session['usuario']['CorreoTutor']
+    
+    bien = request.args.get('bien', default=0, type=int)
+    mal=10-bien
+
+    cursor.execute("UPDATE Alumno SET AciertosNumeros=%s WHERE CorreoTutor=%s", (bien, correo_alumno))
+    coneccion.commit()
+
+    return render_template('pages/concluir.html', bien=bien, mal=mal)
+
+@app.route('/acabarActividades')
+def acabarActividades():
+    if 'usuario' not in session or session['usuario']['role'] != 'Tutor':
+        return redirect(url_for('inicioSesion'))
+    
+    correo_alumno = session['usuario']['CorreoTutor']
+    
+    bien = request.args.get('bien', default=0, type=int)
+    mal=10-bien
+
+    cursor.execute("UPDATE Alumno SET AciertosLetras=%s WHERE CorreoTutor=%s", (bien, correo_alumno))
+    coneccion.commit()
+
+    return render_template('pages/concluir.html', bien=bien, mal=mal)
+
+@app.route('/ejercicioLetras')
+def ejercicioLetras():
+     return render_template('pages/ejercicioLetras.html')
 
 @app.route('/progresoAlumno')
 def progresoAlumno():
