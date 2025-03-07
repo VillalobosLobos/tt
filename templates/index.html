@@ -45,20 +45,24 @@
      <div id="contacto" class="contacto">
         <div class="textoContacto">
             <h1>Contáctanos Ya!</h1>
-            <input type="text" id="nombre" name="nombre" placeholder="Escribe tu nombre"> <br>
-
-            <input type="email" id="email" name="email" placeholder="Escribe tu correo"> <br>
-
-            <input type="text" id="telefono" name="telefono" placeholder="Escribe tu número"> <br>
-
-            <textarea name="mensaje" rows="5" placeholder="Escribe tu mensaje"></textarea> <br>
-
-            <button type="submit">Enviar</button>
-
+    
+            <form action="contacto" method="POST">
+                <input type="text" id="nombre" name="nombre" placeholder="Escribe tu nombre" required> <br>
+    
+                <input type="email" id="email" name="email" placeholder="Escribe tu correo" required> <br>
+    
+                <input type="text" id="telefono" name="telefono" placeholder="Escribe tu número" required> <br>
+    
+                <textarea name="mensaje" rows="5" placeholder="Escribe tu mensaje" required></textarea> <br>
+    
+                <button type="submit">Enviar</button>
+            </form>
+    
         </div>
-
+    
         <img src="/static/img/principal/contacto.png" alt="">
-     </div>
+    </div>
+    
 
 </body>
 </html>

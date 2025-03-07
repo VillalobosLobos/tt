@@ -3,14 +3,15 @@ from flask import Flask, request,render_template,jsonify, session,redirect, url_
 from mysql.connector.errors import IntegrityError
 from flask_session import Session
 from mysql.connector import Error
+from flask_mail import Mail, Message
 from flask import jsonify
 import mysql.connector
 import random
-import os
-import deepspeech
 import numpy as np
-import wave
 import string
+
+import smtplib
+from email.mime.text import MIMEText
 
 coneccion=mysql.connector.connect(
 	host="localhost",
@@ -42,78 +43,6 @@ def generar_codigo_unico():
         if not resultado:  # Si el código no está en la BD, es único y lo usamos
             return codigo
 
-# Definir la carpeta donde se guardarán los archivos subidos
-UPLOAD_FOLDER = 'static/audio/respuesta'
-ALLOWED_EXTENSIONS = {'wav'}
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-#Para el modelo de deepSpeach
-MODEL_FILE_PATH = 'deepspeech-0.9.3-models.pbmm'
-SCORER_FILE_PATH = 'deepspeech-0.9.3-models.scorer'
-#inicializando el modelo
-model = deepspeech.Model(MODEL_FILE_PATH)
-model.enableExternalScorer(SCORER_FILE_PATH)
-
-def transcribir_audio(archivo_wav):
-    # Abre el archivo WAV
-    with wave.open(archivo_wav, 'rb') as wf:
-        # Verifica si el archivo tiene la frecuencia de muestreo correcta
-        if wf.getframerate() != 16000:
-            raise ValueError("La frecuencia de muestreo debe ser de 16kHz")
-
-        # Lee los frames de audio
-        frames = wf.getnframes()
-        buffer = wf.readframes(frames)
-
-        # Convierte los datos de audio a un array de NumPy
-        audio_data = np.frombuffer(buffer, dtype=np.int16)
-
-        # Transcribe el audio usando el modelo de DeepSpeech
-        transcripcion = model.stt(audio_data)
-        return transcripcion
-
-# Función para verificar la extensión del archivo
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-@app.route('/subir', methods=['POST'])
-def subir_archivo():
-    # Verificar si se subió un archivo
-    if 'file' not in request.files:
-        return 'No se seleccionó ningún archivo', 400
-
-    file = request.files['file']
-    
-    # Si no se seleccionó ningún archivo
-    if file.filename == '':
-        return 'No se seleccionó un archivo', 400
-
-    # Si la letra fue enviada
-    if 'letra' not in request.form:
-        return 'No se recibió la letra', 400
-    
-    letra = request.form['letra']  # Obtener la letra del formulario
-
-    # Si el archivo tiene la extensión permitida
-    if file and allowed_file(file.filename):
-        # Guardar el archivo con un nombre seguro
-        filename = file.filename
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-
-        # Realiza los procesos necesarios con el archivo de audio
-        os.system("ffmpeg -i static/audio/respuesta/audio.wav -c:a pcm_s16le -ar 16000 static/audio/respuesta/output.wav")
-
-        resultado=""
-        resultado = transcribir_audio("static/audio/respuesta/output.wav")
-        print(f"Letra recibida: {letra}")
-        print(f"Resultado de la transcripción: {resultado}")
-        os.system("rm static/audio/respuesta/*.wav")
-
-        # Aquí se muestra la letra junto con el resultado de la transcripción
-        return f'Archivo {filename} subido exitosamente! La letra era: {letra} y dijo: {resultado}', 200
-    else:
-        return 'Archivo no permitido', 400
-
 @app.route('/')
 def index():
 	return render_template('index.html')
@@ -133,6 +62,32 @@ def sessionInfo():
 @app.route('/inicioSesion')
 def sesion():
      return render_template('pages/inicioSesion.html')
+
+@app.route("/contacto", methods=["GET", "POST"])
+def contacto():
+    if request.method=="POST":
+        nombre=request.form["nombre"]
+        correo=request.form["email"]
+        numero=request.form["telefono"]
+        mensaje=request.form["mensaje"]
+
+        #bmds xqfj iskd vrqk 
+        servidor=smtplib.SMTP('smtp.gmail.com',587)
+        servidor.starttls()
+        servidor.login("eduvoz212@gmail.com","bmds xqfj iskd vrqk")
+
+        msj=MIMEText(f'Correo: {correo}\nNombre: {nombre}\nNumero: {numero}\n\n{mensaje}')
+
+        msj["From"]=correo
+        msj["To"]="eduvoz212@gmail.com"
+        msj["Subject"]="Contacto"
+
+        servidor.sendmail(correo,"eduvoz212@gmail.com",msj.as_string())
+        servidor.quit()
+
+        return redirect(url_for('index'))
+    else:
+        return redirect(url_for('index'))
 
 @app.route('/recuperarContraseña')
 def recuperarContraseña():
