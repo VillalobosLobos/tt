@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/confA.css') }}">
     <title>Editar Perfil</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -30,10 +31,18 @@
 
             <div class="profile-container">
                 <div class="profile-photo">
-                    <img src="/static/img/alumnos/usaurio.png" alt="Foto de perfil" class="profile-img">
-                    <button class="change-photo-btn">Cambiar foto</button>
+                    <form id="foto-form" enctype="multipart/form-data">
+                        <div class="profile-photo">
+                            <img id="profile-img" src="{{ alumno.Foto }}" alt="Foto de perfil" class="profile-img">
+                            <button type="button" class="change-photo-btn" onclick="document.getElementById('foto').click();">Cambiar foto</button>
+                        </div>
+                        <input type="file" id="foto" name="foto" accept="image/*" style="display:none;" required>
+                        
+                        <!-- Campo oculto para el CorreoTutor -->
+                        <input type="hidden" id="CorreoTutor" name="CorreoTutor" value="{{ alumno.CorreoTutor }}">
+                    </form>
                 </div>
-                <br>
+                
                 <form class="profile-form" action="/editar_perfil" method="POST">
                     <label for="nombre">Nombres(s)</label>
                     <input type="text" id="nombre" name="nombre" placeholder="{{alumno['Nombre']}}" required>
@@ -46,12 +55,38 @@
                 
                     <button type="submit" class="update-profile-btn">Actualizar perfil</button>
                 </form>
-                
             </div>
         </div>
     </div>
 
     <script>
+        // Función para subir la foto de perfil sin recargar la página
+        $('#foto').change(function() {
+            var correoTutor = $('#CorreoTutor').val(); // Obtener el CorreoTutor desde el campo oculto
+            
+            var formData = new FormData($('#foto-form')[0]);
+            formData.append('CorreoTutor', correoTutor);  // Añadir el CorreoTutor a los datos del formulario
+            
+            $.ajax({
+                url: '/cambiar_foto',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    if (response.foto) {
+                        // Actualiza la imagen de perfil con la nueva foto
+                        $('#profile-img').attr('src', 'static/usuarios/' + response.foto);
+                    } else {
+                        alert('Error al subir la foto');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert('Error al cambiar la foto: ' + xhr.responseJSON.error);
+                }
+            });
+        });
+
         // Seleccionamos los botones de la sidebar
         const editarPerfilBtn = document.getElementById('editar-perfil-btn');
         const contactarDocenteBtn = document.getElementById('contactar-docente-btn');
@@ -74,7 +109,7 @@
                 </div>
                 <div class="profile-container">
                     <div class="profile-photo">
-                        <img src="/static/img/alumnos/usaurio.png" alt="Foto de perfil" class="profile-img">
+                        <img src="{{alumno.Foto}}" alt="Foto de perfil" class="profile-img">
                         <button class="change-photo-btn">Cambiar foto</button>
                     </div>
                     <form class="profile-form">

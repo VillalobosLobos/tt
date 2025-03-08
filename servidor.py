@@ -1,17 +1,20 @@
+from flask import Flask, request,render_template,jsonify, session,redirect, url_for, flash
+from mysql.connector import Error, OperationalError
 from mysql.connector.errors import IntegrityError
-from flask import Flask, request,render_template,jsonify, session,redirect, url_for
-from mysql.connector.errors import IntegrityError
+from werkzeug.utils import secure_filename
+from flask_mail import Mail, Message
+from email.mime.text import MIMEText
 from flask_session import Session
 from mysql.connector import Error
-from flask_mail import Mail, Message
 from flask import jsonify
 import mysql.connector
-import random
 import numpy as np
-import string
-
+import secrets
 import smtplib
-from email.mime.text import MIMEText
+import hashlib
+import random
+import string
+import os
 
 coneccion=mysql.connector.connect(
 	host="localhost",
@@ -26,11 +29,19 @@ app = Flask(__name__)
 
 #Configuración de la sesión
 app.secret_key = 'tt'
+tokens_recuperacion = {}
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SESSION_PERMANENT'] = False
 app.config['SESSION_USE_SIGNER'] = True
 app.config['SESSION_FILE_DIR'] = './flask_session'
 Session(app)
+
+app.config['UPLOAD_FOLDER'] = 'static/img/usuarios'
+app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif'}
+
+tokens_recuperacion = {}
+token=""
+correoAux=""
 
 def generar_codigo_unico():
     while True:
@@ -42,6 +53,233 @@ def generar_codigo_unico():
 
         if not resultado:  # Si el código no está en la BD, es único y lo usamos
             return codigo
+
+def generar_codigo():
+    caracteres = string.ascii_uppercase + string.digits
+    codigo = ''.join(random.choices(caracteres, k=5))
+    return codigo
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
+
+@app.route('/cambiar_foto', methods=['POST'])
+def cambiar_foto():
+    if 'foto' not in request.files:
+        return jsonify({"error": "No file part"}), 400
+    
+    file = request.files['foto']
+    if file.filename == '':
+        return jsonify({"error": "No selected file"}), 400
+    
+    if file and allowed_file(file.filename):
+        # Obtener el correo del tutor desde los datos del formulario
+        correo_tutor = request.form.get('CorreoTutor')
+        
+        if not correo_tutor:
+            return jsonify({"error": "Correo del tutor no proporcionado"}), 400
+        # Renombrar el archivo con el correo del tutor
+        ext = os.path.splitext(file.filename)[1]  # Obtener la extensión del archivo
+        filename = f"{correo_tutor}{ext}"
+        if not os.path.exists(app.config['UPLOAD_FOLDER']):
+            os.makedirs(app.config['UPLOAD_FOLDER'])
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(file_path)
+        cursor = coneccion.cursor()
+
+        # Realiza la consulta de actualización
+        cursor.execute(
+            "UPDATE Alumno SET Foto=%s WHERE CorreoTutor=%s", 
+            (file_path, correo_tutor)
+        )
+        coneccion.commit()
+        return jsonify({"foto": filename})
+    return jsonify({"error": "Archivo no permitido"}), 400
+
+@app.route('/perfil')
+def perfil():
+    alumno = {'Foto': 'static/usuarios/default.jpg'}
+    return render_template('pages/confAlumno.html', alumno=alumno)
+
+@app.route('/eliminarDocente', methods=['POST'])
+def eliminarDocente():
+    correo = request.form['correo']
+
+    try:
+        # Verifica si la conexión está activa
+        if not coneccion.is_connected():
+            print("Conexión perdida. Intentando reconectar...")
+            coneccion.reconnect(attempts=3, delay=5)
+            if not coneccion.is_connected():
+                raise OperationalError("No se pudo reconectar a la base de datos.")
+
+        cursor = coneccion.cursor()
+
+        # Verificar si el docente existe antes de eliminar
+        cursor.execute("SELECT * FROM Docente WHERE CorreoDocente = %s", (correo,))
+        docente = cursor.fetchone()
+        
+        if not docente:
+            print(f"No se encontró un docente con el correo: {correo}")
+            return render_template("pages/admin.html", message="Docente no encontrado.")
+
+        # Eliminar el docente
+        cursor.execute("DELETE FROM Docente WHERE CorreoDocente = %s", (correo,))
+        coneccion.commit()
+
+        print(f"Docente con correo {correo} eliminado correctamente.")
+        return render_template("pages/admin.html", message="Docente eliminado con éxito.")
+
+    except OperationalError as e:
+        print(f"Error de conexión: {e}")
+        return render_template("pages/admin.html", message="Error al conectar con la base de datos. Intente más tarde.")
+
+    except Exception as e:
+        print(f"Error inesperado: {e}")
+        return render_template("pages/admin.html", message="Ocurrió un error inesperado.")
+
+@app.route('/actualizarDocente', methods=['POST'])
+def actualizarDocente():
+    nombre = request.form['nombre']
+    apellidos = request.form['apellidos']
+    correo = request.form['correo']
+
+    try:
+        # Verifica si la conexión está activa
+        if not coneccion.is_connected():
+            print("Conexión perdida. Intentando reconectar...")
+            coneccion.reconnect(attempts=3, delay=5)  # Reintenta reconectar 3 veces con un retraso de 5 segundos
+            if not coneccion.is_connected():
+                raise OperationalError("No se pudo reconectar a la base de datos.")
+
+        cursor = coneccion.cursor()
+
+        # Realiza la consulta de actualización
+        cursor.execute(
+            "UPDATE Docente SET CorreoDocente=%s, Nombre=%s, Apellido=%s WHERE CorreoDocente=%s", 
+            (correo, nombre, apellidos, correo)
+        )
+        coneccion.commit()  # Guarda los cambios en la base de datos
+
+        print("Actualización exitosa.")
+        return render_template("pages/admin.html")
+
+    except OperationalError as e:
+        # Si la conexión se pierde, muestra un mensaje de error
+        print(f"Error de conexión: {e}")
+        return render_template("pages/admin.html", message="Error al conectar con la base de datos. Intente más tarde.")
+
+    except mysql.connector.errors.IntegrityError:
+        # Si ya existe un docente con el mismo correo, muestra un mensaje
+        print("Error de integridad: El docente ya existe.")
+        return render_template("pages/admin.html", message="El docente ya existe.")
+
+    except Exception as e:
+        # Captura cualquier otro error y muestra el mensaje
+        print(f"Error inesperado: {e}")
+        return render_template("pages/admin.html", message="Ocurrió un error inesperado.")
+
+@app.route('/buscarDocente', methods=['POST'])
+def buscar_docente():
+    data = request.get_json()
+    correo = data.get('correo')
+    cursor = coneccion.cursor(dictionary=True)
+
+    try:
+        # Buscar el docente por correo
+        cursor.execute("SELECT * FROM Docente WHERE CorreoDocente = %s", (correo,))
+        docente = cursor.fetchone()
+
+        if docente:
+                # Si el docente existe, devolver los datos
+            print(docente)
+            return jsonify({
+                'success': True,
+                'docente': docente
+            })
+        else:
+            # Si el docente no existe
+            return jsonify({
+                'success': False
+            })
+
+    except mysql.connector.Error as e:
+        print(f"Error: {e}")
+        return jsonify({'success': False})
+
+@app.route('/agregarDocente', methods=['POST'])
+def agregarDocente():
+    nombre=request.form['nombre']
+    apellidos=request.form['apellidos']
+    correo=request.form['correo']
+    contraseña=request.form['contraseña']
+    hash=hashlib.sha256(contraseña.encode()).hexdigest()
+
+    try:
+        cursor.execute("INSERT INTO Docente(CorreoDocente,Nombre,Apellido,Contraseña) VALUES (%s,%s,%s,%s)", (correo, nombre,apellidos,hash))
+        coneccion.commit()
+        return render_template("pages/admin.html",message="Docente guardado correctamente")
+    except mysql.connector.errors.IntegrityError:
+        return render_template("pages/admin.html",message="El docente ya existe")
+
+@app.route('/admin')
+def admin():
+    return render_template('pages/admin.html')
+
+@app.route('/restablecer')
+def restablecer():
+     print(f'correo es : {correoAux}')
+     return render_template('pages/restablecer.html')
+
+@app.route('/cambiar_contraseña', methods=['POST'])
+def cambiar_contraseña():
+    nueva=request.form['nueva_contraseña']
+    conf=request.form['confirmar_contraseña']
+
+    if nueva == conf:
+        cursor.execute("UPDATE Tutor SET Contraseña=%s WHERE CorreoTutor=%s", (nueva, correoAux))
+        coneccion.commit()
+        flash("Contraseña cambiada exitosamente.", "success")
+        return render_template("index.html")
+    else:
+        flash("No coinciden las contraseñas", "danger")
+        return render_template("pages/restablecer.html")
+
+@app.route('/verificar_codigo', methods=['POST'])
+def verificar_codigo():
+    codigo=request.form['codigo']
+
+    print(f'codigo: {codigo}\ntoken: {token}')
+    if codigo==token:
+        return render_template("pages/restablecer.html")
+    else:
+        return render_template("pages/contraseñaRecuperada.html", mensaje_error="Código incorrecto. Inténtalo de nuevo.")
+
+@app.route("/recuperar_contraseña", methods=["POST"])
+def recuperar_contraseña():
+    correo = request.form.get("email")
+    global correoAux
+    correoAux=correo
+    codigo=generar_codigo()
+
+    global token
+    token=codigo
+    print(f'recuperar token: {token}')
+
+    #bmds xqfj iskd vrqk 
+    servidor=smtplib.SMTP('smtp.gmail.com',587)
+    servidor.starttls()
+    servidor.login("eduvoz212@gmail.com","bmds xqfj iskd vrqk")
+
+    msj=MIMEText(f'Tu codigo es: {codigo}')
+
+    msj["From"]="eduvoz212@gmail.com"
+    msj["To"]=correo
+    msj["Subject"]="Recuperar contraseña"
+
+    servidor.sendmail("eduvoz212@gmail.com",correo,msj.as_string())
+    servidor.quit()
+
+    return render_template('pages/contraseñaRecuperada.html')
 
 @app.route('/')
 def index():
@@ -92,6 +330,39 @@ def contacto():
 @app.route('/recuperarContraseña')
 def recuperarContraseña():
      return render_template('pages/recuperarContraseña.html')
+
+@app.route('/crearAlumno', methods=["GET", "POST"])
+def crearAlumno():
+    nombre = request.form['nombre']
+    apellidos = request.form['apellido']
+    correo = request.form['correo']
+    contraseña = request.form['contraseña']
+
+    hash = hashlib.sha256(contraseña.encode()).hexdigest()
+
+    try:
+        if request.form.get('remember-me'):
+            print(f'Nombre={nombre}\nApellidos={apellidos}\nCorreo={correo}\nContraseña={contraseña}')
+
+            cursor.execute("INSERT INTO Tutor (CorreoTutor, Contraseña) VALUES (%s, %s)", (correo, hash))
+            coneccion.commit()
+
+            cursor.execute("INSERT INTO Alumno (Nombre, Apellido, Foto, AciertosNumeros, CorreoTutor, AciertosLetras) VALUES (%s, %s, %s, %s, %s, %s)",(nombre, apellidos, "/static/img/alumnos/usuario.png", 0, correo, 0))
+            coneccion.commit()
+
+            return render_template('index.html')
+
+    except mysql.connector.IntegrityError as e:
+        if e.errno == 1062:  # Código de error para entrada duplicada
+            return "❌ Error: El correo ya está registrado. Intenta con otro."
+
+    except mysql.connector.Error as e:
+        return f"❌ Error en la base de datos: {e}"
+
+    finally:
+        cursor.close()
+        coneccion.close()
+        return render_template('index.html')
 
 @app.route('/crearCuenta')
 def crearCuenta():
@@ -325,8 +596,6 @@ def unirse_grupo():
     cursor.execute("UPDATE Alumno SET IdGrupo = %s WHERE CorreoTutor = %s;", (grupo['IdGrupo'], correo_tutor))
     cursor.execute("UPDATE Grupo SET NoAlumnos = NoAlumnos + 1 WHERE IdGrupo = %s;", (grupo['IdGrupo'],))
     coneccion.commit()
-    cursor.close()
-
     print(f"Alumno {alumno['Nombre']} asignado al grupo {grupo['Titulo']}")
 
     return redirect(url_for('alumno'))  # Redirige a la vista de alumno
@@ -347,9 +616,6 @@ def docente():
     # Buscar el grupo vinculado al docente
     cursor.execute("SELECT IdGrupo, Titulo, Codigo, NoAlumnos FROM Grupo WHERE CorreoDocente = %s;", (correo_docente,))
     grupo = cursor.fetchone()
-
-    cursor.close()
-
     return render_template('pages/docente.html', docente=docente_info, grupo=grupo)
 
 @app.route('/confDocente')
@@ -401,9 +667,6 @@ def dar_de_baja():
     
     coneccion.commit()  # Realiza la transacción
 
-    # Cierra el cursor
-    cursor.close()
-
     # Redirige al docente de vuelta a la lista de alumnos (ajustar según el nombre correcto de la ruta de alumnos)
     return redirect(url_for('listaAlumnos'))
 
@@ -427,9 +690,6 @@ def progresoAlumnoDocente():
         WHERE CorreoTutor = %s
     """, (correo_alumno,))
     alumno_info = cursor.fetchone()
-
-    cursor.close()
-
     if not alumno_info:
         return "Alumno no encontrado", 404
 
@@ -462,8 +722,6 @@ def listaAlumnos():
     
     alumnos = cursor.fetchall()
     
-    cursor.close()
-    
     return render_template('pages/listaAlumnos.html', alumnos=alumnos)
 
 @app.route('/eliminarGrupo', methods=['DELETE'])
@@ -476,7 +734,6 @@ def eliminar_grupo():
     cursor = coneccion.cursor()
     cursor.execute("DELETE FROM Grupo WHERE CorreoDocente = %s", (correo_docente,))
     coneccion.commit()
-    cursor.close()
 
     return jsonify({"success": True})
 
@@ -527,30 +784,34 @@ def getDocenteInfo():
           return jsonify({"error": "No autorizado"}), 401
      return jsonify(session['usuario'])
 
-@app.route('/inicioSesion',methods=['POST'])
+@app.route('/inicioSesion', methods=['POST'])
 def inicioSesion():
-    correo=request.form.get('email')
-    contraseña=request.form.get('contraseña')
+    correo = request.form.get('email')
+    contraseña = request.form.get('contraseña')
+    hash = hashlib.sha256(contraseña.encode()).hexdigest()
 
-    #print(f'{contraseña} y {correo}')
+    try:
+        cursor = coneccion.cursor(dictionary=True)
 
-    cursor=coneccion.cursor(dictionary=True)
+        cursor.execute("SELECT CorreoTutor, 'Tutor' AS role FROM Tutor WHERE CorreoTutor=%s AND Contraseña=%s;", (correo, hash))
+        usuario = cursor.fetchone()
 
-    #Por si es un tutor
-    cursor.execute("SELECT CorreoTutor, 'Tutor' AS role FROM Tutor WHERE CorreoTutor=%s AND Contraseña=%s;", (correo, contraseña))
-    usuario = cursor.fetchone()
+        if not usuario:
+            cursor.execute("SELECT CorreoDocente, Nombre, Apellido, 'Docente' AS role FROM Docente WHERE CorreoDocente=%s AND Contraseña=%s;", (correo, hash))
+            usuario = cursor.fetchone()
 
-    if not usuario:
-         cursor.execute("SELECT CorreoDocente, Nombre, Apellido, 'Docente' AS role FROM Docente WHERE CorreoDocente=%s AND Contraseña=%s;", (correo, contraseña))
-         usuario=cursor.fetchone()
-     
-    cursor.close() 
+        if not usuario:
+            cursor.execute("SELECT CorreoAdministrador, 'Administrador' AS role FROM Administrador WHERE CorreoAdministrador=%s AND Contraseña=%s;", (correo, hash))
+            usuario = cursor.fetchone()
 
-    if usuario:
-         session['usuario']=usuario
-         return jsonify({"status": "success", "role": usuario['role']})
+        if usuario:
+            session['usuario'] = usuario
+            return jsonify({"status": "success", "role": usuario['role']})
 
-    return jsonify({"status": "error", "message": "Correo o contraseña incorrectos, intenta de nuevo."}), 401
+        return jsonify({"status": "error", "message": "Correo o contraseña incorrectos, intenta de nuevo."}), 401
+
+    except mysql.connector.Error as err:
+        return jsonify({"status": "error", "message": f"Error en la base de datos: {err}"}), 500
 
 if __name__ == '__main__':
     app.run(port=8000,debug=True)

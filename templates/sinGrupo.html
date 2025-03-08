@@ -8,9 +8,9 @@
     <!-- Si el alumno tiene un grupo -->
     <div class="contenedor">
         <div class="opAlumnos">
-            {{ alumno.Nombre }}
+            {{ alumno.Nombre}}
             <br>
-            <img class="user-img" src="/static/img/alumnos/usaurio.png" alt="">
+            <img class="user-img" src="{{ alumno.Foto }}" alt="">
             <div class="buttons">
                 <div class="button">
                     <form action="{{ url_for('progresoAlumno') }}" method="GET">
@@ -49,8 +49,10 @@
 {% else %}
     <!-- Si el alumno no tiene un grupo -->
     <div class="form-container">
-        <h2 class="bg-primary text-white p-2 rounded">Bienvenido, {{ alumno.Nombre }} {{ alumno.Apellido }}</h2>
-        <img src="{{ url_for('static', filename='img/perfil.png') }}" class="profile-img" alt="Imagen del alumno">
+        <h2 class="bg-primary text-white p-2 rounded">Bienvenido, {{ alumno.Nombre }}
+        {{ alumno.Apellido }}
+        </h2>
+        <img src="{{ alumno.Foto }}" class="profile-img" alt="Imagen del alumno">
         <p>Ingrese el código de la clase proporcionado por el docente</p>
 
         {% if request.args.get('error') %}

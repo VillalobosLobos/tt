@@ -13,24 +13,26 @@
         </div>
         
         <div class="campos">
-            <input type="text" id="nombre" name="nombre" placeholder="Nombre(s)"> <br>
+            <form action="/crearAlumno" method="post">
+                <input type="text" id="nombre" name="nombre" placeholder="Nombre(s)"> <br>
 
-            <input type="text" id="nombre" name="nombre" placeholder="Apellido(s)"> <br>
+                <input type="text" id="apellido" name="apellido" placeholder="Apellido(s)"> <br>
 
-            <input type="email" id="email" name="email" placeholder="Escribe tu correo"> <br>
+                <input type="email" id="correo" name="correo" placeholder="Escribe tu correo"> <br>
 
-            <input type="password" id="contraseña" name="contraseña" placeholder="Ingresa tu contraseña"> <br>
+                <input type="password" id="contraseña" name="contraseña" placeholder="Ingresa tu contraseña"> <br>
 
-            <p>
-                Utilice 8 o más caracteres con una combinación de letras, números y símbolos
-            </p>
+                <p>
+                    Utilice 8 o más caracteres con una combinación de letras,   números y símbolos
+                </p>
 
-            <label>
-                <input type="checkbox" name="remember-me" id="remember-me">
-                Los datos almacenados en este prototipo se utilizarán únicamente para probar la funcionalidad de la aplicación. Estos datos serán eliminados una vez finalizadas las pruebas y no se usarán para ningún otro fin. Al participar, el usuario acepta estos términos.
-            </label> <br> <br>
-
-            <button type="submit">Crear</button>
+                <label>
+                    <input type="checkbox" name="remember-me" id="remember-me">
+                    Los datos almacenados en este prototipo se utilizarán únicamente para probar la funcionalidad de la aplicación. Estos datos serán eliminados una vez finalizadas las pruebas y no se usarán para ningún otro fin. Al participar, el usuario acepta estos términos.
+                </label> 
+                <br> <br>
+            <button type="submit">Crear cuenta</button>
+            </form>
         </div>
 
         <div class="links">

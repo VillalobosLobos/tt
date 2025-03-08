@@ -17,6 +17,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 window.location.href = "/docente";
             } else if (data.role=="Tutor") {
                 window.location.href = "/alumno";
+            }else if (data.role=="Administrador") {
+                window.location.href = "/admin";
             }else {
                 window.location.href = "/"; // Redirige si es exitoso
             }

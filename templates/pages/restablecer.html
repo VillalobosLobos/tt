@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cambiar Contraseña</title>
+    <link rel="stylesheet" href="/static/styles/style.css"> <!-- Estilos opcionales -->
+</head>
+<body>
+    <div class="container">
+        <h2>Cambiar Contraseña</h2>
+        
+        {% if mensaje %}
+            <p style="color: red;">{{ mensaje }}</p>
+        {% endif %}
+
+        <form action="/cambiar_contraseña" method="post">
+            <label for="nueva_contraseña">Nueva Contraseña:</label>
+            <input type="password" id="nueva_contraseña" name="nueva_contraseña" required>
+            <br>
+
+            <label for="confirmar_contraseña">Confirmar Contraseña:</label>
+            <input type="password" id="confirmar_contraseña" name="confirmar_contraseña" required>
+            <br>
+            <button type="submit">Cambiar Contraseña</button>
+        </form>
+    </div>
+</body>
+</html>

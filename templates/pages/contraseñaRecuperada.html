@@ -9,16 +9,26 @@
 <body>
     <div class="crearCuenta">
         <div class="texto">
-            <h1>¡Gracias!, hemos enviado un enlace para restablecer tu contraseña a tu correo</h1> 
+            <h1>¡Gracias!, hemos enviado un código para restablecer su contraseña</h1> 
         </div>
         
-        <div class="campos">
-
-            <img src="/img/recuperarContraseña/img.png" alt="">
-        </div>
+        <form action="/verificar_codigo" method="post">
+            <label for="codigo">Ingrese el código de 5 caracteres:</label><br>
+            <input type="text" id="codigo" name="codigo" 
+                   placeholder="ABCDE" 
+                   maxlength="5" 
+                   pattern="[A-Za-z0-9]{5}" 
+                   required>
+            <br>
+            <button type="submit">Válidar</button>
+        </form>
+        
+        {% if mensaje_error %}
+            <p style="color: red;">{{ mensaje_error }}</p>
+        {% endif %}
 
         <div class="links">
-            <a href="/pages/inicioSesion.html">Regresar a la pagina principal</a>
+            <a href="{{ url_for('static', filename='index.html') }}">Regresar a la pagina principal</a>
         </div>
     </div>
 </body>
