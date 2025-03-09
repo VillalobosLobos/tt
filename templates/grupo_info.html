@@ -10,24 +10,44 @@
     {% if grupo %}
         <!-- Si el docente tiene grupo, muestra la información -->
         <div class="grupo-info">
-            <h2>Grupo Asignado</h2>
-            <p><strong>Nombre del Grupo:</strong> <span id="grupo-titulo">{{ grupo.Titulo }}</span> 
-                <button id="editar-btn" style="margin-left: 10px;">Editar</button> <!-- Botón de editar al lado del nombre -->
-            </p>
-            <input type="text" id="input-titulo" value="{{ grupo.Titulo }}" style="display: none;">
-            <button id="guardar-btn" style="display: none;">Guardar</button>
-            <p>
-                <strong>Código:</strong> 
-                <span id="codigo-grupo">{{ grupo.Codigo }}</span>
-                <button id="copiar-codigo-btn" onclick="copiarCodigo()">Copiar</button> <!-- Botón para copiar -->
-            </p>
-            <p>
-                <button id="btnListaAlumnos" onclick="window.location.href='/listaAlumnos'" title="Ver lista de alumnos" style="border: none; background: none; cursor: pointer;">
-                    <img src="{{ url_for('static', filename='img/docente/alumnos.png') }}" alt="Lista de alumnos" width="30px">
-                </button>
-                <strong>{{ grupo.NoAlumnos }}</strong>
-            </p>
-            <button id="eliminar-btn" style="background-color: red; color: white; margin-top: 20px;">Eliminar Grupo</button> <!-- Botón de eliminar al final -->
+            <div class="arriba">
+                <div class="dentroArriba">
+                    <input type="text" id="input-titulo" value="{{ grupo.Titulo }}" style="display: none;" class="campo">
+
+                    <button id="guardar-btn" style="display: none;" class="editar">Guardar</button>
+
+                    <span id="grupo-titulo">{{ grupo.Titulo }}</span> 
+                    <button id="editar-btn" class="editar-btn" style="margin-left: 10px;">
+                        <img src="/static/img/docente/editar.png" alt="" class="imgEditar">
+                    </button>
+                </div>
+
+                <button id="eliminar-btn" class="eliminar">Eliminar Grupo</button>
+            </div>
+
+            <div class="abajo">
+                <div class="codigo">
+                    <p>
+                        Código del grupo
+                    </p>
+                    <span id="codigo-grupo">{{ grupo.Codigo }}</span>
+                    <button id="copiar-codigo-btn" onclick="copiarCodigo()">
+                        <img src="/static/img/docente/copiar.png" alt="" class="imgCopiar">
+                    </button>
+    
+                </div>
+    
+                <div class="progreso">
+                    <p>
+                        Ver alummnos <br>
+                        y progreso
+                    </p>
+                    <button id="btnListaAlumnos" onclick="window.location.href='/listaAlumnos'" title="Ver lista de alumnos" style="border: none; background: none; cursor: pointer;">
+                        <img src="{{ url_for('static', filename='img/docente/alumnos.png') }}" alt="Lista de alumnos" width="30px">
+                    </button>
+                    <strong>{{ grupo.NoAlumnos }}</strong>
+                </div>
+            </div>
         </div>
     {% else %}
         <!-- Si el docente NO tiene grupo, muestra mensaje y botón -->

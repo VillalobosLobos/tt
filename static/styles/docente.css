@@ -1,45 +1,214 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+    text-decoration: none;
+    background-color: #f4f4f4;
+}
+
+/* ---------------- HEADER ---------------- */
 header {
-    background-color: #333;
-    color: #fff;
-    padding: 10px;
-}
-
-nav{
+    width: 100%;
+    background-color: #ffffff;
+    padding: 10px 20px;
     display: flex;
-    justify-content: right;
+    justify-content: space-between;
+    align-items: center;
+    /*position: fixed;*/
+    top: 0;
+    left: 0;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-nav ul{
+/* ---------------- NAV / MENÚ ---------------- */
+nav {
+    width: 100%;
+    display: flex;
+    justify-content: right; /* Menú alineado a la derecha */
+    align-items: center;
+    padding-right: 20px;
+}
+
+nav ul {
     list-style-type: none;
+    display: flex;
+    gap: 20px; /* Espaciado entre elementos del menú */
 }
 
-nav li{
-    display: inline;
-    margin-right: 20px;
+nav li {
+    display: flex;
+    align-items: center;
 }
 
 nav a {
     text-decoration: none;
-    color: #fff;
+    color: black;
     font-size: 16px;
 }
 
-/* Para colorear el div del texto principal */
-.textoPrincipal {
-    background-color: #333;
-    padding: 0 40px;
+/* Estilo para la imagen de configuración */
+.conf {
+    width: 20px;
+    height: 20px;
 }
 
-.grupo-info {
-    border: 1px solid #ccc;
-    padding: 15px;
-    margin-top: 20px;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    text-align: center;
+/* Nombre del docente */
+.nombre {
+    font-size: 25px;
+    color: black;
 }
+
+/* Estilo del botón "Cerrar sesión" */
+.menu{
+    color: white;
+}
+
+.cerrar {
+    padding: 10px 15px;
+    border-radius: 8px;
+    background-color: rgb(248, 71, 71);
+}
+
+.cerrar:hover {
+    background-color: rgb(153, 55, 55);
+}
+
+/* ---------------- CENTRAR TODO EL CONTENIDO EXCEPTO HEADER ---------------- */
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* Para ocupar toda la pantalla */
+    padding-top: 60px; /* Espacio para evitar que el header cubra el contenido */
+}
+
+/* ---------------- ESTILO DEL CONTENIDO PRINCIPAL ---------------- */
+.textoPrincipal {
+    width: 750px;
+    background-color: white;
+    color: black;
+    padding: 20px;
+    text-align: center; /* Centrar el texto */
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.textoPrincipal h1 {
+    margin: 0;
+    font-size: 30px;
+}
+
+.textoPrincipal p {
+    font-size: 18px;
+}
+
+/* ---------------- ESTILO DE LA SECCIÓN DE GRUPO ---------------- */
+.grupo-info {
+    width: 400px;
+    text-align: center;
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: rgb(65, 245, 230);
+    border: 1px solid #ccc;
+}
+
+.arriba{
+    display: flex;
+    justify-content: space-between;
+    font-size: 30px;
+}
+
+.dentroArriba{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dentroArriba .campo{
+    margin: 10px;
+    border-radius: 7px;
+    width: 130px;
+    height: 25px;
+    font-size: 20px;
+    border-color: #d8d2d2;
+}
+
+.dentroArriba .editar{
+    background-color: #3d65d4;
+    height: 35px;
+    width: 100px;
+    font-size: 20px;
+    border-radius: 8px;
+    background-color: rgb(82, 167, 224);
+    border-color: #fff;
+    color: #fff;
+}
+
+.dentroArriba .editar:hover{
+    background-color: #2a4797;
+}
+
+.arriba .editar-btn{
+    border-radius: 8px;
+    padding: 5px;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.arriba .editar-btn:hover{
+    background-color: rgb(43, 167, 156);
+    border: none;
+}
+
+.eliminar{
+    height: 40px;
+    background-color: rgb(243, 77, 77);
+    color: white;
+    font-size: 15px;
+    border-radius: 10px;
+    border-color: transparent;
+    padding: 5px;
+}
+
+.eliminar:hover{
+    background-color: rgb(182, 56, 56);
+}
+
+.imgEditar{
+    width: 20px;
+}
+
+.abajo{
+    padding: 30px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.codigo{
+    border-radius: 10px;
+    padding-bottom: 20px;
+    font-size: 20px;
+    width: 40%;
+    background-color: white;
+}
+
+.progreso{
+    border-radius: 10px;
+    font-size: 20px;
+    width: 40%;
+    background-color: white;
+}
+
+.imgCopiar{
+    width: 20px;
+    background-color: transparent;
+    border: none;
+}
+
+/* ---------------- FORMULARIO (OCULTO INICIALMENTE) ---------------- */
 #formGrupo {
-    display: none; /* Ocultar el formulario inicialmente */
+    display: none; /* Ocultar el formulario al inicio */
     margin-top: 10px;
 }
-
