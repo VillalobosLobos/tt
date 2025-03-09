@@ -16,7 +16,7 @@
                 <li><a href="#inicio">INICIO</a></li>
                 <li><a href="#preguntas">PREGUNTAS FRECUENTES</a></li>
                 <li><a href="#contacto">CONTACTANOS</a></li>
-                <li><a href="{{url_for('sesion')}}">INICIAR SESION</a></li>
+                <li class="btn"><a href="{{url_for('sesion')}}">INICIAR SESION</a></li>
             </ul>
         </nav>
     </header>
@@ -37,7 +37,33 @@
 
         <div class="textoPreguntas">
             <h1>Preguntas Frecuentes</h1>
-            <p>Un prototipo de aplicación web interactiva que les permite a los más pequeños a descubrir el mundo de las letras y los números con su voz</p> 
+            <nav class="preguntas">
+                <ul>
+                    <li><a href="#" class="titulo">¿Cómo funciona el prototipo de aplicación web?</a>
+                        <ul>
+                            <li><a href="#" class="cont">Utiliza tecnología avanzada para captar y procesar la voz de los niños,permitiendo que los niños practiquen la pronunciación y el reconocimiento de letras y números de manera interactiva.</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a href="#" class="titulo">¿Qué edades son adecuadas para usar el prototipo?</a>
+                        <ul>
+                            <li><a href="#" class="cont">Respuesta2</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a href="#" class="titulo">¿Cómo puedo crear una cuenta como docente?</a>
+                        <ul>
+                            <li><a href="#" class="cont">Respuesta3</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a href="#" class="titulo">¿Cómo puedo visualizar el progreso de mi hijo?</a>
+                        <ul>
+                            <li><a href="#" class="cont">Respuesta4</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
         </div>
      </div>
 
@@ -48,12 +74,12 @@
     
             <form action="contacto" method="POST">
                 <input type="text" id="nombre" name="nombre" placeholder="Escribe tu nombre" required> <br>
-    
+                <br>
                 <input type="email" id="email" name="email" placeholder="Escribe tu correo" required> <br>
-    
+                <br>
                 <input type="text" id="telefono" name="telefono" placeholder="Escribe tu número" required> <br>
-    
-                <textarea name="mensaje" rows="5" placeholder="Escribe tu mensaje" required></textarea> <br>
+                <br>
+                <textarea name="mensaje" rows="5" placeholder="Escribe tu mensaje" required></textarea> <br> <br>
     
                 <button type="submit">Enviar</button>
             </form>
