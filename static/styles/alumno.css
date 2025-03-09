@@ -51,11 +51,12 @@ header {
 }
 
 .nubes {
-    width: 100px; /* Establece el tamaño deseado en píxeles */
-    height: 100px; /* Establece la altura correspondiente */
-    border-radius: 50%; /* Hace la imagen circular */
-    object-fit: cover; /* Asegura que la imagen se recorte correctamente */
-    margin-top: 10px; /* Agrega espacio superior si es necesario */
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover; 
+    margin-top: 10px;
+    border-color: transparent;
 }
 
 /* Estilo de los botones */

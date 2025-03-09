@@ -14,17 +14,18 @@
         </div>
         
         <div class="campos">
-            <form id="loginForm" action="http://127.0.0.1:8000/inicioSesion" method="post">
-                <input type="email" id="email" name="email" placeholder="Escribe tu correo"> <br>
+            <form id="loginForm" action="/inicioSesion" method="post">
+                <input type="email" id="email" name="email" placeholder="Escribe tu correo" class="campo"> <br>
 
-                <input type="password" id="contraseña" name="contraseña" placeholder="Ingresa tu contraseña" minlength="8"> <br>
+                <input type="password" id="contraseña" name="contraseña" placeholder="Ingresa tu contraseña" minlength="8" class="campo"> <br>
 
+                <!--
                 <label>
-                    <input type="checkbox" name="remember-me" id="remember-me">
+                    <input type="checkbox" name="remember-me" id="remember-me" class="check">
                     Recordar mis datos
                 </label> <br>
-
-                <button type="submit">Ingresar</button>
+                -->
+                <button type="submit" class="btn">Ingresar</button>
             </form>
 
             <script src="{{ url_for('static', filename='js/errorLogin.js') }}"></script>

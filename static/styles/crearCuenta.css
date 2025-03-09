@@ -1,3 +1,11 @@
+body, html{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    text-decoration: none;
+}
+
 body {
     background-image: url('../img/inicioSesion/fondo.png');
     background-size: cover;
@@ -5,8 +13,55 @@ body {
 }
 
 .crearCuenta{
+    text-align: center;
     width: 500px;
     height: max-content;
-    background-color: blueviolet;
+    background-color: rgb(255, 255, 255);
     padding: 30px;
+}
+
+h1{
+    font-size: 50px;
+}
+
+p{
+    font-size: 20px;
+}
+
+.campo{
+    margin: 10px;
+    border-radius: 7px;
+    width: 400px;
+    height: 30px;
+    font-size: 15px;
+    border-color: #d8d2d2;
+}
+
+.check{
+    width: 20px;
+    height: 20px;
+}
+
+.btn{
+    height: 35px;
+    width: 400px;
+    font-size: 20px;
+    border-radius: 8px;
+    background-color: rgb(82, 167, 224);
+    border-color: #fff;
+    color: #fff;
+}
+
+a{
+    color: rgb(0, 80, 201);
+    text-decoration: none;
+}
+
+a:focus{
+    color: rgb(0, 80, 201);
+    outline: none;
+}
+
+a:hover{
+    color: rgb(65, 137, 245);
 }
