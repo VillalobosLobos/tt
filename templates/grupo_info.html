@@ -53,24 +53,33 @@
         <!-- Si el docente NO tiene grupo, muestra mensaje y botón -->
         <div id="mensajeNoGrupo" class="grupo-info">
             <h2>No tienes un grupo asignado</h2>
-            <button id="btnCrearGrupo" onclick="mostrarFormulario()">Crear Nuevo Grupo</button>
-        </div>
-
-        <!-- Formulario oculto para crear grupo -->
-        <div id="formGrupo" style="display: none;">
+            <button class="btnMas" id="btnCrearGrupo" onclick="mostrarFormulario()">
+                <div>
+                    <p class="tituloMas">Crear nuevo grupo</p>
+                    <img src="/static/img/docente/mas.png" alt="" class="imgMas">
+                </div>
+            </button>
+            <!-- Formulario oculto para crear grupo -->
+        <div id="formGrupo" style="display: none;" class="formulario">
             <h3>Coloca el nombre del grupo:</h3>
             <form action="/crearGrupo" method="POST">
-                <input type="text" name="nombreGrupo" placeholder="Nombre del grupo" required>
-                <button type="submit">Crear</button>
+                <input type="text" name="nombreGrupo" placeholder="Nombre del grupo" required class="forCampo">
+                <button type="submit" class="crear">Crear</button>
             </form>
         </div>
+        </div>
+
     {% endif %}
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Función para mostrar el formulario al crear un grupo
             window.mostrarFormulario = function() {
-                document.getElementById("formGrupo").style.display = "block";
+                let btn = document.getElementById("btnCrearGrupo");
+                let form = document.getElementById("formGrupo");
+                btn.style.visibility = "hidden";
+                btn.style.position = "absolute";
+                form.style.display = "block";
             };
 
             // Función para copiar el código del grupo al portapapeles

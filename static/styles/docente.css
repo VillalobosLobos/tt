@@ -14,7 +14,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /*position: fixed;*/
+    position: fixed;
     top: 0;
     left: 0;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -112,6 +112,55 @@ body {
     border-radius: 8px;
     background-color: rgb(65, 245, 230);
     border: 1px solid #ccc;
+}
+
+.grupo-info h2{
+    font-size: 30px;
+}
+
+.tituloMas{
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.imgMas{
+    width: 80px;
+}
+
+.btnMas{
+    width: 300px;
+    height: 200px;
+    background-color: white;
+    border: none;
+}
+
+.forCampo{
+    margin: 10px;
+    border-radius: 7px;
+    width: 200px;
+    height: 25px;
+    font-size: 20px;
+    border-color: #d8d2d2;
+}
+
+.crear{
+    font-weight: bold;
+    height: 40px;
+    width: 100px;
+    background-color: rgb(243, 77, 77);
+    color: white;
+    font-size: 15px;
+    border-radius: 10px;
+    border-color: transparent;
+    padding: 5px;
+}
+
+.crear:hover{
+    background-color: rgb(182, 56, 56);
+}
+
+.btnMas:hover{
+    background-color: rgb(214, 210, 210);
 }
 
 .arriba{
