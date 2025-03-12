@@ -342,22 +342,27 @@ def crearAlumno():
 
     try:
         if request.form.get('remember-me'):
-            print(f'Nombre={nombre}\nApellidos={apellidos}\nCorreo={correo}\nContraseña={contraseña}')
+            try:
+                cursor.execute("INSERT INTO Tutor (CorreoTutor, Contraseña) VALUES (%s, %s)", (correo, hash))
+                coneccion.commit()
+                print("Inserción en Tutor exitosa.")
+                cursor.execute("INSERT INTO Alumno (Nombre, Apellido, Foto, AciertosNumeros, CorreoTutor, AciertosLetras) VALUES (%s, %s, %s, %s, %s, %s)",(nombre, apellidos, "static/img/alumnos/usuario.png", 0, correo, 0))
+                coneccion.commit()
+                print("Inserción en Alumno exitosa.")
 
-            cursor.execute("INSERT INTO Tutor (CorreoTutor, Contraseña) VALUES (%s, %s)", (correo, hash))
-            coneccion.commit()
+            except Exception as e:
+                coneccion.rollback()  # Revierte cambios si hay error
+                print(f"Error en la inserción: {e}")
 
-            cursor.execute("INSERT INTO Alumno (Nombre, Apellido, Foto, AciertosNumeros, CorreoTutor, AciertosLetras) VALUES (%s, %s, %s, %s, %s, %s)",(nombre, apellidos, "/static/img/alumnos/usuario.png", 0, correo, 0))
-            coneccion.commit()
 
             return render_template('index.html')
 
     except mysql.connector.IntegrityError as e:
         if e.errno == 1062:  # Código de error para entrada duplicada
-            return "❌ Error: El correo ya está registrado. Intenta con otro."
+            return "Error: El correo ya está registrado. Intenta con otro."
 
     except mysql.connector.Error as e:
-        return f"❌ Error en la base de datos: {e}"
+        return f"Error en la base de datos: {e}"
 
     finally:
         cursor.close()

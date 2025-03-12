@@ -14,19 +14,19 @@
             <div class="buttons">
                 <div class="button">
                     <form action="{{ url_for('progresoAlumno') }}" method="GET">
-                        <button type="submit">Ver progreso</button>
+                        <button type="submit" class="progreso">Ver progreso</button>
                     </form>
                 </div>
                 <br>
                 <div class="button">
                     <form action="{{ url_for('confAlumno') }}" method="GET">
-                        <button type="submit">Configuración</button>
+                        <button type="submit" class="conf">Configuración</button>
                     </form>
                 </div>
                 <br>
                 <form action="{{ url_for('salir_grupo') }}" method="POST">
                     <div class="button">
-                        <button type="submit">Salir del grupo</button>
+                        <button type="submit" class="salir">Salir del grupo</button>
                     </div>
                 </form>
             </div>
@@ -36,12 +36,12 @@
             <br>
 
             <div class="actividades">
-                <button onclick="window.location.href='/ejercicioLetras'">
-                    <img class="nubes" src="/static/img/alumnos/nube.png" alt="">
+                <button onclick="window.location.href='/ejercicioLetras'" class="nubes">
+                    <img src="/static/img/alumnos/n3.png" alt="">
                 </button>
                 <br>
-                <button onclick="window.location.href='/ejercicioNumeros'">
-                    <img class="nubes" src="/static/img/alumnos/nube.png" alt="">
+                <button onclick="window.location.href='/ejercicioNumeros'" class="nubes">
+                    <img src="/static/img/alumnos/n4.png" alt="">
                 </button>
             </div>
         </div>
@@ -49,11 +49,11 @@
 {% else %}
     <!-- Si el alumno no tiene un grupo -->
     <div class="form-container">
-        <h2 class="bg-primary text-white p-2 rounded">Bienvenido, {{ alumno.Nombre }}
+        <h2 class="bienvenido">Bienvenido, {{ alumno.Nombre }}
         {{ alumno.Apellido }}
         </h2>
         <img src="{{ alumno.Foto }}" class="profile-img" alt="Imagen del alumno">
-        <p>Ingrese el código de la clase proporcionado por el docente</p>
+        <p class="txt">Ingrese el código de la clase proporcionado por el docente</p>
 
         {% if request.args.get('error') %}
     <script>
@@ -62,10 +62,11 @@
 {% endif %}
 
         <form id="joinGroupForm" method="POST" action="{{ url_for('unirse_grupo') }}">
-            <label for="codigo">Código del Grupo:</label>
-            <input type="text" id="codigo" name="codigo" required>
-            <button type="submit">Aceptar</button>
-            <button type="button" class="btn btn-salir" onclick="window.location.href='/inicioSesion'">Salir</button>
+            <label class="txt" for="codigo">Código del Grupo </label>
+            <input class="codigoCampo" type="text" id="codigo" name="codigo" required>
+            <br>
+            <button class="aceptar" type="submit">Aceptar</button>
+            <button type="button" class="btn-salir" onclick="window.location.href='/inicioSesion'">Salir</button>
         </form>
     </div>
 {% endif %}

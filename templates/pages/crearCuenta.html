@@ -14,20 +14,20 @@
         
         <div class="campos">
             <form action="/crearAlumno" method="post">
-                <input type="text" id="nombre" name="nombre" placeholder="Nombre(s)" class="campo"> <br>
+                <input type="text" id="nombre" name="nombre" placeholder="Nombre(s)" class="campo" required> <br>
 
-                <input type="text" id="apellido" name="apellido" placeholder="Apellido(s)" class="campo"> <br>
+                <input type="text" id="apellido" name="apellido" placeholder="Apellido(s)" class="campo" required> <br>
 
-                <input type="email" id="correo" name="correo" placeholder="Escribe tu correo" class="campo"> <br>
+                <input type="email" id="correo" name="correo" placeholder="Escribe tu correo" class="campo" required> <br>
 
-                <input type="password" id="contraseña" name="contraseña" placeholder="Ingresa tu contraseña" class="campo"> <br>
+                <input type="password" id="contraseña" name="contraseña" placeholder="Ingresa tu contraseña" class="campo" required> <br>
 
                 <p>
                     Utilice 8 o más caracteres con una combinación de letras,   números y símbolos
                 </p>
 
                 <label>
-                    <input type="checkbox" name="remember-me" id="remember-me" class="check">
+                    <input type="checkbox" name="remember-me" id="remember-me" class="check" required>
                     Los datos almacenados en este prototipo se utilizarán únicamente para probar la funcionalidad de la aplicación. Estos datos serán eliminados una vez finalizadas las pruebas y no se usarán para ningún otro fin. Al participar, el usuario acepta estos términos.
                 </label> 
                 <br> <br>
