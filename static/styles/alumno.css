@@ -32,7 +32,7 @@ header {
     display: flex;
     justify-content: space-around;
     width: 700px;
-    height: 400px;
+    height: 450px;
     background-color: rgb(30, 182, 182);
     box-shadow:
     inset 0 -3em 3em rgba(0, 0, 0, 0.1),

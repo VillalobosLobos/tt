@@ -1,0 +1,99 @@
+.todo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.contenido{
+    width: 1000px;
+    padding-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow:
+    inset 0 -3em 3em rgba(0, 0, 0, 0.1),
+    0 0 0 2px rgb(255, 255, 255),
+    0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+}
+
+.tabla{
+    border: 1px solid #000;
+    border-collapse: collapse;
+}
+
+th , td{
+    text-align: center;
+    border: 1px solid #524e4e;
+}
+
+.alumno{
+    width: 250px;
+    color: white;
+    background-color: rgb(60, 184, 184);
+}
+
+.correo{
+    width: 350px;
+    color: white;
+    background-color: rgb(60, 184, 184);
+}
+
+.progreso{
+    width: 150px;
+    color: white;
+    background-color: rgb(60, 184, 184);
+}
+
+.baja{
+    width: 150px;
+    color: white;
+    background-color: rgb(60, 184, 184);
+}
+
+.btn-progreso{
+    text-decoration: none;
+    background-color: rgb(64, 64, 206);
+    color: white;
+    border: none;
+    font-weight: bold;
+    border-radius: 10px;
+    padding-inline: 15px;
+}
+
+.btn-progreso:hover{
+    background-color: rgb(112, 112, 226);
+}
+
+.btn-baja{
+    text-decoration: none;
+    background-color: rgb(243, 95, 95);
+    color: white;
+    border: none;
+    font-weight: bold;
+    border-radius: 10px;
+    padding-inline: 15px;
+}
+
+.btn-baja:hover{
+    background-color: rgb(247, 129, 129);
+}
+
+.regresar{
+    border: none;
+    background-color: rgb(250, 165, 67);
+    width: 40px;
+    height: 40px;
+    border-radius: 80%;
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.regresar:hover{
+    background-color: rgb(235, 185, 127);
+}
