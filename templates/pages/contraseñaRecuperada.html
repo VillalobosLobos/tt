@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles/crearCuenta.css" type="text/css">
+    <link rel="stylesheet" href="/static/styles/contraseñaRecuperada.css" type="text/css">
     <title>Recuperar contraseña</title>
 </head>
 <body>
@@ -11,6 +11,8 @@
         <div class="texto">
             <h1>¡Gracias!, hemos enviado un código para restablecer su contraseña</h1> 
         </div>
+
+        <img src="/static/img/principal/contacto.png" alt="">
         
         <form action="/verificar_codigo" method="post">
             <label for="codigo">Ingrese el código de 5 caracteres:</label><br>
@@ -28,7 +30,8 @@
         {% endif %}
 
         <div class="links">
-            <a href="{{ url_for('static', filename='index.html') }}">Regresar a la pagina principal</a>
+            <a href="{{ url_for('index') }}">Regresar a la página principal</a>
+
         </div>
     </div>
 </body>

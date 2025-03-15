@@ -36,7 +36,14 @@ nav a {
 }
 
 a{
+    padding: 10px;
     font-size: 20px;
+    border-radius: 20px;
+}
+
+.ini:hover, .pre:hover, .con:hover{
+    background-color: rgb(82, 167, 224);
+    color: white;
 }
 
 li{
@@ -92,7 +99,7 @@ li{
 
 .preguntas img{
     width: 400px;
-    height: auto;
+    height: 350px;
     border-radius: 8px;
 }
 
@@ -129,7 +136,7 @@ li{
 }
 
 .textoPreguntas h1{
-    color: aqua;
+    color: rgb(46, 180, 180);
 }
 
 /*Para la fuente y color del primer div, el textoprincipal*/
@@ -160,12 +167,12 @@ li{
     font-size: 20px;
     border-radius: 8px;
     background-color: rgb(82, 167, 224);
-    border-color: #fff;
+    border: none;
     color: #fff;
 }
 
-.contacto button :hover{
-    background-color: aqua;
+.contacto button:hover{
+    background-color: rgb(55, 112, 150);
 }
 
 /*Para menú de preguntas frecuentes*/

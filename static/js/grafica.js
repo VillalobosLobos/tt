@@ -7,12 +7,12 @@ document.addEventListener("DOMContentLoaded", function() {
             labels: ['Correctas', 'Incorrectas'],
             datasets: [{
                 data: [aciertosLetras, erroresLetras],
-                backgroundColor: ['#36A2EB', '#FF6384'],
+                backgroundColor: ['#2feb2c', '#0e870c'],
                 borderWidth: 1
             }]
         },
         options: {
-            responsive: true,
+            responsive: false, // Desactivar responsive para mantener tamaño fijo
             cutout: '70%',
             plugins: {
                 legend: { position: 'bottom' }
@@ -28,12 +28,12 @@ document.addEventListener("DOMContentLoaded", function() {
             labels: ['Correctas', 'Incorrectas'],
             datasets: [{
                 data: [aciertosNumeros, erroresNumeros],
-                backgroundColor: ['#36A2EB', '#FF6384'],
+                backgroundColor: ['#2feb2c', '#0e870c'],
                 borderWidth: 1
             }]
         },
         options: {
-            responsive: true,
+            responsive: false, // Desactivar responsive para mantener tamaño fijo
             cutout: '70%',
             plugins: {
                 legend: { position: 'bottom' }

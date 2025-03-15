@@ -1,0 +1,51 @@
+.todo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.contenido{
+    width: 1000px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+    inset 0 -3em 3em rgba(0, 0, 0, 0.1),
+    0 0 0 2px rgb(255, 255, 255),
+    0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+}
+
+.graficas{
+    padding-top: -30px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.numeros, .letras{
+    padding: 50px;
+}
+
+.graficoLetras, .graficoNumeros {
+  width: 300px;
+  height: 300px;
+}
+
+.regresar{
+    border: none;
+    background-color: rgb(250, 165, 67);
+    width: 40px;
+    height: 40px;
+    border-radius: 80%;
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.regresar:hover{
+    background-color: rgb(235, 185, 127);
+}
