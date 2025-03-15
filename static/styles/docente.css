@@ -64,6 +64,7 @@ nav a {
 }
 
 .cerrar {
+    margin-right: 30px;
     padding: 10px 15px;
     border-radius: 8px;
     background-color: rgb(248, 71, 71);

@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/static/img/iconos/B.png" type="image/png">
     <title>Cambiar Contraseña</title>
-    <link rel="stylesheet" href="/static/styles/style.css"> <!-- Estilos opcionales -->
+    <link rel="stylesheet" href="/static/styles/verificar.css"> <!-- Estilos opcionales -->
 </head>
 <body>
     <div class="container">
@@ -16,11 +17,11 @@
 
         <form action="/cambiar_contraseña" method="post">
             <label for="nueva_contraseña">Nueva Contraseña:</label>
-            <input type="password" id="nueva_contraseña" name="nueva_contraseña" required>
+            <input type="password" id="nueva_contraseña" name="nueva_contraseña" minlength="8" required>
             <br>
 
             <label for="confirmar_contraseña">Confirmar Contraseña:</label>
-            <input type="password" id="confirmar_contraseña" name="confirmar_contraseña" required>
+            <input type="password" id="confirmar_contraseña" name="confirmar_contraseña" minlength="8" required>
             <br>
             <button type="submit">Cambiar Contraseña</button>
         </form>
