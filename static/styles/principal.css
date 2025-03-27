@@ -13,7 +13,6 @@
   body {
     font-family: Arial, sans-serif;
     background-color: #fff;
-    /* Espacio superior para que no se oculte el contenido detrás del header fijo */
     padding-top: 60px; /* Ajusta según la altura de tu menú fijo */
   }
   
@@ -77,7 +76,6 @@
     text-decoration: none;
     font-weight: bold;
     transition: background-color 0.3s ease;
-    /* text-transform: uppercase;  (Descomenta si quieres el texto en mayúsculas) */
   }
   
   .btn-sesion:hover {
@@ -251,7 +249,7 @@
   }
   
   .contacto-section {
-    padding: 50px 50px;
+    padding: 50px 70px;
     background-color: #fff;
   }
   

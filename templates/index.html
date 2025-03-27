@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Página Principal</title>
-  <!-- Vincula tu CSS (ajusta la ruta si difiere) -->
   <link rel="stylesheet" href="../static/styles/principal.css" type="text/css"/>
 </head>
 <body>
@@ -18,7 +17,6 @@
         <li><a href="#faq">PREGUNTAS FRECUENTES</a></li>
         <li><a href="#contacto">CONTACTANOS</a></li>
       </ul>
-      <!-- Botón de sesión a la derecha (ajusta la ruta si usas Flask u otro framework) -->
       <a href="{{ url_for('sesion') }}" class="btn-sesion">Iniciar sesión</a>
     </nav>
   </header>
@@ -40,9 +38,7 @@
 
   <!-- SECCIÓN PREGUNTAS FRECUENTES (FAQ) -->
   <section id="faq" class="faq-section">
-    <!-- Ilustración a la izquierda -->
     <div class="faq-illustration">
-      <!-- Ajusta la ruta de la imagen según tu carpeta -->
       <img src="../static/img/principal/preguntas.png" alt="Ilustración FAQ" />
     </div>
 
