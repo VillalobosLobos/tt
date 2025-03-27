@@ -148,7 +148,7 @@
   .image-side {
     width: 50%;
     background-color: #fff; /* Opcional */
-    background-image: url('../img/inicioSesion/fondo.jpeg');
+    background-image: url('../../static/img/inicioSesion/fondo.jpeg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover; /* Se llena, aunque recorte o distorsione */
