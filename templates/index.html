@@ -1,94 +1,128 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/styles/principal.css" type="text/css">
-    <link rel="icon" href="/static/img/iconos/A.png" type="image/png">
-    <title>Menú principal</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Página Principal</title>
+  <!-- Vincula tu CSS (ajusta la ruta si difiere) -->
+  <link rel="stylesheet" href="../static/styles/principal.css" type="text/css"/>
 </head>
 <body>
 
-    <!--  Menú horizontal superior -->
-    <header>
-        <nav>
-            <ul>
-                <li><a class="ini" href="#inicio">INICIO</a></li>
-                <li><a class="pre" href="#preguntas">PREGUNTAS FRECUENTES</a></li>
-                <li><a class="con" href="#contacto">CONTACTANOS</a></li>
-                <li class="btn"><a href="{{url_for('sesion')}}">INICIAR SESION</a></li>
-            </ul>
-        </nav>
-    </header>
+  <!-- HEADER / MENÚ FIJO -->
+  <header>
+    <nav>
+      <!-- Lista de navegación centrada -->
+      <ul class="nav-list">
+        <li><a href="#inicio">INICIO</a></li>
+        <li><a href="#faq">PREGUNTAS FRECUENTES</a></li>
+        <li><a href="#contacto">CONTACTANOS</a></li>
+      </ul>
+      <!-- Botón de sesión a la derecha (ajusta la ruta si usas Flask u otro framework) -->
+      <a href="{{ url_for('sesion') }}" class="btn-sesion">Iniciar sesión</a>
+    </nav>
+  </header>
 
-    <!-- Para el texto de inicio y la imagen -->
-     <div id="inicio" class="inicio">
-        <div class="textoPrincipal">
-            <h1>Prototipo de aplicación web empleando speech recognition</h1>
-            <p>Un prototipo de aplicación web interactiva que les permite a los más pequeños a descubrir el mundo de las letras y los números con su voz</p> 
-        </div>
-
-        <img src="/static/img/principal/menu.png" alt="">
-     </div>
-
-     <!-- Para las preguntas frecuentes -->
-     <div id="preguntas" class="preguntas">
-        <img src="/static/img/principal/preguntas.png" alt="">
-
-        <div class="textoPreguntas">
-            <h1>Preguntas Frecuentes</h1>
-            <nav class="preguntas">
-                <ul>
-                    <li><a href="#" class="titulo">¿Cómo funciona el prototipo de aplicación web?</a>
-                        <ul>
-                            <li><a href="#" class="cont">Utiliza tecnología avanzada para captar y procesar la voz de los niños,permitiendo que los niños practiquen la pronunciación y el reconocimiento de letras y números de manera interactiva.</a></li>
-                        </ul>
-                    </li>
-
-                    <li><a href="#" class="titulo">¿Qué edades son adecuadas para usar el prototipo?</a>
-                        <ul>
-                            <li><a href="#" class="cont">Respuesta2</a></li>
-                        </ul>
-                    </li>
-
-                    <li><a href="#" class="titulo">¿Cómo puedo crear una cuenta como docente?</a>
-                        <ul>
-                            <li><a href="#" class="cont">Respuesta3</a></li>
-                        </ul>
-                    </li>
-
-                    <li><a href="#" class="titulo">¿Cómo puedo visualizar el progreso de mi hijo?</a>
-                        <ul>
-                            <li><a href="#" class="cont">Respuesta4</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-     </div>
-
-     <!-- Para contactarnos -->
-     <div id="contacto" class="contacto">
-        <div class="textoContacto">
-            <h1>Contáctanos Ya!</h1>
-    
-            <form action="contacto" method="POST">
-                <input type="text" id="nombre" name="nombre" placeholder="Escribe tu nombre" required> <br>
-                <br>
-                <input type="email" id="email" name="email" placeholder="Escribe tu correo" required> <br>
-                <br>
-                <input type="text" id="telefono" name="telefono" placeholder="Escribe tu número" required> <br>
-                <br>
-                <textarea name="mensaje" rows="5" placeholder="Escribe tu mensaje" required></textarea> <br> <br>
-    
-                <button type="submit">Enviar</button>
-            </form>
-    
-        </div>
-    
-        <img src="/static/img/principal/contacto.png" alt="">
+  <!-- SECCIÓN DE INICIO (HERO) -->
+  <section id="inicio" class="hero-section">
+    <div class="hero-text">
+      <h1>Prototipo de aplicación web empleando reconocimiento de voz</h1>
+      <p>
+        Prototipo de aplicación web interactiva que les permite a los más 
+        pequeños descubrir el mundo de las letras y los dígitos con su voz.
+      </p>
     </div>
-    
+    <div class="hero-image">
+      <!-- Ajusta la ruta de la imagen a tu carpeta -->
+      <img src="../static/img/principal/menu.png" alt="Cubos con letras y números" />
+    </div>
+  </section>
+
+  <!-- SECCIÓN PREGUNTAS FRECUENTES (FAQ) -->
+  <section id="faq" class="faq-section">
+    <!-- Ilustración a la izquierda -->
+    <div class="faq-illustration">
+      <!-- Ajusta la ruta de la imagen según tu carpeta -->
+      <img src="../static/img/principal/preguntas.png" alt="Ilustración FAQ" />
+    </div>
+
+    <!-- Contenido (Título + Acordeón) a la derecha -->
+    <div class="faq-content">
+      <h2>Preguntas Frecuentes</h2>
+      <script src="../static/js/faq.js"></script>
+      <!-- Ítem 1 (abierto por defecto con la clase 'active') -->
+      <div class="faq-item active">
+        <button class="faq-question">
+          ¿Cómo funciona el prototipo de aplicación web?
+        </button>
+        <div class="faq-answer">
+          <p>
+            El prototipo permite a los niños practicar la pronunciación de letras y dígitos mediante reconocimiento de voz. A través de una interfaz amigable y colorida, los menores interactúan con ejercicios diseñados especialmente para su edad. 
+          </p>
+        </div>
+      </div>
+
+      <!-- Ítem 2 -->
+      <div class="faq-item">
+        <button class="faq-question">
+          ¿Qué edades son adecuadas para usar el prototipo de aplicación web?
+        </button>
+        <div class="faq-answer">
+          <p>
+            Está dirigido a niñas y niños de segundo grado de preescolar, aproximadamente entre 4 y 5 años. No está recomendado para menores con necesidades educativas especiales, ya que no cuenta con adaptaciones específicas.
+          </p>
+        </div>
+      </div>
+
+      <!-- Ítem 3 -->
+      <div class="faq-item">
+        <button class="faq-question">
+          ¿Cómo puedo crear una cuenta como docente?
+        </button>
+        <div class="faq-answer">
+          <p>
+            Para crear una cuenta como docente, es necesario ponerse en contacto con un administrador del sistema. Él se encargará de darte de alta y proporcionarte tus credenciales de acceso. 
+          </p>
+        </div>
+      </div>
+
+      <!-- Ítem 4 -->
+      <div class="faq-item">
+        <button class="faq-question">
+          ¿Cómo puedo visualizar el progreso de mi hijo en el prototipo?
+        </button>
+        <div class="faq-answer">
+          <p>
+            Como tutor, tendrás acceso a un panel en el que se muestra el progreso de tu hijo. Ahí podrás ver el desempeño en cada actividad, los intentos realizados y el avance general en el reconocimiento de letras y dígitos. Esta información se presenta de forma clara y sencilla para facilitar el acompañamiento en casa.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN CONTACTO -->
+  <section id="contacto" class="contacto-section">
+    <div class="encabezado-contacto">
+      <h2>Contáctanos</h2>
+      <p>¿Alguna pregunta o comentario? ¡Solo escríbenos un mensaje!</p>
+    </div>
+    <div class="contacto-contenido">
+      <div class="text-block">
+        <h2>Contáctanos Ya!</h2>
+        <form action="contacto" method="POST">
+          <input type="text" name="nombre" placeholder="Nombre *" required>
+          <input type="email" name="email" placeholder="Email" required>
+          <input type="tel" name="telefono" placeholder="Número telefónico *" required>
+          <textarea name="mensaje" rows="5" placeholder="Mensaje *" required></textarea>
+          <button type="submit">ENVIAR</button>
+        </form>
+      </div>
+      <div class="imagen-contacto">
+        <img src="../static/img/principal/contacto.png" alt="Imagen de contacto" />
+      </div>
+    </div>
+  </section>
+  
 
 </body>
 </html>

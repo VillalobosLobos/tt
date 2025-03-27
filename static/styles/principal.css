@@ -1,309 +1,365 @@
-.inicio{
-    width: 800px;
-}
-
-.preguntas{
-    width: 800px;
-}
-
-.contacto{
-    width: 800px;
-}
-
-header {
-    background-color: #ffffff;
-    padding: 5px;
-}
-
-nav{
+/* ================================
+   RESET BÁSICO Y SCROLL SUAVE
+================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  html {
+    scroll-behavior: smooth; /* Desplazamiento suave al hacer clic en anclas (#...) */
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+    /* Espacio superior para que no se oculte el contenido detrás del header fijo */
+    padding-top: 60px; /* Ajusta según la altura de tu menú fijo */
+  }
+  
+  /* ================================
+     HEADER / MENÚ FIJO
+  ================================ */
+  header {
+    position: fixed;  /* Se queda arriba al hacer scroll */
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    border-bottom: 1px solid #ccc;
+    z-index: 1000;    /* Para que se vea sobre el contenido */
+  }
+  
+  nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 60px;
+    position: relative; /* Para posicionar elementos de forma absoluta dentro */
+  }
+  
+  /* Lista de navegación centrada en el medio */
+  .nav-list {
+    list-style: none;
+    display: flex;
+    gap: 30px; /* Espacio entre enlaces */
+    /* Centrar horizontal y vertical dentro de nav */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .nav-list li a {
+    text-decoration: none;
+    font-weight: 600;
+    color: #52A7E0;  /* Azul */
+    padding: 8px 15px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease;
+    /* text-transform: uppercase;  (Descomenta si quieres el texto en mayúsculas) */
+  }
+  
+  .nav-list li a:hover {
+    background-color: #52A7E0;
+    color: #fff;
+  }
+  
+  /* Botón de sesión a la derecha (naranja) */
+  .btn-sesion {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    background-color: #FF5C39; /* Naranja */
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    /* text-transform: uppercase;  (Descomenta si quieres el texto en mayúsculas) */
+  }
+  
+  .btn-sesion:hover {
+    background-color: #d94c2d;
+  }
+  
+  /* ================================
+     SECCIÓN DE INICIO (HERO)
+  ================================ */
+  .hero-section {
+    display: flex;
+    align-items: center; /* Centra verticalmente; usa flex-start si quieres pegar el contenido arriba */
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 20px auto;  /* Reducido para que quede más arriba */
+    padding: 10px;      /* Menos padding interno */
+    background-color: #fff;
+    border-radius: 10px;
+    scroll-margin-top: 80px; /* Para que al hacer clic en #inicio no se oculte tras el menú fijo */
+  }
+  
+  .hero-text {
+    width: 50%;
+    padding-right: 20px;
+  }
+  
+  /* Título principal */
+  .hero-text h1 {
+    /* Usa una fuente más llamativa, por ejemplo Trebuchet MS o Comic Sans MS */
+    font-family: "Trebuchet MS", Arial, sans-serif;
+    color: #FF5C39;         /* Naranja */
+    font-size: 2.5rem;      /* Ajusta el tamaño a tu gusto */
+    font-weight: bold;      /* Negrita */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3); /* Pequeña sombra para resaltar */
+    margin-bottom: 15px;
+  }
+  
+  /* Texto debajo del título */
+  .hero-text p {
+    font-family: "Trebuchet MS", Arial, sans-serif;
+    color: #52A7E0;         /* Azul */
+    font-size: 1.2rem;      /* Un poco más grande de lo normal */
+    line-height: 1.5;
+  }
+  
+  .hero-image {
+    width: 50%;
     display: flex;
     justify-content: center;
-}
-
-nav ul{
-    list-style-type: none;
-}
-
-nav li{
-    display: inline;
-    margin-right: 10px;
-}
-
-nav a {
+    align-items: center;
+  }
+  
+  .hero-image img {
+    width: 100%;
+    max-width: 500px;
+  }
+  
+  /* ================================
+     SECCIÓN FAQ
+  ================================ */
+  .faq-section {
+    display: flex;               /* Imagen a la izquierda, texto a la derecha */
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    scroll-margin-top: 80px;
+  }
+  
+  /* Ilustración a la izquierda */
+  .faq-illustration {
+    width: 50%;                  /* Ajusta el porcentaje para agrandar/reducir imagen */
+    display: flex;
+    align-items: center;
+  }
+  
+  .faq-illustration img {
+    width: 100%;
+    max-width: 400px; /* Ajusta a tu gusto */
+  }
+  
+  /* Contenido FAQ (título + acordeón) a la derecha */
+  .faq-content {
+    width: 60%;
+    padding-left: 20px; /* Separación respecto a la ilustración */
+  }
+  
+  .faq-content h2 {
+    font-size: 2rem;
+    color: #52A7E0;     
+    margin-bottom: 20px;
+  }
+  
+  /* Ítems del acordeón */
+  .faq-item {
+    border-bottom: 1px solid #eee;
+    padding: 15px 0;
+    transition: all 0.3s ease;
+  }
+  
+  /* Botón de la pregunta */
+  .faq-question {
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    font-size: 1.1rem;
     font-weight: bold;
-    text-decoration: none;
-    color:rgb(82, 167, 224);
-}
-
-a{
-    padding: 10px;
-    font-size: 20px;
-    border-radius: 20px;
-}
-
-.ini:hover, .pre:hover, .con:hover{
-    background-color: rgb(82, 167, 224);
-    color: white;
-}
-
-li{
-    background-color: rgb(255, 255, 255);
-    padding: 10px;
+    color: #FF5C39; /* Naranja para las preguntas */
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between; /* Para ubicar un icono + o - a la derecha, si lo deseas */
+    align-items: center;
+    outline: none;
+  }
+  
+  /* Respuestas ocultas por defecto */
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    color: #555;
+    margin-top: 10px;
+  }
+  
+  /* Si la faq-item está 'active', se muestra la respuesta */
+  .faq-item.active .faq-answer {
+    max-height: 300px; /* Ajusta si necesitas más espacio */
+  }
+  
+  /* Icono + y - al lado de la pregunta (opcional) */
+  .faq-question::after {
+    content: "+";
+    font-size: 1.2rem;
+    color: #FF5C39;
+  }
+  .faq-item.active .faq-question::after {
+    content: "-";
+  }
+  
+  /* Espacio interno del texto de la respuesta */
+  .faq-answer p {
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* ================================
+     FORMULARIO DE CONTACTO
+  ================================ */
+  .encabezado-contacto {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .encabezado-contacto h2 {
+    font-size: 36px;
+    color: #2196f3;
+    font-weight: 700;
+    margin-bottom: 10px;
+    border-top: 3px solid #2196f3;
+    display: inline-block;
+    padding-top: 10px;
+  }
+  
+  .encabezado-contacto p {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .contacto-section {
+    padding: 50px 50px;
+    background-color: #fff;
+  }
+  
+  .contacto-contenido {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+  }
+  
+  .text-block {
+    flex: 1 1 400px;
+    max-width: 500px;
+  }
+  
+  .text-block h2 {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  form input,
+  form textarea {
+    width: 100%;
+    border: 1px solid #ccc;
     border-radius: 10px;
-}
-
-.btn{
-    background-color: orange;
-}
-
-.btn a{
-    color: #fff;
-}
-
-.btn:hover{
-    background-color: rgb(122, 82, 6);
-}
-
-/*Para el contenedor de inicio*/
-.inicio{
-    margin: 0 auto;
-    background-color: #ffffff;
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 8px;
-}
-
-.inicio img{
-    width: 400px;
-    height: auto;
-    border-radius: 8px;
-}
-
-.textoPrincipal{
-    text-align: center;
-    max-width: 60%;
-}
-
-/*Para preguntas frecuentes*/
-.preguntas{
-    margin: 0 auto;
-    background-color: #ffffff;
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 8px;
-}
-
-.preguntas img{
-    width: 400px;
-    height: 350px;
-    border-radius: 8px;
-}
-
-.textoPreguntas{
-    text-align: center;
-    max-width: 60%;
-}
-
-/*Para contactos*/
-.contacto{
-    margin: 0 auto;
-    background-color: #ffffff;
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 8px;
-}
-
-.contacto img{
-    width: 400px;
-    height: auto;
-    border-radius: 8px;
-}
-
-.textoContacto{
-    text-align: center;
-    max-width: 60%;
-}
-
-/* Para el color de los titulos en la pantalla principal*/
-.textoPrincipal h1{
-    color: orange;
-}
-
-.textoPreguntas h1{
-    color: rgb(46, 180, 180);
-}
-
-/*Para la fuente y color del primer div, el textoprincipal*/
-.textoPrincipal p{
-    color: rgb(3, 187, 187);
-    font-size: 20px;
-}
-
-/*Apartado de contactanos*/
-.contacto input{
-    border-radius: 8px;
-    width: 300px;
-    height: 30px;
-    font-size: 15px;
-    border-color: #d8d2d2;
-}
-
-.contacto textarea{
-    border-radius: 5px;
-    width: 300px;
-    height: 80px;
-    font-size: 15px;
-}
-
-.contacto button{
-    height: 30px;
-    width: 300px;
-    font-size: 20px;
-    border-radius: 8px;
-    background-color: rgb(82, 167, 224);
+    padding: 12px 15px;
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+  
+  form button {
+    width: 100%;
+    font-size: 18px;
+    border-radius: 30px;
+    background-color: #4285f4;
     border: none;
     color: #fff;
-}
-
-.contacto button:hover{
-    background-color: rgb(55, 112, 150);
-}
-
-/*Para menú de preguntas frecuentes*/
-.preguntas ul {
+    padding: 14px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  form button:hover {
+    background-color: #3367d6;
+  }
+  
+  
+  .imagen-contacto {
+    flex: 1 1 500px;
     display: flex;
-    flex-direction: column;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-}
-
-.preguntas li {
-    margin: 0;
-    padding: 0; 
-}
-
-.preguntas a {
-    font-size: 15px;
-    display: block;
-    padding: 5px;
-    width: 380px;
-    background-color: rgb(255, 255, 255);
-    text-decoration: none;
-    color: #fff;
-}
-
-.preguntas .titulo {
-    color: purple;
-}
-
-.preguntas .cont {
-    color: gray;
-}
-
-.preguntas a:hover {
-    background-color: rgb(255, 255, 255);
-}
-
-.preguntas ul li ul {
-    display: none;
-    padding: 0;
-    margin: 0;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .imagen-contacto img {
     width: 100%;
-}
-
-.preguntas ul li a:hover + ul, 
-.preguntas ul li ul:hover {
+    max-width: 500px;
+    height: auto;
+    object-fit: contain;
     display: block;
-}
-
-/* Para los telefonos*/
-@media screen and (max-width: 480px) {
-
-    /*Para el div de inicio*/
-    .inicio{
-        text-align: center;
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 10px;
+  }
+  
+  
+  /* ================================
+     RESPONSIVIDAD (pantallas pequeñas)
+  ================================ */
+  @media screen and (max-width: 768px) {
+    nav {
+      height: auto;
     }
-
-    .inicio .textoPrincipal{
-        text-align: center;
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 10px;
-        width: 290px;
+  
+    /* Reacomoda la barra de navegación en móviles */
+    .nav-list {
+      position: static;
+      transform: none;
+      margin: 10px auto;
+      justify-content: center;
     }
-
-    .inicio .textoPrincipal h1{
-        font-size: 30px;
-        width: 290px;
+    .btn-sesion {
+      position: static;
+      transform: none;
+      margin: 0 auto 10px;
+      display: block;
+      text-align: center;
     }
-
-    .inicio .textoPrincipal p{
-        font-size: 20px;
-        width: 290px;
+  
+    /* Secciones en columna */
+    .hero-section,
+    .section {
+      flex-direction: column;
+      text-align: center;
     }
-
-    .inicio .textoPrincipal img{
-        visibility: hidden;
+  
+    .hero-text,
+    .hero-image,
+    .text-block,
+    .section img {
+      width: 100% !important;
+      padding: 0;
     }
-
-    /*Div para las preguntas*/
-    .preguntas{
-        text-align: center;
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 10px;
-        width: 290px;
+  
+    .hero-image img,
+    .section img {
+      max-width: 300px;
+      margin: 20px auto;
     }
-
-    .preguntas img{
-        width: 1px;
-        visibility: hidden;
-    }
-
-    .preguntas a {
-        width: 200px;
-    }
-
-    /*Div para el contacto*/
-    .contacto{
-        text-align: center;
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 10px;
-        width: 290px;
-    }
-
-    .contacto img{
-        width: 270px;
-    }
-
-    .contacto input{
-        width: 270px;
-        height: 30px;
-        font-size: 15px;
-    }
-    
-    .contacto textarea{
-        width: 270px;
-        height: 80px;
-        font-size: 15px;
-    }
-    
-    .contacto button{
-        height: 30px;
-        width: 270px;
-        font-size: 20px;
-        border-radius: 8px;
-    }
-}
-
+  }
+  
