@@ -308,7 +308,7 @@
   }
   
   .imagen-contacto img {
-    width: 100%;
+    width: 105%;
     max-width: 500px;
     height: auto;
     object-fit: contain;
