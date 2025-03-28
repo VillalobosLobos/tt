@@ -63,6 +63,9 @@ CREATE TABLE `Administrador` (
 
 LOCK TABLES `Administrador` WRITE;
 /*!40000 ALTER TABLE `Administrador` DISABLE KEYS */;
+INSERT INTO `Administrador` VALUES
+('villalobos@gmail.com','ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f'),
+('zamudio@gmail.com','ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f');
 /*!40000 ALTER TABLE `Administrador` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -87,7 +90,7 @@ CREATE TABLE `Alumno` (
   KEY `Alumno_ibfk_1` (`IdGrupo`),
   CONSTRAINT `Alumno_ibfk_1` FOREIGN KEY (`IdGrupo`) REFERENCES `Grupo` (`IdGrupo`) ON DELETE SET NULL,
   CONSTRAINT `fk_tutor` FOREIGN KEY (`CorreoTutor`) REFERENCES `Tutor` (`CorreoTutor`) ON DELETE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -97,8 +100,8 @@ CREATE TABLE `Alumno` (
 LOCK TABLES `Alumno` WRITE;
 /*!40000 ALTER TABLE `Alumno` DISABLE KEYS */;
 INSERT INTO `Alumno` VALUES
-(4,'Carlos','López','foto_carlos.jpg',5,NULL,'t@gmail.com',0),
-(7,'karla','Salinas','foto_carlos.jpg',7,2,'t1@gmail.com',7);
+(13,'Ezequiel','Villalobos Sanchez','static/img/usuarios/psychohappy2002@gmail.com.jpg',0,13,'psychohappy2002@gmail.com',8),
+(15,'Cesar Osvaldo','Zamudio Onofre','static/img/usuarios/cesar@gmail.com.png',0,13,'cesar@gmail.com',0);
 /*!40000 ALTER TABLE `Alumno` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -125,9 +128,8 @@ CREATE TABLE `Docente` (
 LOCK TABLES `Docente` WRITE;
 /*!40000 ALTER TABLE `Docente` DISABLE KEYS */;
 INSERT INTO `Docente` VALUES
-('d1@gmail.com','Juan','Pérez','123'),
-('d@gmail.com','Pedro','Ramirez Inzunza','123'),
-('villalobosalamillaj@gmail.com','Juan Rafael','Villalobos Alamilla','123');
+('d@gmail.com','Wendy','Lopez Martines','ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f'),
+('docente@gmail.com','Ezequiel','Villalobos','ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f');
 /*!40000 ALTER TABLE `Docente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -174,7 +176,7 @@ CREATE TABLE `Grupo` (
   UNIQUE KEY `Codigo` (`Codigo`),
   UNIQUE KEY `unique_docente` (`CorreoDocente`),
   CONSTRAINT `Grupo_ibfk_1` FOREIGN KEY (`CorreoDocente`) REFERENCES `Docente` (`CorreoDocente`) ON DELETE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -184,7 +186,7 @@ CREATE TABLE `Grupo` (
 LOCK TABLES `Grupo` WRITE;
 /*!40000 ALTER TABLE `Grupo` DISABLE KEYS */;
 INSERT INTO `Grupo` VALUES
-(2,'grupo de tonotos','12345',1,'d1@gmail.com');
+(13,'Primero D','W996N',2,'docente@gmail.com');
 /*!40000 ALTER TABLE `Grupo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -240,8 +242,8 @@ CREATE TABLE `Tutor` (
 LOCK TABLES `Tutor` WRITE;
 /*!40000 ALTER TABLE `Tutor` DISABLE KEYS */;
 INSERT INTO `Tutor` VALUES
-('t1@gmail.com','123'),
-('t@gmail.com','123');
+('cesar@gmail.com','ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f'),
+('psychohappy2002@gmail.com','ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f');
 /*!40000 ALTER TABLE `Tutor` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -254,4 +256,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-02-27 21:31:55
+-- Dump completed on 2025-03-27 20:12:11
