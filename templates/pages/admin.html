@@ -1,268 +1,330 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/confA.css') }}">
-    <link rel="icon" href="/static/img/iconos/1.png" type="image/png">
-    <title>Configuraciones docente</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Configuraciones Administrador</title>
+  <!-- Icono (opcional) -->
+  <link rel="icon" href="/static/img/iconos/1.png" type="image/png">
+  <!-- Vincula tu CSS (misma ruta que tenías antes) -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/confA.css') }}">
 </head>
 <body>
-    <div class="container">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <div class="icon-container">
-                <button class="icon-btn" onclick="window.location.href='{{ url_for('index') }}'">Cerrar sesión</button>
-            </div>            
-            <ul>
-                <li><a href="#" id="darAlta">Dar de alta docente</a></li>
-                <li><a href="#" id="actualizar">Actualizar datos del docente</a></li>
-                <li><a href="#" id="darBaja">Dar de baja docente</a></li>
-                <li><a href="#" id="cont">Contáctanos</a></li>
-                <li><a href="#" id="tut">Vídeo tutorial</a></li>
-            </ul>
+  <div class="container">
+    <!-- Botón de cerrar sesión en la esquina superior derecha -->
+    <button class="close-session-btn" onclick="window.location.href='{{ url_for('index') }}'">
+      Cerrar sesión
+    </button>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="orange-bar">
+        <div class="gear-circle">
+          <img src="../../static/img/admin/gear.png" alt="Engrane" class="gear-icon">
         </div>
-        <div class="main-content" id="main-content">
-            <!-- Aquí se actualizará el contenido según la selección del usuario -->
-            <div class="header">
-                <h1>Dar de alta docente</h1>
-                
-                <form action="/agregarDocente" method="post">
-                    <p>Nombre(s)</p>
-                    <input type="text" name="nombre" id="nombre" placeholder="Ingrese su nombre">
+      </div>
 
-                    <br>
-                    <p>Apellidos</p>
-                    <input type="text" name="apellidos" id="apellidos" placeholder="Ingrese sus apellidos">
+      <!-- Columna blanca con el menú -->
+      <div class="white-col">
+        <h2 class="admin-title">Bienvenido<br>administrador</h2>
 
-                    <br>
-                    <p>Correo</p>
-                    <input type="email" name="correo" id="correo" placeholder="Ingrese correo del docente">
-
-                    <br>
-                    <p>Contraseña</p>
-                    <input type="password" name="contraseña" id="contraseña" placeholder="Ingrese su contraseña">
-
-                    <br>
-                    <input type="submit" value="Listo">
-                </form>
-            </div>
-        </div>
+        <ul class="sidebar-menu">
+          <li>
+            <a href="#" id="darAlta">
+              <img src="../../static/img/admin/alta.png" alt="Alta" class="menu-icon">
+              <span>Dar de alta docentes</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" id="darBaja">
+              <img src="../../static/img/admin/baja.png" alt="Baja" class="menu-icon">
+              <span>Dar de baja docentes</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" id="actualizar">
+              <img src="../../static/img/admin/actualizar.png" alt="Actualizar" class="menu-icon">
+              <span>Actualizar datos del docente</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" id="cont">
+              <img src="../../static/img/admin/contacto.png" alt="Contacto" class="menu-icon">
+              <span>Contáctanos</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" id="tut">
+              <img src="../../static/img/admin/tutorial.png" alt="Tutorial" class="menu-icon">
+              <span>Vídeo tutorial</span>
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
 
-    <script>
-        // Seleccionamos los botones de la sidebar
-        const darDeAlta = document.getElementById('darAlta');
-        const darDeBaja = document.getElementById('darBaja');
-        const actualizarDocente = document.getElementById('actualizar');
-        const contacto = document.getElementById('cont');
-        const tutorial = document.getElementById('tut');
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="main-content" id="main-content">
+      <!-- PESTAÑA INICIAL: Dar de alta docentes -->
+      <div class="header">
+        <h1>Dar de alta docentes</h1>
+        <p class="subtext">
+          En este apartado, podrás registrar nuevos docentes en la aplicación.
+          Edita la información personal de los profesores y asegúrate de que
+          los datos estén completos antes de darlo de alta.
+        </p>
+        <form action="/agregarDocente" method="post" class="alta-form">
+          <label for="nombre">Nombre(s)</label>
+          <input type="text" name="nombre" id="nombre" placeholder="Ingrese el nombre(s)" required>
 
-        // Seleccionamos el contenedor principal donde se actualizará el contenido
-        const mainContent = document.getElementById('main-content');
+          <label for="apellidos">Apellidos</label>
+          <input type="text" name="apellidos" id="apellidos" placeholder="Ingrese los apellidos" required>
 
-        // Función para cambiar el contenido principal
-        function changeContent(content) {
-            mainContent.innerHTML = content;
-        }
+          <label for="correo">Email</label>
+          <input type="email" name="correo" id="correo" placeholder="Ingrese correo del docente" required>
 
-        // Manejar el clic en "Editar perfil"
-        darDeAlta.addEventListener('click', function() {
+          <label for="contraseña">Contraseña</label>
+          <input type="password" name="contraseña" id="contraseña" placeholder="Ingrese su contraseña" required>
+
+          <button type="submit" class="alta-btn">Dar de alta</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script para manejar clics en la sidebar -->
+  <script>
+    const darDeAlta = document.getElementById('darAlta');
+    const darDeBaja = document.getElementById('darBaja');
+    const actualizarDocente = document.getElementById('actualizar');
+    const contacto = document.getElementById('cont');
+    const tutorial = document.getElementById('tut');
+    const mainContent = document.getElementById('main-content');
+
+    function changeContent(content) {
+      mainContent.innerHTML = content;
+    }
+
+    // ======================
+    // 1) DAR DE ALTA
+    // ======================
+    darDeAlta.addEventListener('click', function() {
+      const content = `
+        <div class="header">
+          <h1>Dar de alta docentes</h1>
+          <p class="subtext">
+            En este apartado, podrás registrar nuevos docentes en la aplicación.
+            Edita la información personal de los profesores y asegúrate de que
+            los datos estén completos antes de darlo de alta.
+          </p>
+          <form action="/agregarDocente" method="post" class="alta-form">
+            <label for="nombre">Nombre(s)</label>
+            <input type="text" name="nombre" id="nombre" placeholder="Ingrese su nombre" required>
+
+            <label for="apellidos">Apellidos</label>
+            <input type="text" name="apellidos" id="apellidos" placeholder="Ingrese sus apellidos" required>
+
+            <label for="correo">Email</label>
+            <input type="email" name="correo" id="correo" placeholder="Ingrese correo del docente" required>
+
+            <label for="contraseña">Contraseña</label>
+            <input type="password" name="contraseña" id="contraseña" placeholder="Ingrese su contraseña" required>
+
+            <button type="submit" class="alta-btn">Dar de alta</button>
+          </form>
+        </div>
+      `;
+      changeContent(content);
+    });
+
+    // ======================
+    // 2) DAR DE BAJA
+    // ======================
+    darDeBaja.addEventListener('click', function() {
+      const content = `
+        <div class="header">
+          <h1>Eliminar docente</h1>
+          <p class="subtext">
+            En este apartado, podrás eliminar docentes del sistema.
+            Ingresa el correo para buscar y, posteriormente, eliminar al docente.
+          </p>
+          <form id="buscarDocenteForm" class="alta-form">
+            <label for="correo">Correo</label>
+            <input type="email" name="correo" id="correo" placeholder="Ingrese correo del docente" required>
+            <button type="submit">Buscar</button>
+          </form>
+        </div>
+      `;
+      changeContent(content);
+
+      // Escuchar el evento de envío del formulario
+      const form = document.getElementById('buscarDocenteForm');
+      form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const correo = document.getElementById('correo').value;
+        
+        // Realizar una solicitud AJAX al servidor para buscar el docente
+        fetch('/buscarDocente', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ correo: correo }),
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
             const content = `
-                <div class="header">
-                <h1>Dar de alta docente</h1>
-                
-                <form action="/agregarDocente" method="post">
-                    <p>Nombre(s)</p>
-                    <input type="text" name="nombre" id="nombre" placeholder="Ingrese su nombre">
+              <div class="header">
+                <h1>Eliminar docente</h1>
+                <p class="subtext">
+                  Verifica la información del docente y confirma la eliminación.
+                </p>
+                <form action="/eliminarDocente" method="post" class="alta-form">
+                  <label for="nombre">Nombre(s)</label>
+                  <input type="text" name="nombre" value="${data.docente.Nombre}" placeholder="Ingrese nombre">
+                  
+                  <label for="apellidos">Apellidos</label>
+                  <input type="text" name="apellidos" value="${data.docente.Apellido}" placeholder="Ingrese apellidos">
+                  
+                  <label for="correo">Correo</label>
+                  <input type="email" name="correo" value="${data.docente.CorreoDocente}" readonly>
 
-                    <br>
-                    <p>Apellidos</p>
-                    <input type="text" name="apellidos" id="apellidos" placeholder="Ingrese sus apellidos">
-
-                    <br>
-                    <p>Correo</p>
-                    <input type="email" name="correo" id="correo" placeholder="Ingrese correo del docente">
-
-                    <br>
-                    <p>Contraseña</p>
-                    <input type="password" name="contraseña" id="contraseña" placeholder="Ingrese su contraseña">
-
-                    <br>
-                    <input type="submit" value="Listo">
+                  <button type="submit">Eliminar</button>
                 </form>
-            </div>
+              </div>
             `;
             changeContent(content);
-        });
+          } else {
+            const content = `
+              <div class="header">
+                <h1>Correo no encontrado</h1>
+                <p class="subtext">
+                  No se ha encontrado un docente con ese correo. Intente de nuevo.
+                </p>
+              </div>
+            `;
+            changeContent(content);
+          }
+        })
+        .catch(error => console.error('Error:', error));
+      });
+    });
 
-        // Manejar el clic en "Contacta al docente"
-        actualizarDocente.addEventListener('click', function() {
-    const content = `
+    // ======================
+    // 3) ACTUALIZAR DOCENTE
+    // ======================
+    actualizarDocente.addEventListener('click', function() {
+      const content = `
         <div class="header">
-        <h1>Actualizar docente</h1>
-        
-        <form id="buscarDocenteForm">
-            <p>Correo</p>
-            <input type="email" name="correo" id="correo" placeholder="Ingrese correo del docente">
-            <br>
-            <input type="submit" value="Buscar">
-        </form>
+          <h1>Actualizar docente</h1>
+          <p class="subtext">
+            Ingresa el correo del docente para buscarlo y editar sus datos.
+          </p>
+          <form id="buscarDocenteForm" class="alta-form">
+            <label for="correo">Correo</label>
+            <input type="email" name="correo" id="correo" placeholder="Ingrese correo del docente" required>
+            <button type="submit">Buscar</button>
+          </form>
         </div>
+      `;
+      changeContent(content);
+      
+      // Escuchar el evento de envío del formulario
+      const form = document.getElementById('buscarDocenteForm');
+      form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const correo = document.getElementById('correo').value;
+        
+        fetch('/buscarDocente', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ correo: correo }),
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const content = `
+              <div class="header">
+                <h1>Editar datos del docente</h1>
+                <p class="subtext">
+                  Actualiza la información necesaria y haz clic en "Actualizar".
+                </p>
+                <form action="/actualizarDocente" method="post" class="alta-form">
+                  <label for="nombre">Nombre(s)</label>
+                  <input type="text" name="nombre" value="${data.docente.Nombre}" placeholder="Ingrese nombre">
+                  
+                  <label for="apellidos">Apellidos</label>
+                  <input type="text" name="apellidos" value="${data.docente.Apellido}" placeholder="Ingrese apellidos">
+                  
+                  <label for="correo">Correo</label>
+                  <input type="email" name="correo" value="${data.docente.CorreoDocente}" readonly>
+
+                  <button type="submit">Actualizar</button>
+                </form>
+              </div>
+            `;
+            changeContent(content);
+          } else {
+            const content = `
+              <div class="header">
+                <h1>Correo no encontrado</h1>
+                <p class="subtext">
+                  No se ha encontrado un docente con ese correo. Intente de nuevo.
+                </p>
+              </div>
+            `;
+            changeContent(content);
+          }
+        })
+        .catch(error => console.error('Error:', error));
+      });
+    });
+
+    // ======================
+    // 4) CONTACTO
+    // ======================
+    contacto.addEventListener('click', function(e) {
+     e.preventDefault();
+     const content = `
+       <div class="header">
+       <h1>Contáctanos</h1>
+           <div class="contact-box">
+            <p>Si tienes alguna duda con la plataforma, háznoslo saber.</p>
+              <p><strong>Correo de contacto de la aplicación:</strong></p>
+              <p><strong>Email:</strong> 
+            <a href="mailto:letrasvivas@correo.com">letrasvivas@correo.com</a>
+         </p>
+        </div>
+      </div>
+     `;
+     changeContent(content);
+    });
+
+
+    // ======================
+    // 5) VIDEO TUTORIAL
+    // ======================
+    tutorial.addEventListener('click', function() {
+  const content = `
+    <div class="header">
+      <h1>Video tutorial</h1>
+      <p class="subtext">
+        A continuación te proporcionamos un video del uso de tu rol en la aplicación.
+      </p>
+      <div class="video-container">
+        <iframe
+          width="600"
+          height="338"
+          src="https://www.youtube.com/embed/Nm_qIAb3kUI"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
     `;
     changeContent(content);
-    
-    // Escuchar el evento de envío del formulario
-    const form = document.getElementById('buscarDocenteForm');
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();
-        const correo = document.getElementById('correo').value;
-        
-        // Realizar una solicitud AJAX al servidor para buscar el docente
-        fetch('/buscarDocente', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ correo: correo }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Si el docente existe, muestra los datos en otro formulario
-                const content = `
-                    <div class="header">
-                    <h1>Editar datos del docente</h1>
-                    <form action="/actualizarDocente" method="post">
-                        <p>Nombre(s)</p>
-                        <input type="text" name="nombre" value="${data.docente.Nombre}" placeholder="Ingrese nombre">
-                        
-                        <br>
-                        <p>Apellidos</p>
-                        <input type="text" name="apellidos" value="${data.docente.Apellido}" placeholder="Ingrese apellidos">
-                        
-                        <br>
-                        <p>Correo</p>
-                        <input type="email" name="correo" value="${data.docente.CorreoDocente}" readonly>
-                        
-                        <br>
-                        <input type="submit" value="Actualizar">
-                    </form>
-                    </div>
-                `;
-                changeContent(content);
-            } else {
-                // Si el correo no existe, mostrar un mensaje de error
-                const content = `
-                    <div class="header">
-                    <h1>Correo no encontrado</h1>
-                    <p>No se ha encontrado un docente con ese correo. Intente de nuevo.</p>
-                    </div>
-                `;
-                changeContent(content);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
     });
-});
 
-
-        // Manejar el clic en "Videos tutoriales"
-        darDeBaja.addEventListener('click', function() {
-            const content = `
-                <div class="header">
-                    <h1>Eliminar docente</h1>
-        
-                    <form id="buscarDocenteForm">
-                        <p>Correo</p>
-                        <input type="email" name="correo" id="correo" placeholder="Ingrese correo del docente">
-                    <br>
-                        <input type="submit" value="Buscar">
-                    </form>
-                </div>
-            `;
-            changeContent(content);
-        // Escuchar el evento de envío del formulario
-    const form = document.getElementById('buscarDocenteForm');
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();
-        const correo = document.getElementById('correo').value;
-        
-        // Realizar una solicitud AJAX al servidor para buscar el docente
-        fetch('/buscarDocente', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ correo: correo }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Si el docente existe, muestra los datos en otro formulario
-                const content = `
-                    <div class="header">
-                    <h1>Eliminar docente</h1>
-                    <form action="/eliminarDocente" method="post">
-                        <p>Nombre(s)</p>
-                        <input type="text" name="nombre" value="${data.docente.Nombre}" placeholder="Ingrese nombre">
-                        
-                        <br>
-                        <p>Apellidos</p>
-                        <input type="text" name="apellidos" value="${data.docente.Apellido}" placeholder="Ingrese apellidos">
-                        
-                        <br>
-                        <p>Correo</p>
-                        <input type="email" name="correo" value="${data.docente.CorreoDocente}" readonly>
-                        
-                        <br>
-                        <input type="submit" value="Eliminar">
-                    </form>
-                    </div>
-                `;
-                changeContent(content);
-            } else {
-                // Si el correo no existe, mostrar un mensaje de error
-                const content = `
-                    <div class="header">
-                    <h1>Correo no encontrado</h1>
-                    <p>No se ha encontrado un docente con ese correo. Intente de nuevo.</p>
-                    </div>
-                `;
-                changeContent(content);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    });
-});
-
-        contacto.addEventListener('click', function() {
-            const content = `
-                <div class="header">
-                <h1>Contáctanos</h1>
-                
-                <p>Si tienes alguna duda con la plataforma háznolo saber</p>
-                <p>Correo: eduvoz212@gmail.com</p>
-                </div>
-            `;
-            changeContent(content);
-        });
-
-        tutorial.addEventListener('click', function() {
-            const content = `
-                <div class="header">
-                <h1>Video tutorial</h1>
-                
-                <p>A continuación te proporcionamos un video del uso de la aplicación</p>
-                <p>video</p>
-                </div>
-            `;
-            changeContent(content);
-        });
-    </script>
+  </script>
 </body>
 </html>
