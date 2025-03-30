@@ -1,154 +1,256 @@
-body {
+/* ============================
+   RESETEO BÁSICO
+============================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  html, body {
+    width: 100%;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+  }
+  
+  body {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-}
-
-header {
+  }
+  
+  /* ============================
+       CABECERA (Cerrar sesión)
+  ============================ */
+  header {
     width: 100%;
     display: flex;
     justify-content: flex-end;
-}
-
-.btn-cerrar-sesion {
+    padding: 20px;
+  }
+  
+  .btn-cerrar-sesion {
     background-color: red;
     color: white;
     border: none;
     padding: 10px 20px;
     font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
     border-radius: 10px;
-}
-
-.btn-cerrar-sesion:hover {
+  }
+  
+  .btn-cerrar-sesion:hover {
     background-color: #cc0000;
-}
-
-.contenedor {
-    margin: 30px;
-    border-radius: 8px;
+  }
+  
+  /* ============================
+       CONTENEDOR TURQUESA (FIJO)
+  ============================ */
+  .contenedor {
+    position: relative;
+    width: 800px;
+    height: 600px;
+    margin: 0 auto 50px;
+    background-color: #37ABE4;
+    border-radius: 40px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
     display: flex;
-    justify-content: space-around;
-    width: 700px;
-    height: 450px;
-    background-color: rgb(30, 182, 182);
-    box-shadow:
-    inset 0 -3em 3em rgba(0, 0, 0, 0.1),
-    0 0 0 2px rgb(255, 255, 255),
-    0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
-}
-
-/*Para el div de la foto y el menú de botones*/
-.opAlumnos{
-    font-size: 25px;
-    color: white;
-    background-color: transparent;
-    text-align: center;
-    padding: 10px 30px;
-}
-
-/*Para el div de las actividades*/
-.ejercicios{
-    width: 350px;
-    font-size: 25px;
-    color: white;
-    background-color: transparent;
-    text-align: center;
-    padding: 10px 30px;
-}
-
-.user-img , .profile-img{
-    width: 150px; 
-    height: 150px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 10px;
+  }
+  
+  /* ============================
+       COLUMNA IZQUIERDA
+  ============================ */
+  .left-col {
+    /* Se agregó margin-top para bajar toda la columna un poco más */
+    margin-top: 30px;
+    /* Desplaza todo (foto, nombre y botones) un poco a la derecha */
+    margin-left: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  /* Foto del alumno */
+  .user-img {
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
-    object-fit: cover; /* Asegura que la imagen se recorte correctamente */
-    margin-top: 10px; /* Agrega espacio superior si es necesario */
-}
-
-.nubes {
-    width: 270px;
-    height: 160px;
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-}
-
-.nubes img{
-    width: 270px;
-    height: 160px;
-}
-
-.buttons {
-    justify-content: space-around;
-    width: 100%;
-    margin: 20px 0;
-    background-color: transparent;
-}
-
-.progreso, .conf, .salir{
+    object-fit: cover;
+    border: 3px solid #fff;
+  }
+  
+  /* Nombre del alumno */
+  .nombre-alumno {
+    font-size: 24px;
+    color: #fff;
+  }
+  
+  /* Botones de la columna izquierda */
+  .botones {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  /* Ícono dentro del botón */
+  .btn-icon {
+    width: 25px;
+    height: 25px;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  
+  .btn-ico {
+    width: 30px;
+    height: 30px;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  
+  .progreso, .conf {
+    display: flex;
+    align-items: center;
     background-color: #e98a1d;
     border: none;
     color: white;
-    font-size: 20px;
-    width: 190px;
+    font-size: 16px;
     font-weight: bold;
-    border-radius: 10px;
-    height: 30px;
-}
-
-.progreso:hover{
-    background-color: #975509;
-}
-
-.conf:hover{
-    background-color: #975509;
-}
-
-.salir:hover{
-    background-color: #975509;
-}
-
-.button a {
-    text-decoration: none;
+    border-radius: 15px;
+    width: 180px;
+    height: 40px;
+    cursor: pointer;
+    padding: 0 10px;
+  }
+  
+  .salir {
+    display: flex;
+    align-items: center;
+    background-color: #e98a1d;
+    border: none;
     color: white;
+    font-size: 16px;
     font-weight: bold;
-}
-
-/*Por si no tiene un grupo*/
-.form-container{
+    border-radius: 15px;
+    width: 180px;
+    height: 40px;
+    cursor: pointer;
+    padding: 0 10px;
+  }
+  
+  .progreso:hover, .conf:hover, .salir:hover {
+    background-color: #FF6D04;
+  }
+  
+  /* ============================
+       COLUMNA DERECHA
+  ============================ */
+  /* Usamos display: block para poder centrar manualmente cada elemento */
+  .right-col {
+    display: block;
+    margin-top: 20px;
+    position: relative;
+    text-align: center;  /* Centra el texto dentro de la columna */
+  }
+  
+  .bienvenido {
+    color: #fff;
+    font-size: 30px;
+    margin-bottom: 20px;
+    text-align: center;
+    margin-left: 195px; 
+  }
+  
+  /* ============================
+       NUBES (botones escalonados)
+  ============================ */
+  /* Estilo base para los botones de nubes */
+  .nube-1, .nube-2 {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;  /* Centra el botón en un contenedor block */
+    padding: 0;
+  }
+  
+  /* Imagen de las nubes */
+  .nube-1 img, .nube-2 img {
+    display: block;
+    width: 270px;  /* Ajusta según el tamaño real de tu imagen */
+    height: auto;
+    border-radius: 10px;
+    transition: transform 0.3s;
+    background: transparent;
+  }
+  
+  .nube-1:hover img, .nube-2:hover img {
+    transform: scale(1.05);
+  }
+  
+  /* Ajustes para la separación y centrado de las nubes */
+  .nube-1 {
+      margin-left: 40px;
+  }
+    
+  .nube-2 {
+      position: relative;
+      top: 0;       /* Quita la superposición (antes: -10px) */
+      left: 240px;   /* Desplaza un poco más a la derecha (antes: 40px) */
+  }
+  
+  /* ============================
+       ALUMNO SIN GRUPO (form-container)
+  ============================ */
+  .form-container {
     background-color: #fffcf9;
     text-align: center;
     height: 450px;
     width: 550px;
     border-radius: 10px;
+    margin: 50px auto;
     box-shadow:
-    inset 0 -3em 3em rgba(0, 0, 0, 0.1),
-    0 0 0 2px rgb(255, 255, 255),
-    0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
-}
-
-.bienvenido{
+      inset 0 -3em 3em rgba(0, 0, 0, 0.1),
+      0 0 0 2px rgb(255, 255, 255),
+      0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+  }
+  
+  .form-container .bienvenido {
     background-color: rgb(34, 175, 175);
     padding: 10px 20px;
     color: white;
-}
-
-.txt{
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+  
+  .profile-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 20px 0;
+  }
+  
+  .txt {
     font-size: 20px;
-}
-
-.codigoCampo{
+    margin-bottom: 20px;
+  }
+  
+  .codigoCampo {
     margin: 10px;
     border-radius: 7px;
     width: 100px;
     height: 30px;
     font-size: 15px;
-    border-color: #d8d2d2;
-}
-
-.aceptar{
+    border: 1px solid #d8d2d2;
+  }
+  
+  .aceptar {
     margin-right: 50px;
     margin-top: 15px;
     height: 35px;
@@ -158,9 +260,10 @@ header {
     background-color: rgb(82, 167, 224);
     border: none;
     color: #fff;
-}
-
-.btn-salir{
+    cursor: pointer;
+  }
+  
+  .btn-salir {
     margin-left: 50px;
     margin-top: 15px;
     height: 35px;
@@ -170,12 +273,35 @@ header {
     background-color: rgb(231, 38, 38);
     border: none;
     color: #fff;
-}
-
-.aceptar:hover{
+    cursor: pointer;
+  }
+  
+  .aceptar:hover {
     background-color: rgb(69, 143, 192);
-}
-
-.btn-salir:hover{
+  }
+  
+  .btn-salir:hover {
     background-color: rgb(177, 26, 26);
-}
+  }
+  
+  /* ----------------------------
+   MEDIA QUERIES (RESPONSIVE)
+---------------------------- */
+@media screen and (max-width: 800px) {
+    .contenedor {
+      width: 100%;   
+      max-width: 800px;  
+      height: auto;    
+      margin: 0 auto 20px;
+    }
+  
+    .nube-2 {
+      position: static;   
+      margin-top: 20px;   
+    }
+
+    .bienvenido {
+        margin-left: 0;
+        text-align: center; 
+      }
+  }
