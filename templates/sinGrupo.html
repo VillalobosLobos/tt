@@ -48,27 +48,42 @@
       <img src="/static/img/alumnos/n4.png" alt="123">
     </button>
   </div>
-  
 
-{% else %}
+  {% else %}
 <!-- Si el alumno no tiene un grupo -->
 <div class="form-container">
-  <h2 class="bienvenido">Bienvenido, {{ alumno.Nombre }} {{ alumno.Apellido }}</h2>
-  <img src="{{ alumno.Foto }}" class="profile-img" alt="Imagen del alumno">
-  <p class="txt">Ingrese el código de la clase proporcionado por el docente</p>
+    <body class="sin-grupo">
+  <h2 class="bienvenido">Bienvenido</h2>
+  
+  <!-- Contenedor principal en flex -->
+  <div class="form-content">
+    <!-- Foto de perfil a la izquierda (cuadrada) -->
+    <img src="{{ alumno.Foto }}" class="profile-img" alt="Imagen del alumno">
 
-  {% if request.args.get('error') %}
-    <script>
-      alert("{{ request.args.get('error') }}");
-    </script>
-  {% endif %}
+    <!-- Sección derecha -->
+    <div class="right-section">
+      <!-- Instrucción -->
+      <p class="txt">Ingrese el código de la clase proporcionado por el docente</p>
+      
+      <!-- Imagen 123 (opcional) -->
+      <img src="/static/img/sinGrupo/illustracion.png" alt="123" class="numbers-img">
 
-  <form id="joinGroupForm" method="POST" action="{{ url_for('unirse_grupo') }}">
-    <label class="txt" for="codigo">Código del Grupo </label>
-    <input class="codigoCampo" type="text" id="codigo" name="codigo" required>
-    <br>
-    <button class="aceptar" type="submit">Aceptar</button>
-    <button type="button" class="btn-salir" onclick="window.location.href='/inicioSesion'">Salir</button>
-  </form>
+      {% if request.args.get('error') %}
+        <script>
+          alert("{{ request.args.get('error') }}");
+        </script>
+      {% endif %}
+
+      <form id="joinGroupForm" method="POST" action="{{ url_for('unirse_grupo') }}">
+        <!-- Campo para el código (sin etiqueta) -->
+        <input class="codigoCampo" type="text" name="codigo" placeholder="Introduce aqui el codigo" required>
+        <br>
+        <!-- Botones en columna: primero Aceptar, luego Salir -->
+        <button class="aceptar" type="submit">Aceptar</button>
+        <button type="button" class="btn-salir" onclick="window.location.href='/inicioSesion'">Salir</button>
+      </form>
+      </div>
+    </div>
+  </div>
 </div>
 {% endif %}
