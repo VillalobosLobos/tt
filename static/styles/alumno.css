@@ -353,6 +353,7 @@
         margin-left: 0;
         text-align: center; 
       }
+    }
       @media screen and (max-width: 800px) and (min-width: 600px) {
         .form-container {
           width: 90%;
@@ -392,10 +393,8 @@
           font-size: 16px;
           margin-top: 10px;
         }
-      }
-      
-      /* Para pantallas de menos de 600px: 
-         se apilan los elementos en columna para aprovechar mejor el espacio */
+    }
+
       @media screen and (max-width: 600px) {
         .form-container {
           width: 95%;
@@ -437,4 +436,4 @@
           font-size: 16px;
           margin: 10px auto;
         }
-  }
+    }
