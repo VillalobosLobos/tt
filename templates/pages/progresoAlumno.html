@@ -1,54 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/styles/progreso.css" type="text/css">
-    <link rel="icon" href="/static/img/iconos/3.png" type="image/png">
-    <title>Progreso Alumno</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8">
+  <title>Progreso Alumno</title>
+  <link rel="icon" href="/static/img/iconos/3.png" type="image/png">
+  <link rel="stylesheet" href="/static/styles/progreso.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <button class="regresar" onclick="window.history.back();">←</button>
-
-    <div class="todo">
-        <div class="contenido">
-            <h1>Progreso</h1>
-            <p>Visualiza el progreso en las actividades realizadas por el alumno. Aquí puedes ver los aciertos y errores que han tenido.</p>
-        
-            <div class="graficas">
-                <!-- Actividad Letras -->
-                <div class="letras">
-                    <h2>Actividad 1 - Letras</h2>
-                    <canvas id="graficoLetras" class="graficoLetras"></canvas>
-        
-                    <script>
-                        var aciertosLetras = {{ alumno.AciertosLetras }};
-                        var erroresLetras = {{ 10 - alumno.AciertosLetras }};
-                    </script>
-        
-                    <p>Aciertos: {{ alumno.AciertosLetras }}</p>
-                    <p>Errores: {{ 10 - alumno.AciertosLetras }}</p>
-                </div>
-        
-                <!-- Actividad Números -->
-                <div class="numeros">
-                    <h2>Actividad 2 - Números</h2>
-                    <canvas id="graficoNumeros" class="graficoNumeros"></canvas>
-        
-                    <script>
-                        var aciertosNumeros = {{ alumno.AciertosNumeros }};
-                        var erroresNumeros = {{ 10 - alumno.AciertosNumeros }};
-                    </script>
-        
-                    <p>Aciertos: {{ alumno.AciertosNumeros }}</p>
-                    <p>Errores: {{ 10 - alumno.AciertosNumeros }}</p>
-                </div>
-            </div>
-            </div>
+  <!-- Contenedor principal -->
+  <div class="container">
+    <!-- Franja naranja con el botón de regresar -->
+    <div class="sidebar-naranja">
+      <button class="back-btn" onclick="window.history.back();">&#10094;</button>
     </div>
 
-    <!-- Cargar el script después de definir las variables -->
-    <script src="/static/js/grafica.js"></script>
+    <!-- Contenido principal -->
+    <div class="contenido">
+      <h1>Progreso</h1>
+      <p>
+        Visualiza el progreso en las actividades realizadas por tu hijo. 
+        Aquí puedes ver los aciertos, errores y la tasa de éxito en cada actividad.
+      </p>
+
+      <div class="graficas">
+        <!-- Tarjeta Actividad 1 -->
+        <div class="letras">
+          <h2>Actividad 1 - Letras</h2>
+          <canvas id="graficoLetras" class="graficoLetras"></canvas>
+          <script>
+            var aciertosLetras = {{ alumno.AciertosLetras }};
+            var erroresLetras = 10 - aciertosLetras;
+          </script>
+          <div class="stats">
+            <div class="stat">
+              <p class="value">{{ 10 - alumno.AciertosLetras }}</p>
+              <p class="label">Errores</p>
+            </div>
+            <div class="stat">
+              <p class="value">{{ alumno.AciertosLetras }}</p>
+              <p class="label">Aciertos</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tarjeta Actividad 2 -->
+        <div class="numeros">
+          <h2>Actividad 2 - Números</h2>
+          <canvas id="graficoNumeros" class="graficoNumeros"></canvas>
+          <script>
+            var aciertosNumeros = {{ alumno.AciertosNumeros }};
+            var erroresNumeros = 10 - aciertosNumeros;
+          </script>
+          <div class="stats">
+            <div class="stat">
+              <p class="value">{{ 10 - alumno.AciertosNumeros }}</p>
+              <p class="label">Errores</p>
+            </div>
+            <div class="stat">
+              <p class="value">{{ alumno.AciertosNumeros }}</p>
+              <p class="label">Aciertos</p>
+            </div>
+          </div>
+        </div>
+      </div> <!-- Fin .graficas -->
+    </div> <!-- Fin .contenido -->
+  </div> <!-- Fin .container -->
+
+  <!-- Script de gráficas -->
+  <script src="/static/js/grafica.js"></script>
 </body>
 </html>
