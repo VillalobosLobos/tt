@@ -9,66 +9,72 @@
 </head>
 <body>
     {% if grupo %}
-        <!-- Si el docente tiene grupo, muestra la información -->
-        <div class="grupo-info">
-            <div class="arriba">
-                <div class="dentroArriba">
-                    <input type="text" id="input-titulo" value="{{ grupo.Titulo }}" style="display: none;" class="campo">
-
-                    <button id="guardar-btn" style="display: none;" class="editar">Guardar</button>
-
-                    <span id="grupo-titulo">{{ grupo.Titulo }}</span> 
-                    <button id="editar-btn" class="editar-btn" style="margin-left: 10px;">
-                        <img src="/static/img/docente/editar.png" alt="" class="imgEditar">
-                    </button>
-                </div>
-
-                <button id="eliminar-btn" class="eliminar">Eliminar Grupo</button>
+    <div class="grupo-info">
+        <!-- Sección superior: título del grupo, botones de editar y eliminar -->
+        <div class="arriba">
+            <div class="dentroArriba">
+                <input type="text" id="input-titulo" value="{{ grupo.Titulo }}" style="display: none;" class="campo">
+                <button id="guardar-btn" style="display: none;" class="editar">Guardar</button>
+                <span id="grupo-titulo">{{ grupo.Titulo }}</span> 
+                <button id="editar-btn" class="editar-btn" style="margin-left: 10px;">
+                    <img src="/static/img/docente/editar.png" alt="" class="imgEditar">
+                </button>
             </div>
-
-            <div class="abajo">
-                <div class="codigo">
-                    <p>
-                        Código del grupo
-                    </p>
-                    <span id="codigo-grupo">{{ grupo.Codigo }}</span>
-                    <button id="copiar-codigo-btn" onclick="copiarCodigo()">
-                        <img src="/static/img/docente/copiar.png" alt="" class="imgCopiar">
-                    </button>
-    
-                </div>
-    
-                <div class="progreso">
-                    <p>
-                        Ver alummnos <br>
-                        y progreso
-                    </p>
-                    <button id="btnListaAlumnos" onclick="window.location.href='/listaAlumnos'" title="Ver lista de alumnos" style="border: none; background: none; cursor: pointer;">
-                        <img src="{{ url_for('static', filename='img/docente/alumnos.png') }}" alt="Lista de alumnos" width="30px">
-                    </button>
-                    <strong>{{ grupo.NoAlumnos }}</strong>
-                </div>
-            </div>
+            <button id="eliminar-btn" class="eliminar">Eliminar Grupo</button>
         </div>
+    
+        <!-- Sección inferior: recuadros de "Ver alumnos y progreso" y "Código del grupo" -->
+        <div class="abajo">
+            <div class="progreso">
+                <!-- Reemplaza tu antiguo <div class="progreso"> por esto: -->
+<a href="/listaAlumnos" class="btnProgreso">
+    <p>Ver alumnos y progreso</p>
+    <img src="{{ url_for('static', filename='img/docente/progreso.png') }}" 
+         alt="Icono progreso" width="70">
+</a>
+
+            </div>
+            <div class="codigo">
+                <p>Código del grupo:</p>
+                <div class="caja-codigo">
+                    <span id="codigo-grupo">#XYZ123</span>
+                    <button class="btnCopiar" onclick="copiarCodigo()">
+                        <img src="/static/img/docente/copiar.png" alt="Copiar" class="imgCopiar">
+                    </button>
+                </div>
+            </div>
+            
+    
+        <!-- Indicador de alumnos (ahora fuera de la sección amarillo) -->
+        <div class="alumnos-info">
+            <img src="/static/img/docente/user-icon.png" alt="Alumnos" class="iconoUser">
+            <strong>{{ grupo.NoAlumnos }}</strong>
+        </div>
+    </div>
+    
+    
     {% else %}
         <!-- Si el docente NO tiene grupo, muestra mensaje y botón -->
         <div id="mensajeNoGrupo" class="grupo-info">
-            <h2>No tienes un grupo asignado</h2>
-            <button class="btnMas" id="btnCrearGrupo" onclick="mostrarFormulario()">
-                <div>
-                    <p class="tituloMas">Crear nuevo grupo</p>
-                    <img src="/static/img/docente/mas.png" alt="" class="imgMas">
-                </div>
+            <button class="btnImagen" id="btnCrearGrupo" onclick="mostrarFormulario()">
+                <!-- Reemplaza /static/img/docente/Crear.png por la ruta correcta de tu imagen -->
+                <img src="/static/img/docente/Crear.png" alt="Crear nuevo grupo" class="imgCrear">
             </button>
-            <!-- Formulario oculto para crear grupo -->
-        <div id="formGrupo" style="display: none;" class="formulario">
-            <h3>Coloca el nombre del grupo:</h3>
-            <form action="/crearGrupo" method="POST">
-                <input type="text" name="nombreGrupo" placeholder="Nombre del grupo" required class="forCampo">
-                <button type="submit" class="crear">Crear</button>
-            </form>
-        </div>
-        </div>
+           <!-- Contenedor para la imagen y el formulario -->
+<div id="formGrupo" class="contenedor-formulario" style="display: none;">
+    <!-- Imagen de fondo (ajusta la ruta de la imagen según tu proyecto) -->
+    <img src="/static/img/docente/Gruponomb.png" alt="Fondo para formulario" class="imgFondo">
+
+    <!-- Contenedor para el formulario, superpuesto sobre la imagen -->
+    <div class="contenido-form">
+        <form action="/crearGrupo" method="POST">
+            <input type="text" name="nombreGrupo" placeholder="Nombre del grupo" required class="forCampo">
+            <button type="submit" class="crear">Crear</button>
+        </form>
+    </div>
+</div>
+
+        
 
     {% endif %}
 

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../static/styles/docente.css" type="text/css">
-    <link rel="icon" href="../../static/img/iconos/6.png" type="image/png">
+    <link rel="icon" href="/static/img/iconos/6.png" type="image/png">
     <title>Docente</title>
 </head>
 <body>
@@ -12,13 +12,24 @@
     <header>
         <nav>
             <ul>
-                <li><span id="nombreDocente" class="nombre"></span></li>
-                <!-- Cambiar href para redirigir a /confDocente -->
-                <li><a href="{{ url_for('confDocente') }}"><img src="/static/img/docente/conf.png" class="conf" alt="configuraciones"></a></li>
-                <li class="cerrar"><a href="{{url_for('index')}}" class="menu">Cerrar sesión</a></li>
+                <!-- Nombre del docente -->
+                <li class="nombre" id="nombreDocente">Rocio Hernandez Sanchez</li>
+                
+                <!-- Icono de configuración -->
+                <li>
+                    <a href="{{ url_for('confDocente') }}">
+                        <img src="/static/img/docente/conf.png" class="conf" alt="configuraciones">
+                    </a>
+                </li>
+                
+                <!-- Botón Cerrar sesión -->
+                <li class="cerrar">
+                    <a href="{{ url_for('index') }}" class="menu">Cerrar sesión</a>
+                </li>
             </ul>
         </nav>
     </header>
+    
     <!--Para el texto principal de docente-->
     <div class="textoPrincipal">
         <h1>Pagina principal</h1>
