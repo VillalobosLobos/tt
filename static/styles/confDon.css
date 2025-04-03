@@ -116,6 +116,14 @@ body {
   color: #333;
 }
 
+.menu-icon {
+  width: 20px;    /* Ajusta el tamaño según tus necesidades */
+  height: auto;
+  margin-right: 8px; /* Espacio entre el icono y el texto */
+  vertical-align: middle;
+}
+
+
 /* ============================
    CONTENIDO PRINCIPAL
 ============================ */

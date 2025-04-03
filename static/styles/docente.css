@@ -85,7 +85,7 @@ body {
 }
 
 .textoPrincipal h1 {
-    margin: 0 0 10px;
+    margin: -20px 0 10px;
     font-size: 30px;
 }
 
@@ -202,21 +202,17 @@ body {
     border-radius: 10px;
     padding: 25px 20px; /* Ajusta para subir/bajar el texto */
     color: #000;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    cursor: default;
-    text-decoration: none;
-    border: none;
 }
 
 .codigo p {
     font-size: 18px;
     font-weight: bold;
-    margin: 0 0 5px; /* Menos espacio debajo del texto "Código del grupo:" */
+    margin: 0 30px 5px; /* Menos espacio debajo del texto "Código del grupo:" */
 
 }
 
@@ -225,7 +221,7 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    margin-top: 0; /* o un valor menor al que tenías */
+    margin-top: 35px; /* o un valor menor al que tenías */
 }
 
 
@@ -233,8 +229,11 @@ body {
     font-size: 20px;
     font-weight: bold;
     display: inline-block;
+    text-align: center;
     margin-right: 8px;
-}
+    margin-left: 37px; /* Ajusta este valor según lo que necesites */
+  }
+  
 
 /* Botón para copiar el código */
 .btnCopiar {

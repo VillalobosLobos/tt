@@ -151,7 +151,7 @@
           <form id="buscarDocenteForm" class="alta-form">
             <label for="correo">Correo</label>
             <input type="email" name="correo" id="correo" placeholder="Ingrese correo del docente" required>
-            <button type="submit">Buscar</button>
+            <button type="submit" class="baja-btn" >Buscar</button>
           </form>
         </div>
       `;
@@ -174,23 +174,24 @@
           if (data.success) {
             const content = `
               <div class="header">
-                <h1>Eliminar docente</h1>
-                <p class="subtext">
-                  Verifica la información del docente y confirma la eliminación.
-                </p>
-                <form action="/eliminarDocente" method="post" class="alta-form">
-                  <label for="nombre">Nombre(s)</label>
-                  <input type="text" name="nombre" value="${data.docente.Nombre}" placeholder="Ingrese nombre">
-                  
-                  <label for="apellidos">Apellidos</label>
-                  <input type="text" name="apellidos" value="${data.docente.Apellido}" placeholder="Ingrese apellidos">
-                  
-                  <label for="correo">Correo</label>
-                  <input type="email" name="correo" value="${data.docente.CorreoDocente}" readonly>
+  <h1>Eliminar docente</h1>
+  <p class="subtext">
+    Verifica la información del docente y confirma la eliminación.
+  </p>
+  <form action="/eliminarDocente" method="post" class="alta-form">
+    <label for="nombre">Nombre(s)</label>
+    <input type="text" name="nombre" value="${data.docente.Nombre}" placeholder="Ingrese nombre" readonly>
+    
+    <label for="apellidos">Apellidos</label>
+    <input type="text" name="apellidos" value="${data.docente.Apellido}" placeholder="Ingrese apellidos" readonly>
+    
+    <label for="correo">Correo</label>
+    <input type="email" name="correo" value="${data.docente.CorreoDocente}" readonly>
 
-                  <button type="submit">Eliminar</button>
-                </form>
-              </div>
+    <button type="submit" class="eliminar-do">Eliminar</button>
+  </form>
+</div>
+
             `;
             changeContent(content);
           } else {
@@ -222,7 +223,7 @@
           <form id="buscarDocenteForm" class="alta-form">
             <label for="correo">Correo</label>
             <input type="email" name="correo" id="correo" placeholder="Ingrese correo del docente" required>
-            <button type="submit">Buscar</button>
+            <button type="submit" class="actualizar-dat">Buscar</button>
           </form>
         </div>
       `;
@@ -258,7 +259,7 @@
                   <label for="correo">Correo</label>
                   <input type="email" name="correo" value="${data.docente.CorreoDocente}" readonly>
 
-                  <button type="submit">Actualizar</button>
+                  <button type="submit" class="act">Actualizar</button>
                 </form>
               </div>
             `;

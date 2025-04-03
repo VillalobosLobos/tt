@@ -193,7 +193,71 @@ html, body {
     text-align: center;
 }
 .alta-btn:hover {
-    background-color: #e04b2b;
+    background-color: #ff7e05b2;
+}
+
+.baja-btn{
+    background-color: #ff7e05;
+    color: #fff;
+    border: none;
+    border-radius: 7px;
+    padding: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 15px;
+    width: 150px; /* Ajusta el ancho del botón */
+    text-align: center;
+}
+.baja-btn:hover {
+    background-color: #ff7e05b2;
+}
+
+.eliminar-do{
+    background-color: #ff0000;
+    color: #fff;
+    border: none;
+    border-radius: 7px;
+    padding: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 15px;
+    width: 150px; /* Ajusta el ancho del botón */
+    text-align: center;
+}
+.eliminar-do:hover {
+    background-color: #ff0000ce;
+}
+
+.actualizar-dat{
+    background-color: #ff7e05;
+    color: #fff;
+    border: none;
+    border-radius: 7px;
+    padding: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 15px;
+    width: 150px; /* Ajusta el ancho del botón */
+    text-align: center;
+}
+.actualizar-dat:hover {
+    background-color: #ff7e05b2;
+}
+
+.act{
+    background-color: #ff7e05;
+    color: #fff;
+    border: none;
+    border-radius: 7px;
+    padding: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 15px;
+    width: 150px; /* Ajusta el ancho del botón */
+    text-align: center;
+}
+.actu:hover {
+    background-color: #ff7e05b2;
 }
 
 /* Tarjeta o contenedor para "Contáctanos" */
