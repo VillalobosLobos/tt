@@ -1,32 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/actividades.css') }}">
-    <link rel="icon" href="/static/img/iconos/F.png" type="image/png">
-    <title>Ejercicio letras</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/actividades.css') }}">
+  <link rel="icon" href="/static/img/iconos/F.png" type="image/png">
+  <title>Ejercicio letras</title>
 </head>
 <body>
-
-    <div>
-        <h1>Repite la siguiente letra:</h1>
-        <p id="letra">A</p>
-        
-        <div class="opciones">
-            <button onclick="window.history.back()">
-                <img class="boton" src="/static/img/actividades/salir.png" alt="">
-            </button>
-            <button onclick="iniciarReconocimiento()">
-                <img class="boton" src="/static/img/actividades/microfono.png" alt="">
-            </button>
-            <button onclick="reproducirAudio()">
-                <img class="boton" src="/static/img/actividades/recargar.png" alt="">
-            </button>
-        </div>
+  <div class="contenedor">
+    <h1>Repite la siguiente letra:</h1>
+    <!-- Letra en grande y con un color más vivo -->
+    <p id="letra">A</p>
+    
+    <div class="opciones">
+      <!-- Botón 1 (Regresar) con fondo rojo -->
+      <button onclick="window.history.back()" class="btn-salir">
+        <img class="boto" src="/static/img/actividades/salir.png" alt="Salir">
+      </button>
+      <!-- Botón 2 (Micrófono) con fondo naranja -->
+      <button onclick="iniciarReconocimiento()" class="btn-micro">
+        <img class="boton" src="/static/img/actividades/microfono.png" alt="Microfono">
+      </button>
+      <!-- Botón 3 (Recargar/Audio) con fondo azul -->
+      <button onclick="reproducirAudio()" class="btn-reload">
+        <img class="boton" src="/static/img/actividades/recargar.png" alt="Recargar">
+      </button>
     </div>
-    <script src="{{ url_for('static', filename='js/microfono.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/audio.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/color.js') }}"></script>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/microfono.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/audio.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/color.js') }}"></script>
 </body>
 </html>

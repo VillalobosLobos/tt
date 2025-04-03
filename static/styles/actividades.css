@@ -1,53 +1,143 @@
+/* Centrado de la pantalla */
 body {
-    display: flex;
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center; /* Centra verticalmente */
-    height: 100vh; /* Hace que el body ocupe toda la altura de la pantalla */
-    margin: 0;
-    background-color: #f4f4f4; /* Color de fondo opcional */
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center;     /* Centra verticalmente */
+  height: 100vh;           /* Ocupa toda la altura de la pantalla */
+  margin: 0;
+  background-color: #f4f4f4;
 }
 
-div {
-    text-align: center; /* Centra el texto dentro del div */
-    background: white; /* Opcional: fondo blanco */
-    padding: 20px;
-    border-radius: 10px; /* Bordes redondeados */
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+/* Contenedor principal */
+.contenedor {
+  text-align: center;
+  background: white;
+  /* Aumentamos el padding para hacerlo más grande */
+  padding: 40px 60px; 
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Encabezado */
+h1 {
+  font-size: 28px; /* Aumenta el tamaño para que luzca más */
+  margin: 0 0 15px; 
+  font-weight: bold;
+}
+
+/* Fuente personalizada para la letra */
 @font-face {
-    font-family: 'Eracake';
-    src: url('/static/fonts/Eracake.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'Eracake';
+  src: url('/static/fonts/Eracake.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
-p {
-    font-family: 'Eracake', sans-serif;
-    font-size: 150px; /* Ajusta el tamaño si es necesario */
-    color: #333; /* Color opcional */
-    text-align: center; /* Centrar el texto si lo necesitas */
+/* Letra grande */
+#letra {
+  font-family: 'Eracake', sans-serif;
+  font-size: 200px;     /* Ajusta el tamaño */
+  color: #D7263D;       /* Rojo vivo, por ejemplo */
+  margin: 0 0 20px;     /* Espacio inferior para separarla de los botones */
 }
 
-h1, p {
-    margin: 5px 0; /* Reduce el margen superior e inferior */
-    padding: 0; /* Elimina cualquier relleno */
+/* Número grande */
+#numero {
+  font-family: 'Eracake', sans-serif; /* O la fuente que prefieras */
+  font-size: 200px;                   /* Ajusta el tamaño que quieras */
+  color: #D7263D;                     /* Color del número */
+  margin: 0 0 20px;                   /* Separación inferior */
 }
 
+/* Contenedor de los botones */
 .opciones {
-    display: flex;
-    justify-content: center; /* Alinea los botones en el centro */
-    gap: 40px; /* Espacio entre los botones */
-    margin-top: 5px;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 10px;
 }
 
+/* Todos los botones comparten estas reglas */
 button {
-    background: none;
-    border: none;
-    cursor: pointer;
+  border: none;
+  cursor: pointer;
+  width: 100px;  /* Botones de mayor tamaño */
+  height: 100px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+/* Iconos dentro de los botones */
 .boton {
-    width: 50px; /* Ajusta el tamaño de los íconos */
-    height: auto;
+  width: 70px; /* Ajusta el tamaño del icono */
+  height: auto;
+}
+
+/* Botón 1 (Salir) con fondo rojo */
+.btn-salir {
+  background-color: #f44336;
+}
+
+/* Botón 2 (Micrófono) con fondo naranja */
+.btn-micro {
+  background-color: #ff9800;
+}
+
+/* Botón 3 (Recargar) con fondo azul */
+.btn-reload {
+  background-color: #2196f3;
+}
+
+/* Opcional: aclarar el ícono si es oscuro */
+button:hover .boton {
+  filter: brightness(0.9);
+}
+
+/* Media Queries para diseño responsive */
+@media (max-width: 768px) {
+  .contenedor {
+    padding: 30px 20px;
+  }
+  h1 {
+    font-size: 24px;
+  }
+  #letra,
+  #numero {
+    font-size: 150px;
+  }
+  button {
+    width: 80px;
+    height: 80px;
+  }
+  .boton {
+    width: 50px;
+  }
+  .opciones {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .contenedor {
+    padding: 20px 10px;
+  }
+  h1 {
+    font-size: 20px;
+  }
+  #letra,
+  #numero {
+    font-size: 120px;
+  }
+  button {
+    width: 60px;
+    height: 60px;
+  }
+  .boton {
+    width: 40px;
+  }
+  .opciones {
+    gap: 10px;
+  }
 }
