@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(response => response.json())
         .then(data => {
             if (data.status === "error") {
-                alert(data.message); // 🔥 Muestra el mensaje de error como alerta
+                alert(data.message); // Muestra el mensaje de error como alerta
             }else if (data.role=="Docente") {
                 window.location.href = "/docente";
             } else if (data.role=="Tutor") {

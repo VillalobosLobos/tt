@@ -6,6 +6,7 @@
   <title>Inicio de sesión</title>
 
   <!-- Vincula tu CSS externo (ajusta la ruta si difiere) -->
+  <link rel="stylesheet" href="/static/styles/inicioSesion.css" type="text/css">
   <link rel="stylesheet" href="../../static/styles/iniciosesion.css" type="text/css">
 
   <!-- Icono (opcional) -->
@@ -24,7 +25,7 @@
         <p>Por favor inicie sesión para continuar con su cuenta</p>
 
         <!-- Formulario -->
-        <form id="loginForm" action="/inicioSesion" method="post">
+        <form id="loginForm" action="http://127.0.0.1:8000/inicioSesion" method="post">
 
           <!-- Campo de correo con bordes redondeados -->
           <div class="input-group">
@@ -73,6 +74,7 @@
           <!-- Botón de Ingresar -->
           <button type="submit" class="btn">Ingresar</button>
         </form>
+        <script src="{{ url_for('static', filename='js/errorLogin.js') }}"></script>
 
         <!-- Enlaces (¿Has olvidado...? / ¿No tienes cuenta...?) -->
         <div class="links">

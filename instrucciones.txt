@@ -1,5 +1,6 @@
 git add .
 git commit -m "Elimine el archivo de ejemplo"
 git push origin main
+git pull o git pull origin main
 
-Apoco si mi amor?
+Apoco si mi amor? obvio
