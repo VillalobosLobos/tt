@@ -69,7 +69,11 @@ button {
   justify-content: center;
 }
 
-/* Iconos dentro de los botones */
+.boto {
+  width: 100px; /* Ajusta el tamaño del icono */
+  height: auto;
+}
+
 .boton {
   width: 70px; /* Ajusta el tamaño del icono */
   height: auto;

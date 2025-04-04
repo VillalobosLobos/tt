@@ -25,12 +25,7 @@
           <span class="arrow-icon">&#10094</span> Regresar
         </button>
         <ul class="sidebar-menu">
-          <li>
-            <a href="#" id="editar-perfil-btn">
-              <img src="/static/img/confDocente/profile.png" alt="Perfil" class="menu-icon">
-              Cambiar foto de perfil
-            </a>
-          </li>
+          <!-- Se mantiene solo "Contáctanos" y "Video tutorial" -->
           <li>
             <a href="#" id="contactar-docente-btn">
               <img src="/static/img/confDocente/Contact.png" alt="Contáctanos" class="menu-icon">
@@ -44,28 +39,22 @@
             </a>
           </li>
         </ul>
-        
       </div>
     </div>
 
     <!-- Contenido principal -->
     <div class="main-content" id="main-content">
-      <div class="header">
-        <h1>Cambiar foto de perfil</h1>
-        <p>Cambia tu foto de perfil.</p>
-      </div>
-      <div class="profile-container">
-        <div class="profile-photo">
-          <img src="/static/img/alumnos/usaurio.png" alt="Foto de perfil" class="profile-img">
-          <button class="change-photo-btn">Cambiar foto</button>
-        </div>
+      <div class="contact-box">
+        <h1>Contáctanos</h1>
+        <p>Si tienes alguna duda con la plataforma, háznoslo saber.</p>
+        <br>
+        <p>Correo de contacto: eduvoz212@gmail.com</p>
       </div>
     </div>
   </div>
 
   <script>
     // Seleccionamos los botones del menú lateral
-    const editarPerfilBtn = document.getElementById('editar-perfil-btn');
     const contactarDocenteBtn = document.getElementById('contactar-docente-btn');
     const videosTutorialesBtn = document.getElementById('videos-tutoriales-btn');
 
@@ -76,23 +65,6 @@
     function changeContent(content) {
       mainContent.innerHTML = content;
     }
-
-    // Manejar clic en "Cambiar foto de perfil"
-    editarPerfilBtn.addEventListener('click', function() {
-      const content = `
-        <div class="header">
-          <h1>Editar perfil</h1>
-          <p>Cambia la foto de perfil.</p>
-        </div>
-        <div class="profile-container">
-          <div class="profile-photo">
-            <img src="/static/img/alumnos/usaurio.png" alt="Foto de perfil" class="profile-img">
-            <button class="change-photo-btn">Cambiar foto</button>
-          </div>
-        </div>
-      `;
-      changeContent(content);
-    });
 
     // Manejar clic en "Contáctanos"
     contactarDocenteBtn.addEventListener('click', function() {

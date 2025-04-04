@@ -4,14 +4,14 @@ body {
     background-position: center;
 }
 
-.todo{
+.todo {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-.contenido{
+.contenido {
     width: 1000px;
     padding-bottom: 50px;
     display: flex;
@@ -22,84 +22,88 @@ body {
     background-color: white;
     border-radius: 8px;
     box-shadow:
-    inset 0 -3em 3em rgba(0, 0, 0, 0.1),
-    0 0 0 2px rgb(255, 255, 255),
-    0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+        inset 0 -3em 3em rgba(0, 0, 0, 0.1),
+        0 0 0 2px rgb(255, 255, 255),
+        0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
 }
 
-.tabla{
+.tabla {
     border: 1px solid #000;
     border-collapse: collapse;
 }
 
-th , td{
+th, td {
     text-align: center;
     border: 1px solid #524e4e;
 }
 
-.alumno{
+.alumno {
     width: 250px;
     color: white;
     background-color: rgb(60, 184, 184);
 }
 
-.correo{
+.correo {
     width: 350px;
     color: white;
     background-color: rgb(60, 184, 184);
 }
 
-.progreso{
+.progreso {
     width: 150px;
     color: white;
     background-color: rgb(60, 184, 184);
 }
 
-.baja{
+.baja {
     width: 150px;
     color: white;
     background-color: rgb(60, 184, 184);
 }
 
-.btn-progreso{
+.btn-progreso {
     text-decoration: none;
-    background-color: rgb(64, 64, 206);
-    color: white;
+    background-color: #FFD66B;
+    color: #000;
     border: none;
-    font-weight: bold;
-    border-radius: 10px;
+    border-radius: 5px;
     padding-inline: 15px;
 }
 
-.btn-progreso:hover{
-    background-color: rgb(112, 112, 226);
+.btn-progreso:hover {
+    background-color: #ffd56bd5;
 }
 
-.btn-baja{
+.btn-baja {
     text-decoration: none;
-    background-color: rgb(243, 95, 95);
-    color: white;
+    background-color: #FF1500;
+    color: #000;
     border: none;
     font-weight: bold;
-    border-radius: 10px;
+    border-radius: 5px;
     padding-inline: 15px;
 }
 
-.btn-baja:hover{
-    background-color: rgb(247, 129, 129);
+.btn-baja:hover {
+    background-color: #ff1500dc;
 }
 
-.regresar{
-    border: none;
-    background-color: rgb(250, 165, 67);
-    width: 40px;
-    height: 40px;
-    border-radius: 80%;
-    color: white;
-    font-size: 30px;
+/* Botón de regresar actualizado */
+.regresar {
     font-weight: bold;
+    font-size: 20px;
+    color: black;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
 }
 
-.regresar:hover{
-    background-color: rgb(235, 185, 127);
+.regresar:hover {
+    text-decoration: underline;
 }

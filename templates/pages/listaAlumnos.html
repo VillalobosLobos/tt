@@ -8,8 +8,11 @@
     <title>Lista de alumnos</title>
 </head>
 <body>
+
     <!-- Botón de regreso -->
-    <button onclick="window.history.back();" class="regresar">←</button>
+    <a href="javascript:history.back()" class="regresar">
+        &#10094; Regresar
+    </a>    
 
     <div class="todo">
         <div class="contenido">
@@ -21,7 +24,7 @@
                     <tr>
                         <th class="alumno">Alumno</th>
                         <th class="correo">Correo</th>
-                        <th class="progreso">Ver Progreso</th>
+                        <th class="progreso">Progreso</th>
                         <th class="baja">Dar de baja</th>
                     </tr>
                 </thead>
@@ -31,13 +34,11 @@
                         <td>{{ alumno.Nombre }}</td>
                         <td>{{ alumno.CorreoTutor }}</td>
                         <td>
-                            <!-- El botón "Ver Progreso" lleva a la ruta con el correo del alumno como parámetro -->
                             <a href="{{ url_for('progresoAlumnoDocente') }}?correo_alumno={{ alumno.CorreoTutor }}" class="btn-progreso">
                                 Ver Progreso
                             </a>
                         </td>
                         <td>
-                            <!-- El botón "Dar de baja" llama a la ruta para dar de baja al alumno -->
                             <a href="{{ url_for('dar_de_baja', correo_alumno=alumno.CorreoTutor) }}" class="btn-baja">
                                 Dar de baja
                             </a>
@@ -50,7 +51,7 @@
                     {% endfor %}
                 </tbody>
             </table>
-            </div>
+        </div>
     </div>
 
 </body>
