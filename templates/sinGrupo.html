@@ -57,8 +57,14 @@
   
   <!-- Contenedor principal en flex -->
   <div class="form-content">
+
+    {% if alumno.Foto=="static/img/alumnos/usuario.png" %}
+    <!-- Foto de perfil a la izquierda (cuadrada)-->
+    <img src="/static/img/alumnos/usaurio.png" class="profile-img" alt="Imagen del alumno">
+    {% else %}
     <!-- Foto de perfil a la izquierda (cuadrada) -->
     <img src="{{ alumno.Foto }}" class="profile-img" alt="Imagen del alumno">
+    {% endif %}
 
     <!-- Sección derecha -->
     <div class="right-section">
