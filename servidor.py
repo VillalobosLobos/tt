@@ -232,14 +232,16 @@ def restablecer():
 
 @app.route('/cambiar_contraseña', methods=['POST'])
 def cambiar_contraseña():
-    nueva=request.form['nueva_contraseña']
-    conf=request.form['confirmar_contraseña']
+    nueva=hashlib.sha256(request.form['nueva_contraseña'].encode()).hexdigest()
+    conf=hashlib.sha256(request.form['confirmar_contraseña'].encode()).hexdigest()
 
     if nueva == conf:
         cursor.execute("UPDATE Tutor SET Contraseña=%s WHERE CorreoTutor=%s", (nueva, correoAux))
         coneccion.commit()
         flash("Contraseña cambiada exitosamente.", "success")
         return render_template("index.html")
+    elif nueva!=conf:
+        pass
     else:
         flash("No coinciden las contraseñas", "danger")
         return render_template("pages/restablecer.html")
