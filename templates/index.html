@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Página Principal</title>
   <link rel="stylesheet" href="../static/styles/principal.css" type="text/css"/>
+  <link rel="stylesheet" href="../static/styles/msj.css" type="text/css"/>
 </head>
 <body>
 
@@ -17,7 +18,16 @@
         <li><a href="#faq">PREGUNTAS FRECUENTES</a></li>
         <li><a href="#contacto">CONTACTANOS</a></li>
       </ul>
-      <a href="{{ url_for('sesion') }}" class="btn-sesion">Iniciar sesión</a>
+      <a href="{{ url_for('sesion') }}" class="btn-sesion" id="linkModal">Iniciar sesión</a>
+      <!--
+      <script src="../static/js/msj.js"></script>
+      <script>
+        document.getElementById("linkModal").addEventListener("click", function(event) {
+          event.preventDefault();
+          mensaje("Este es el mensaje de la alerta.", this.href);
+        });
+      </script>
+      -->
     </nav>
   </header>
 
