@@ -1,71 +1,99 @@
+// Variables globales
 let contador = 0;
 let total = localStorage.getItem('total') ? parseInt(localStorage.getItem('total')) : 0;
 let bien = localStorage.getItem('bien') ? parseInt(localStorage.getItem('bien')) : 0;
+const MAX_INTENTOS = 10;
+
+// Mensajes motivadores
+const msjCorre = [
+  "¡Muy bien! ¡Eres un campeón!",
+  "¡Sí! ¡Dijiste la letra correcta!",
+  "¡Eso fue perfecto! ¡Bravo!",
+  "¡Letra correcta! ¡Eres asombroso!",
+  "¡Fantástico! ¡Estás aprendiendo mucho!"
+];
+
+const msjError = [
+  "¡Buen intento! A veces necesitamos un poco más de práctica.",
+  "¡Uy! Parece que esta letra es difícil. Pero tú puedes.",
+  "Muy bien, aprender toma tiempo y está bien equivocarse.",
+  "¡Estás aprendiendo mucho! Cada intento te hace más fuerte.",
+  "No fue esta vez, pero inténtalo de nuevo"
+];
 
 function iniciarReconocimiento() {
-    // Verifica si el navegador soporta la API de reconocimiento de voz
-    if ('webkitSpeechRecognition' in window) {
-        // Crea una nueva instancia de SpeechRecognition
-        const reconocimiento = new webkitSpeechRecognition();
-        reconocimiento.lang = 'es-ES';  // Configura el idioma (español)
-        reconocimiento.interimResults = false;  // Solo devolverá el resultado final, no resultados intermedios
-        reconocimiento.maxAlternatives = 1;  // Máximo de alternativas a devolver
+  if ('webkitSpeechRecognition' in window) {
+    const reconocimiento = new webkitSpeechRecognition();
+    reconocimiento.lang = 'es-ES';
+    reconocimiento.interimResults = false;
+    reconocimiento.maxAlternatives = 1;
 
-        // Este evento se dispara cuando se reconoce una voz
-        reconocimiento.onresult = function (event) {
-            // Obtén el resultado (primera alternativa)
-            const textoReconocido = event.results[0][0].transcript;
+    reconocimiento.onresult = function (event) {
+      const textoReconocido = event.results[0][0].transcript.toLowerCase().trim();
+      const letraActual = document.getElementById('letra').textContent.toLowerCase();
 
-            // Muestra lo que se dijo en consola
-            console.log('Texto reconocido:', textoReconocido);
-            console.log('Contador: ', contador);
-            console.log('Total: ', total);
-            console.log('Bien: ', bien);
+      // Comparar lo dicho con la letra esperada
+      if (textoReconocido === 'letra ' + letraActual || textoReconocido === letraActual) {
+        bien++;
+        total++;
+        localStorage.setItem('bien', bien);
+        localStorage.setItem('total', total);
 
-            var letraActual = document.getElementById('letra').textContent;
+        const indice = Math.floor(Math.random() * msjCorre.length);
+        mostrarMensajeEnPantalla('✅ ' + msjCorre[indice], true);
+        const audio = new Audio('/static/audio/CorreLetras/' + (indice + 1) + '.mp3');
+        audio.play();
 
-            // Compara si el texto reconocido es la letra correcta
-            if (textoReconocido.toLowerCase() === 'letra ' + letraActual.toLowerCase() || textoReconocido.toLowerCase() === letraActual.toLowerCase()) {
-                contador++;
-                total++;
-                bien++;
-                localStorage.setItem('bien', bien);
-                localStorage.setItem('total', total);
-                alert('¡Correcto! Dijiste la letra ' + letraActual);
-                if (total == 10) {
-                    localStorage.removeItem('total');
-                    localStorage.removeItem('bien');
-                    window.location.href = '/acabarActividades?bien=' + bien;
-                    return; 
-                }
-                location.reload(); // Recarga la página después del alert
-            } else {
-                contador++;
-                if (contador == 3) {
-                    total++;
-                    localStorage.setItem('total', total);
-                    alert("Se acabaron tus intentos");
-                    if (total == 10) {
-                        localStorage.removeItem('total');
-                        window.location.href = '/acabarActividades?bien=' + bien;
-                        return; 
-                    }
-                    location.reload();
-                }else{
-                    localStorage.setItem('total', total);
-                alert('Lo siento, dijiste: ' + textoReconocido);
-                }
-            }
-        };
+      } else {
+        contador++;
 
-        // Este evento se dispara si ocurre un error
-        reconocimiento.onerror = function (event) {
-            console.log('Error de reconocimiento de voz:', event.error);
-        };
+        if (contador >= 3) {
+          total++;
+          localStorage.setItem('total', total);
 
-        // Inicia el reconocimiento de voz
-        reconocimiento.start();
-    } else {
-        alert('Tu navegador no soporta el reconocimiento de voz.');
-    }
+          const indice = Math.floor(Math.random() * msjError.length);
+          mostrarMensajeEnPantalla('❌ ' + msjError[indice], false);
+          const audio = new Audio('/static/audio/ErrorLetras/' + (indice + 1) + '.mp3');
+          audio.play();
+        } else {
+          mostrarMensajeEnPantalla('❌ Lo siento, dijiste: "' + textoReconocido + '"', false);
+          return;
+        }
+      }
+
+      // Finalización o recarga
+      if (total >= MAX_INTENTOS) {
+        localStorage.removeItem('total');
+        localStorage.removeItem('bien');
+        setTimeout(() => {
+          window.location.href = '/acabarLetras?bien=' + bien;
+        }, 6000);
+      } else {
+        localStorage.setItem('total', total);
+        setTimeout(() => {
+          location.reload();
+        }, 6000);
+      }
+    };
+
+    reconocimiento.onerror = function (event) {
+      console.log('Error de reconocimiento de voz:', event.error);
+    };
+
+    reconocimiento.start();
+  } else {
+    alert('Tu navegador no soporta el reconocimiento de voz.');
+  }
+}
+
+// Mostrar mensaje en pantalla
+function mostrarMensajeEnPantalla(texto, esCorrecto) {
+  const mensajeDiv = document.getElementById("mensajeError");
+  mensajeDiv.innerText = texto;
+  mensajeDiv.className = esCorrecto ? "correcto" : "incorrecto";
+  mensajeDiv.style.display = "block";
+
+  setTimeout(() => {
+    mensajeDiv.style.display = "none";
+  }, 6000);
 }
