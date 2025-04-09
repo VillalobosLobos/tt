@@ -14,7 +14,7 @@
     
     <div class="opciones">
       <!-- Botón 1 (Regresar) -->
-      <button onclick="window.history.back()" class="btn-salir">
+      <button onclick="salirDelEjercicio()" class="btn-salir">
         <img class="boto" src="/static/img/actividades/salir.png" alt="Salir">
       </button>
       <!-- Botón 2 (Micrófono) -->
@@ -31,5 +31,6 @@
   <script src="{{ url_for('static', filename='js/reconocerNumeros.js') }}"></script>
   <script src="{{ url_for('static', filename='js/audioNumeros.js') }}"></script>
   <script src="{{ url_for('static', filename='js/numeros.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/salir.js') }}"></script>
 </body>
 </html>

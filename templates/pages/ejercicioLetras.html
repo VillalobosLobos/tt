@@ -15,7 +15,7 @@
     
     <div class="opciones">
       <!-- Botón 1 (Regresar) con fondo rojo -->
-      <button onclick="window.history.back()" class="btn-salir">
+      <button onclick="salirDelEjercicio()" class="btn-salir">
         <img class="boto" src="/static/img/actividades/salir.png" alt="Salir">
       </button>
       <!-- Botón 2 (Micrófono) con fondo naranja -->
@@ -32,5 +32,6 @@
   <script src="{{ url_for('static', filename='js/microfono.js') }}"></script>
   <script src="{{ url_for('static', filename='js/audio.js') }}"></script>
   <script src="{{ url_for('static', filename='js/color.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/salir.js') }}"></script>
 </body>
 </html>
