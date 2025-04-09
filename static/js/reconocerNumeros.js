@@ -61,7 +61,7 @@ function iniciarReconocimiento() {
 
       } else {
         contador++; // Incrementar contador en cada intento incorrecto
-        if (contador >= 2) {
+        if (contador >= 3) {
           let indice = Math.floor(Math.random() * msjError.length);
           mostrarMensajeEnPantalla('❌ ' + msjError[indice], false);
 
