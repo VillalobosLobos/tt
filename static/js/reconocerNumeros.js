@@ -1,90 +1,123 @@
+// Variables globales
 let contador = 0;
 let total = localStorage.getItem('total') ? parseInt(localStorage.getItem('total')) : 0;
 let bien = localStorage.getItem('bien') ? parseInt(localStorage.getItem('bien')) : 0;
 const MAX_INTENTOS = 10;
 
+// Mensajes de error
+const msjError = [
+    "¡Buen intento! No te preocupes, a veces necesitamos un poco más de práctica.",
+    "¡Uy! Parece que este número es muy difícil. Pero tú puedes con él.",
+    "Muy bien, a veces aprender toma tiempo, y está bien.",
+    "¡Estás aprendiendo mucho! A veces no sale a la primera, pero cada intento te hace más fuerte.",
+    "No fue está vez, pero intenta a la otra"
+];
+
+const msjCorre = [
+    "¡Muy bien! ¡Eres un campeón! ", 
+    "¡Sííí! ¡Dijiste el número correcto!", 
+    "¡Eso fue perfecto! ¡Bravo!", 
+    "¡Número correcto! ¡Eres asombroso!", 
+    "¡Fantástico! ¡Estás aprendiendo mucho!"
+];
+
 function iniciarReconocimiento() {
-    if ('webkitSpeechRecognition' in window) {
-        const reconocimiento = new webkitSpeechRecognition();
-        reconocimiento.lang = 'es-ES';
-        reconocimiento.interimResults = false;
-        reconocimiento.maxAlternatives = 1;
+  if ('webkitSpeechRecognition' in window) {
+    const reconocimiento = new webkitSpeechRecognition();
+    reconocimiento.lang = 'es-ES';
+    reconocimiento.interimResults = false;
+    reconocimiento.maxAlternatives = 1;
 
-        reconocimiento.onresult = function (event) {
-            const textoReconocido = event.results[0][0].transcript.toLowerCase().trim();
+    reconocimiento.onresult = function (event) {
+      const textoReconocido = event.results[0][0].transcript.toLowerCase().trim();
+      const letraActual = document.getElementById('numero').textContent;
+      let numero = '';
+      let reconoceNumero = '';
 
-            var letraActual = document.getElementById('numero').textContent;
-            var numero = '';
-            var reconoceNumero = '';
+      switch (textoReconocido) {
+        case 'uno': reconoceNumero = '1'; break;
+        case 'dos': reconoceNumero = '2'; break;
+        case 'tres': reconoceNumero = '3'; break;
+        case 'cuatro': reconoceNumero = '4'; break;
+        case 'cinco': reconoceNumero = '5'; break;
+        case 'seis': reconoceNumero = '6'; break;
+        case 'siete': reconoceNumero = '7'; break;
+        case 'ocho': reconoceNumero = '8'; break;
+        case 'nueve': reconoceNumero = '9'; break;
+        case 'diez': reconoceNumero = '10'; break;
+        default: break;
+      }
 
-            switch (textoReconocido) {
-                case 'uno': reconoceNumero = '1'; break;
-                case 'dos': reconoceNumero = '2'; break;
-                case 'tres': reconoceNumero = '3'; break;
-                case 'cuatro': reconoceNumero = '4'; break;
-                case 'cinco': reconoceNumero = '5'; break;
-                case 'seis': reconoceNumero = '6'; break;
-                case 'siete': reconoceNumero = '7'; break;
-                case 'ocho': reconoceNumero = '8'; break;
-                case 'nueve': reconoceNumero = '9'; break;
-                case 'diez': reconoceNumero = '10'; break;
-                default: break;
-            }
+      // Lógica de comparación
+      if (textoReconocido === 'número ' + letraActual || textoReconocido === 'número ' + numero || reconoceNumero === letraActual) {
+        bien++;
+        total++;
+        localStorage.setItem('bien', bien);
+        localStorage.setItem('total', total);
+        let indice = Math.floor(Math.random() * msjCorre.length);
+        mostrarMensajeEnPantalla('✅ '+msjCorre[indice], true);
+        const audio = new Audio('/static/audio/CorreNumeros/'+(indice+1)+".mp3");
+        audio.play();
 
-            switch (letraActual) {
-                case '1': numero = 'uno'; break;
-                case '2': numero = 'dos'; break;
-                case '3': numero = 'tres'; break;
-                case '4': numero = 'cuatro'; break;
-                case '5': numero = 'cinco'; break;
-                case '6': numero = 'seis'; break;
-                case '7': numero = 'siete'; break;
-                case '8': numero = 'ocho'; break;
-                case '9': numero = 'nueve'; break;
-                case '10': numero = 'diez'; break;
-                default: break;
-            }
+      } else {
+        contador++; // Incrementar contador en cada intento incorrecto
+        if (contador >= 2) {
+          let indice = Math.floor(Math.random() * msjError.length);
+          mostrarMensajeEnPantalla('❌ ' + msjError[indice], false);
 
-            console.log('Texto reconocido:', textoReconocido);
-            console.log('Letra actual: ', letraActual);
-            console.log('Contador de intento actual: ', contador);
-            console.log('Total (global): ', total);
-            console.log('Bien (global): ', bien);
+          const audio = new Audio('/static/audio/ErrorNumeros/'+(indice+1)+".mp3");
+          audio.play();
 
-            if (textoReconocido === 'número ' + letraActual || textoReconocido === 'número ' + numero || reconoceNumero == letraActual) {
-                bien++;
-                total++;
-                localStorage.setItem('bien', bien);
-                localStorage.setItem('total', total);
-                alert('¡Correcto! Dijiste el número ' + letraActual);
-            } else {
-                contador++;
-                if (contador >= 3) {
-                    alert("Se acabaron tus intentos para este número.");
-                    total++;
-                } else {
-                    alert('Lo siento, dijiste: ' + textoReconocido);
-                    return; // No recarga ni sigue
-                }
-            }
+          total++;
+        } else {
+          mostrarMensajeEnPantalla('❌ Lo siento, dijiste: "' + textoReconocido + '"', false);
+          return;
+        }
+      }
 
-            // Verifica si ya se hicieron los 10 intentos
-            if (total >= MAX_INTENTOS) {
-                localStorage.removeItem('total');
-                localStorage.removeItem('bien');
-                window.location.href = '/acabarNumeros?bien=' + bien;
-            } else {
-                localStorage.setItem('total', total);
-                location.reload(); // Recarga para mostrar un nuevo número
-            }
-        };
+      // Verifica si ya se hicieron los 10 intentos
+if (total >= MAX_INTENTOS) {
+    localStorage.removeItem('total');
+    localStorage.removeItem('bien');
+    setTimeout(() => {
+      window.location.href = '/acabarNumeros?bien=' + bien;
+    }, 6000); // Esperar 6 segundos antes de redirigir
+  } else {
+    localStorage.setItem('total', total);
+    setTimeout(() => {
+      location.reload();
+    }, 6000); // Esperar 6 segundos antes de recargar
+  }
+    };
 
-        reconocimiento.onerror = function (event) {
-            console.log('Error de reconocimiento de voz:', event.error);
-        };
+    reconocimiento.onerror = function (event) {
+      console.log('Error de reconocimiento de voz:', event.error);
+    };
 
-        reconocimiento.start();
-    } else {
-        alert('Tu navegador no soporta el reconocimiento de voz.');
-    }
+    reconocimiento.start();
+  } else {
+    alert('Tu navegador no soporta el reconocimiento de voz.');
+  }
+}
+
+// Función para mostrar mensajes en pantalla
+function mostrarMensajeEnPantalla(texto, esCorrecto) {
+  const mensajeDiv = document.getElementById("mensajeError");
+
+  // Limpiar mensaje anterior
+  mensajeDiv.innerText = texto;
+
+  // Cambiar estilo según si es correcto o incorrecto
+  if (esCorrecto) {
+    mensajeDiv.className = "correcto";
+  } else {
+    mensajeDiv.className = "incorrecto";
+  }
+
+  mensajeDiv.style.display = "block"; // Mostrar mensaje
+
+  // Ocultar el mensaje después de unos segundos
+  setTimeout(() => {
+    mensajeDiv.style.display = "none";
+  }, 6000); // 6 segundos
 }
