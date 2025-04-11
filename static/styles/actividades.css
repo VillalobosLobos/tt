@@ -87,6 +87,12 @@ button {
 /* Botón 2 (Micrófono) con fondo naranja */
 .btn-micro {
   background-color: #ff9800;
+  transition: background-color 0.5s ease;
+}
+
+/* Cuando esté activo se aplicará el fondo rojo */
+.btn-micro.active {
+  background-color: #ff0000; /* rojo */
 }
 
 /* Botón 3 (Recargar) con fondo azul */

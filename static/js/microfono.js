@@ -28,6 +28,11 @@ function iniciarReconocimiento() {
     reconocimiento.interimResults = false;
     reconocimiento.maxAlternatives = 1;
 
+    // Seleccionamos el botón del micrófono; asegúrate de que en tu HTML exista este elemento
+    const btnMicro = document.querySelector('.btn-micro');
+    // Añadimos la clase 'active' para activar la transición a rojo
+    btnMicro.classList.add('active');
+
     reconocimiento.onresult = function (event) {
       const textoReconocido = event.results[0][0].transcript.toLowerCase().trim();
       const letraActual = document.getElementById('letra').textContent.toLowerCase();
@@ -43,10 +48,8 @@ function iniciarReconocimiento() {
         mostrarMensajeEnPantalla('✅ ' + msjCorre[indice], true);
         const audio = new Audio('/static/audio/CorreLetras/' + (indice + 1) + '.mp3');
         audio.play();
-
       } else {
         contador++;
-
         if (contador >= 3) {
           total++;
           localStorage.setItem('total', total);
@@ -57,11 +60,12 @@ function iniciarReconocimiento() {
           audio.play();
         } else {
           mostrarMensajeEnPantalla('❌ Lo siento, dijiste: "' + textoReconocido + '"', false);
+          // En este caso, se puede optar por no finalizar el reconocimiento,
+          // pero si decides detenerlo, elimina la clase 'active'
           return;
         }
       }
 
-      // Finalización o recarga
       if (total >= MAX_INTENTOS) {
         localStorage.removeItem('total');
         localStorage.removeItem('bien');
@@ -78,6 +82,12 @@ function iniciarReconocimiento() {
 
     reconocimiento.onerror = function (event) {
       console.log('Error de reconocimiento de voz:', event.error);
+      btnMicro.classList.remove('active');
+    };
+
+    // Cuando el reconocimiento termina, se retira la clase 'active' para volver al color original
+    reconocimiento.onend = function () {
+      btnMicro.classList.remove('active');
     };
 
     reconocimiento.start();
@@ -85,6 +95,7 @@ function iniciarReconocimiento() {
     alert('Tu navegador no soporta el reconocimiento de voz.');
   }
 }
+
 
 // Mostrar mensaje en pantalla
 function mostrarMensajeEnPantalla(texto, esCorrecto) {

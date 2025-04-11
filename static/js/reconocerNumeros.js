@@ -28,6 +28,11 @@ function iniciarReconocimiento() {
     reconocimiento.interimResults = false;
     reconocimiento.maxAlternatives = 1;
 
+    // Seleccionamos el botón de micrófono
+    const btnMicro = document.querySelector('.btn-micro');
+    // Añadimos la clase para cambiar el fondo a rojo
+    btnMicro.classList.add('active');
+
     reconocimiento.onresult = function (event) {
       const textoReconocido = event.results[0][0].transcript.toLowerCase().trim();
       const letraActual = document.getElementById('numero').textContent;
@@ -55,8 +60,8 @@ function iniciarReconocimiento() {
         localStorage.setItem('bien', bien);
         localStorage.setItem('total', total);
         let indice = Math.floor(Math.random() * msjCorre.length);
-        mostrarMensajeEnPantalla('✅ '+msjCorre[indice], true);
-        const audio = new Audio('/static/audio/CorreNumeros/'+(indice+1)+".mp3");
+        mostrarMensajeEnPantalla('✅ ' + msjCorre[indice], true);
+        const audio = new Audio('/static/audio/CorreNumeros/' + (indice + 1) + ".mp3");
         audio.play();
 
       } else {
@@ -64,10 +69,8 @@ function iniciarReconocimiento() {
         if (contador >= 3) {
           let indice = Math.floor(Math.random() * msjError.length);
           mostrarMensajeEnPantalla('❌ ' + msjError[indice], false);
-
-          const audio = new Audio('/static/audio/ErrorNumeros/'+(indice+1)+".mp3");
+          const audio = new Audio('/static/audio/ErrorNumeros/' + (indice + 1) + ".mp3");
           audio.play();
-
           total++;
         } else {
           mostrarMensajeEnPantalla('❌ Lo siento, dijiste: "' + textoReconocido + '"', false);
@@ -76,22 +79,28 @@ function iniciarReconocimiento() {
       }
 
       // Verifica si ya se hicieron los 10 intentos
-if (total >= MAX_INTENTOS) {
-    localStorage.removeItem('total');
-    localStorage.removeItem('bien');
-    setTimeout(() => {
-      window.location.href = '/acabarNumeros?bien=' + bien;
-    }, 6000); // Esperar 6 segundos antes de redirigir
-  } else {
-    localStorage.setItem('total', total);
-    setTimeout(() => {
-      location.reload();
-    }, 6000); // Esperar 6 segundos antes de recargar
-  }
+      if (total >= MAX_INTENTOS) {
+        localStorage.removeItem('total');
+        localStorage.removeItem('bien');
+        setTimeout(() => {
+          window.location.href = '/acabarNumeros?bien=' + bien;
+        }, 5000);
+      } else {
+        localStorage.setItem('total', total);
+        setTimeout(() => {
+          location.reload();
+        }, 5000);
+      }
+    };
+
+    // Cuando finaliza el reconocimiento, retiramos la clase para restaurar el fondo original
+    reconocimiento.onend = function () {
+      btnMicro.classList.remove('active');
     };
 
     reconocimiento.onerror = function (event) {
-      console.log('Error de reconocimiento de voz:', event.error);
+      console.error('Error de reconocimiento de voz:', event.error);
+      btnMicro.classList.remove('active');
     };
 
     reconocimiento.start();
@@ -119,5 +128,5 @@ function mostrarMensajeEnPantalla(texto, esCorrecto) {
   // Ocultar el mensaje después de unos segundos
   setTimeout(() => {
     mensajeDiv.style.display = "none";
-  }, 6000); // 6 segundos
+  }, 5000); // 6 segundos
 }
