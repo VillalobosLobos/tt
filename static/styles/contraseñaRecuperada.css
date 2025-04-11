@@ -112,6 +112,8 @@
      ESTILOS PARA MENSAJES Y ENLACES
   ============================ */
   .error {
+    display: block;  
+    margin-top: 15px;
     color: red;
     font-weight: bold;
   }
