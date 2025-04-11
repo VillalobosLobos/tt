@@ -548,7 +548,7 @@ def salir_grupo():
     print(f"Grupo encontrado: {grupo}")
 
     # Eliminar la asignación del alumno al grupo
-    cursor.execute("UPDATE Alumno SET IdGrupo = NULL WHERE CorreoTutor = %s;", (correo_tutor,))
+    cursor.execute("UPDATE Alumno SET IdGrupo = NULL, AciertosNumeros = 0, AciertosLetras = 0 WHERE CorreoTutor = %s;", (correo_tutor,))
     
     # Decrementar el número de alumnos en el grupo
     cursor.execute("UPDATE Grupo SET NoAlumnos = NoAlumnos - 1 WHERE IdGrupo = %s;", (id_grupo,))
@@ -658,7 +658,9 @@ def dar_de_baja():
     # Actualiza el IdGrupo a NULL para dar de baja al alumno
     cursor.execute("""
         UPDATE Alumno 
-        SET IdGrupo = NULL 
+        SET IdGrupo = NULL,
+        AciertosNumeros = 0, 
+        AciertosLetras = 0 
         WHERE CorreoTutor = %s
     """, (correo_alumno,))
     

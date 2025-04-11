@@ -70,7 +70,7 @@ function iniciarReconocimiento() {
         localStorage.removeItem('total');
         localStorage.removeItem('bien');
         setTimeout(() => {
-          window.location.href = '/acabarLetras?bien=' + bien;
+          window.location.href = '/acabarActividades?bien=' + bien;
         }, 6000);
       } else {
         localStorage.setItem('total', total);

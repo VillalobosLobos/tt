@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
             labels: ['Correctas', 'Incorrectas'],
             datasets: [{
                 data: [aciertosLetras, erroresLetras],
-                backgroundColor: ['#2feb2c', '#0e870c'],
+                backgroundColor: ['#3ca8f3', '#f33c44'],
                 borderWidth: 1
             }]
         },
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function() {
             labels: ['Correctas', 'Incorrectas'],
             datasets: [{
                 data: [aciertosNumeros, erroresNumeros],
-                backgroundColor: ['#2feb2c', '#0e870c'],
+                backgroundColor: ['#3ca8f3', '#f33c44'],
                 borderWidth: 1
             }]
         },
