@@ -1,4 +1,4 @@
-from flask import Flask, request,render_template,jsonify, session,redirect, url_for, flash
+from flask import Flask, json, request,render_template,jsonify, session,redirect, url_for, flash
 from mysql.connector import Error, OperationalError
 from mysql.connector.errors import IntegrityError
 from werkzeug.utils import secure_filename
@@ -61,6 +61,85 @@ def generar_codigo():
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
+
+@app.route('/actualizar-ejercicio', methods=['PUT'])
+def actualizar_ejercicio():
+    data = request.get_json()
+    ejercicio_id = data.get('id')
+    nuevo_titulo = data.get('titulo')
+    nuevos_valores = data.get('valores')
+
+    valores_json = json.dumps(nuevos_valores)
+
+    cursor = coneccion.cursor()
+    cursor.execute(
+        "UPDATE Ejercicio SET Titulo=%s, Valores=%s WHERE IdEjercicio=%s;",
+        (nuevo_titulo, valores_json, ejercicio_id)
+    )
+    coneccion.commit()
+    cursor.close()  # Buen hábito cerrar el cursor
+
+    return jsonify({'mensaje': 'Ejercicio actualizado correctamente'})
+
+@app.route("/actualizarEjercicioPagina")
+def actualizarEjercicio():
+    id=request.args.get('id')
+    
+    cursor = coneccion.cursor()
+    cursor.execute("SELECT * FROM Ejercicio WHERE IdEjercicio=%s;",(id,))
+    ejercicio = cursor.fetchone()
+    respuesta=json.loads(ejercicio[2].decode('utf-8'))
+
+    return render_template('/pages/actualizarEjercicio.html',ejercicio=ejercicio,respuesta=respuesta)
+
+@app.route("/eliminarEjercicio")
+def eliminarEjercicio():
+    id=request.args.get('id')
+    
+    cursor = coneccion.cursor()
+    cursor.execute("delete from Ejercicio where IdEjercicio=%s;", (id,))
+    coneccion.commit()
+    
+    return redirect(request.referrer or '/')
+
+@app.route('/crud')
+def crud():
+    correo = request.args.get('correo')  # esto es lo que pasaste en la URL
+
+    cursor = coneccion.cursor()
+    cursor.execute("SELECT Titulo,IdEjercicio FROM Ejercicio WHERE CorreoDocente=%s;",(correo,))
+    ejerciciosTitulos = cursor.fetchall()
+    print(ejerciciosTitulos)
+
+    # Aquí puedes usar ese correo para filtrar ejercicios, etc.
+    return render_template('/pages/crud.html', correo_docente=correo,titulos=ejerciciosTitulos)
+
+@app.route('/subir-ejercicio', methods=['POST'])
+def subir_ejercicio():
+    data = request.get_json()
+    titulo = data.get("titulo")
+    valores = data.get("valores")
+    correo=data.get("correo")
+
+    print("Título del ejercicio:", titulo)
+    print("Valores recibidos:", valores)
+
+    cursor = coneccion.cursor()
+    cursor.execute("""
+        INSERT INTO Ejercicio (Titulo, Valores, CorreoDocente)
+        VALUES (%s, %s, %s)
+    """, (titulo, json.dumps(valores), correo))
+    coneccion.commit()
+
+    return jsonify({"mensaje": "Ejercicio recibido correctamente", "titulo": titulo, "valores": valores})
+
+@app.route('/crudEjercicios')
+def crud_ejercicios():
+    correo = request.args.get('correo')
+    print("Correo recibido para agregar:", correo)
+
+    # Aquí puedes usar ese correo para filtrar ejercicios, etc.
+    return render_template('/pages/crudEjercicios.html', correo_docente=correo)
 
 @app.route('/cambiar_foto', methods=['POST'])
 def cambiar_foto():
@@ -615,7 +694,7 @@ def docente():
     cursor = coneccion.cursor(dictionary=True)
     
     # Buscar la información del docente
-    cursor.execute("SELECT Nombre, Apellido FROM Docente WHERE CorreoDocente = %s;", (correo_docente,))
+    cursor.execute("SELECT Nombre, Apellido, CorreoDocente FROM Docente WHERE CorreoDocente = %s;", (correo_docente,))
     docente_info = cursor.fetchone()
 
     # Buscar el grupo vinculado al docente
