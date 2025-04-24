@@ -74,7 +74,7 @@ LOCK TABLES `Alumno` WRITE;
 /*!40000 ALTER TABLE `Alumno` DISABLE KEYS */;
 INSERT INTO `Alumno` VALUES
 (13,'Ezequiel','Villalobos Sanchez','static/img/usuarios/psychohappy2002@gmail.com.jpg',0,18,'psychohappy2002@gmail.com',0),
-(15,'Cesar Osvaldo','Zamudio Onofre','static/img/usuarios/cesar@gmail.com.png',0,18,'cesar@gmail.com',0),
+(15,'Cesar Osvaldo','Zamudio Onofre','static/img/usuarios/cesar@gmail.com.png',0,19,'cesar@gmail.com',1),
 (18,'Wendy','Lopez Martinez','static/img/alumnos/usuario.png',0,NULL,'ween@gmail.com',0);
 /*!40000 ALTER TABLE `Alumno` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -167,9 +167,42 @@ LOCK TABLES `Grupo` WRITE;
 /*!40000 ALTER TABLE `Grupo` DISABLE KEYS */;
 INSERT INTO `Grupo` VALUES
 (13,'Primero A','W996N',0,NULL),
-(18,'fabi','4VHFX',2,'docente@gmail.com'),
-(19,'Cet1','DVRO6',0,'2docente@gmail.com');
+(18,'fabi','4VHFX',1,'docente@gmail.com'),
+(19,'Cet1','DVRO6',1,'2docente@gmail.com');
 /*!40000 ALTER TABLE `Grupo` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Resultado`
+--
+
+DROP TABLE IF EXISTS `Resultado`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Resultado` (
+  `IdResultado` int(11) NOT NULL AUTO_INCREMENT,
+  `IdAlumno` int(11) DEFAULT NULL,
+  `IdEjercicio` int(11) DEFAULT NULL,
+  `Aciertos` int(11) DEFAULT NULL,
+  `Errores` int(11) DEFAULT NULL,
+  `Fecha` timestamp NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`IdResultado`),
+  KEY `IdAlumno` (`IdAlumno`),
+  KEY `IdEjercicio` (`IdEjercicio`),
+  CONSTRAINT `Resultado_ibfk_1` FOREIGN KEY (`IdAlumno`) REFERENCES `Alumno` (`IdAlumno`),
+  CONSTRAINT `Resultado_ibfk_2` FOREIGN KEY (`IdEjercicio`) REFERENCES `Ejercicio` (`IdEjercicio`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Resultado`
+--
+
+LOCK TABLES `Resultado` WRITE;
+/*!40000 ALTER TABLE `Resultado` DISABLE KEYS */;
+INSERT INTO `Resultado` VALUES
+(1,13,16,5,0,'2025-04-24 02:51:23');
+/*!40000 ALTER TABLE `Resultado` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -208,4 +241,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-23 17:13:14
+-- Dump completed on 2025-04-23 20:54:07
