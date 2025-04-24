@@ -122,7 +122,7 @@ CREATE TABLE `Ejercicio` (
   PRIMARY KEY (`IdEjercicio`),
   KEY `CorreoDocente` (`CorreoDocente`),
   CONSTRAINT `Ejercicio_ibfk_1` FOREIGN KEY (`CorreoDocente`) REFERENCES `Docente` (`CorreoDocente`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -132,10 +132,8 @@ CREATE TABLE `Ejercicio` (
 LOCK TABLES `Ejercicio` WRITE;
 /*!40000 ALTER TABLE `Ejercicio` DISABLE KEYS */;
 INSERT INTO `Ejercicio` VALUES
-(14,'1 al 10','[\"1\", \"2\", \"3\", \"4\", \"5\", \"6\", \"7\", \"8\", \"9\", \"10\"]','docente@gmail.com'),
 (16,'vocales','[\"A\", \"E\", \"I\", \"O\", \"U\"]','docente@gmail.com'),
-(17,'conbinado','[\"A\", \"B\", \"C\", \"1\", \"2\", \"3\"]','docente@gmail.com'),
-(18,'vocales','[\"A\"]','2docente@gmail.com');
+(17,'conbinado','[\"A\", \"B\", \"C\", \"1\", \"2\", \"3\"]','docente@gmail.com');
 /*!40000 ALTER TABLE `Ejercicio` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -187,11 +185,11 @@ CREATE TABLE `Resultado` (
   `Errores` int(11) DEFAULT NULL,
   `Fecha` timestamp NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`IdResultado`),
-  KEY `IdAlumno` (`IdAlumno`),
-  KEY `IdEjercicio` (`IdEjercicio`),
-  CONSTRAINT `Resultado_ibfk_1` FOREIGN KEY (`IdAlumno`) REFERENCES `Alumno` (`IdAlumno`),
-  CONSTRAINT `Resultado_ibfk_2` FOREIGN KEY (`IdEjercicio`) REFERENCES `Ejercicio` (`IdEjercicio`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  KEY `Resultado_ibfk_2` (`IdEjercicio`),
+  KEY `Resultado_ibfk_1` (`IdAlumno`),
+  CONSTRAINT `Resultado_ibfk_1` FOREIGN KEY (`IdAlumno`) REFERENCES `Alumno` (`IdAlumno`) ON DELETE CASCADE,
+  CONSTRAINT `Resultado_ibfk_2` FOREIGN KEY (`IdEjercicio`) REFERENCES `Ejercicio` (`IdEjercicio`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -201,7 +199,8 @@ CREATE TABLE `Resultado` (
 LOCK TABLES `Resultado` WRITE;
 /*!40000 ALTER TABLE `Resultado` DISABLE KEYS */;
 INSERT INTO `Resultado` VALUES
-(1,13,16,5,0,'2025-04-24 02:51:23');
+(1,13,16,5,0,'2025-04-24 02:51:23'),
+(3,13,17,5,1,'2025-04-24 21:23:27');
 /*!40000 ALTER TABLE `Resultado` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -241,4 +240,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-23 20:54:07
+-- Dump completed on 2025-04-24 15:45:07

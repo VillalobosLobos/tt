@@ -577,12 +577,20 @@ def progresoAlumno():
      cursor.execute("SELECT IdAlumno, Nombre, Apellido, Foto, AciertosNumeros,AciertosLetras, IdGrupo, CorreoTutor FROM Alumno WHERE CorreoTutor = %s;", (correo_alumno,))
      alumno_info = cursor.fetchone()
 
+     cursor.execute("""
+        SELECT Resultado.*, Ejercicio.Titulo 
+        FROM Resultado 
+        JOIN Ejercicio ON Resultado.IdEjercicio = Ejercicio.IdEjercicio 
+        WHERE Resultado.IdAlumno = %s;
+        """, (alumno_info['IdAlumno'],))
+     ejercicios=cursor.fetchall()
+
      cursor.close()
 
      if not alumno_info:
         return "Alumno no encontrado", 404
 
-     return render_template('pages/progresoAlumno.html',alumno=alumno_info)
+     return render_template('pages/progresoAlumno.html',alumno=alumno_info,ejercicios=ejercicios)
 
 @app.route('/editar_perfil', methods=['POST'])
 def editar_perfil():
@@ -851,10 +859,18 @@ def progresoAlumnoDocente():
         WHERE CorreoTutor = %s
     """, (correo_alumno,))
     alumno_info = cursor.fetchone()
+
+    cursor.execute("""
+        SELECT Resultado.*, Ejercicio.Titulo 
+        FROM Resultado 
+        JOIN Ejercicio ON Resultado.IdEjercicio = Ejercicio.IdEjercicio 
+        WHERE Resultado.IdAlumno = %s;
+        """, (alumno_info['IdAlumno'],))
+    ejercicios=cursor.fetchall()
     if not alumno_info:
         return "Alumno no encontrado", 404
 
-    return render_template('pages/progresoAlumnoDocente.html', alumno=alumno_info)
+    return render_template('pages/progresoAlumnoDocente.html', alumno=alumno_info,ejercicios=ejercicios)
 
 @app.route('/listaAlumnos')
 def listaAlumnos():

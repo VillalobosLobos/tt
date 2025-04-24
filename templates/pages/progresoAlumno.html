@@ -24,13 +24,28 @@
       </p>
 
       <div class="graficas">
-        <!-- Tarjeta Actividad 1 -->
+        <!-- Tarjeta Actividad Letras -->
         <div class="letras">
           <h2>Actividad 1 - Letras</h2>
           <canvas id="graficoLetras" class="graficoLetras"></canvas>
           <script>
-            var aciertosLetras = {{ alumno.AciertosLetras }};
-            var erroresLetras = 10 - aciertosLetras;
+            const ctxLetras = document.getElementById('graficoLetras').getContext('2d');
+            new Chart(ctxLetras, {
+              type: 'doughnut',
+              data: {
+                labels: ['Correctas', 'Incorrectas'],
+                datasets: [{
+                  data: [{{ alumno.AciertosLetras }}, {{ 10 - alumno.AciertosLetras }}],
+                  backgroundColor: ['#3ca8f3', '#f33c44'],
+                  borderWidth: 1
+                }]
+              },
+              options: {
+                responsive: false,
+                cutout: '70%',
+                plugins: { legend: { position: 'bottom' } }
+              }
+            });
           </script>
           <div class="stats">
             <div class="stat">
@@ -44,13 +59,28 @@
           </div>
         </div>
 
-        <!-- Tarjeta Actividad 2 -->
+        <!-- Tarjeta Actividad Números -->
         <div class="numeros">
           <h2>Actividad 2 - Números</h2>
           <canvas id="graficoNumeros" class="graficoNumeros"></canvas>
           <script>
-            var aciertosNumeros = {{ alumno.AciertosNumeros }};
-            var erroresNumeros = 10 - aciertosNumeros;
+            const ctxNumeros = document.getElementById('graficoNumeros').getContext('2d');
+            new Chart(ctxNumeros, {
+              type: 'doughnut',
+              data: {
+                labels: ['Correctas', 'Incorrectas'],
+                datasets: [{
+                  data: [{{ alumno.AciertosNumeros }}, {{ 10 - alumno.AciertosNumeros }}],
+                  backgroundColor: ['#3ca8f3', '#f33c44'],
+                  borderWidth: 1
+                }]
+              },
+              options: {
+                responsive: false,
+                cutout: '70%',
+                plugins: { legend: { position: 'bottom' } }
+              }
+            });
           </script>
           <div class="stats">
             <div class="stat">
@@ -63,11 +93,47 @@
             </div>
           </div>
         </div>
+
+        <!-- Gráficas por cada ejercicio -->
+        {% for e in ejercicios %}
+        <div class="letras">
+          <h2>{{ e.Titulo }}</h2>
+          <h3>Fecha: {{e.Fecha}}</h3>
+          <canvas id="graficoEjercicio{{ loop.index }}" class="graficoLetras"></canvas>
+          <script>
+            const ctxEjercicio{{ loop.index }} = document.getElementById('graficoEjercicio{{ loop.index }}').getContext('2d');
+            new Chart(ctxEjercicio{{ loop.index }}, {
+              type: 'doughnut',
+              data: {
+                labels: ['Correctas', 'Incorrectas'],
+                datasets: [{
+                  data: [{{ e.Aciertos }}, {{ e.Errores }}],
+                  backgroundColor: ['#3ca8f3', '#f33c44'],
+                  borderWidth: 1
+                }]
+              },
+              options: {
+                responsive: false,
+                cutout: '70%',
+                plugins: { legend: { position: 'bottom' } }
+              }
+            });
+          </script>
+          <div class="stats">
+            <div class="stat">
+              <p class="value">{{ e.Errores }}</p>
+              <p class="label">Errores</p>
+            </div>
+            <div class="stat">
+              <p class="value">{{ e.Aciertos }}</p>
+              <p class="label">Aciertos</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
       </div> <!-- Fin .graficas -->
     </div> <!-- Fin .contenido -->
   </div> <!-- Fin .container -->
 
-  <!-- Script de gráficas -->
-  <script src="/static/js/grafica.js"></script>
 </body>
 </html>
