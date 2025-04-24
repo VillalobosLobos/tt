@@ -62,6 +62,81 @@ def generar_codigo():
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
+@app.route('/acabarActividadesP')
+def acabarActividadesP():
+    if 'usuario' not in session or session['usuario']['role'] != 'Tutor':
+        return redirect(url_for('inicioSesion'))
+    
+    correo_alumno = session['usuario']['CorreoTutor']
+    bien = request.args.get('bien', default=0, type=int)
+    mal = request.args.get('mal', default=0, type=int)
+
+    cursor = coneccion.cursor()
+    cursor.execute("SELECT IdAlumno FROM Alumno WHERE CorreoTutor = %s", (correo_alumno,))
+    alumno = cursor.fetchone()
+
+    if alumno:
+        id_alumno = alumno[0]
+        id_ejercicio = session.get('id_ejercicio')
+        if id_ejercicio:
+            cursor.execute("""
+                INSERT INTO Resultado (IdAlumno, IdEjercicio, Aciertos, Errores)
+                VALUES (%s, %s, %s, %s)
+            """, (id_alumno, id_ejercicio, bien, mal))
+            coneccion.commit()
+        else:
+            print("⚠️ No se encontró id_ejercicio en la sesión")
+    else:
+        print("⚠️ No se encontró alumno con ese correo")
+
+    return render_template('pages/concluirP.html', bien=bien, mal=mal)
+
+@app.route('/ejercicio')
+def ejercicio():
+    id = request.args.get('id')
+    if not id:
+        return "ID de ejercicio no proporcionado", 400
+
+    # Guardar el id del ejercicio en la sesión para usarlo más tarde
+    session['id_ejercicio'] = int(id)
+
+    # Obtener los valores del ejercicio
+    cursor.execute("SELECT Valores FROM Ejercicio WHERE IdEjercicio = %s;", (id,))
+    resultado = cursor.fetchone()
+
+    if not resultado:
+        return "Ejercicio no encontrado", 404
+
+    valores = json.loads(resultado[0].decode('utf-8'))
+
+    return render_template('pages/ejercicio.html', ejercicio=valores)
+
+@app.route('/ejerciciosAlumnos')
+def ejerciciosAlumnos():
+    if 'usuario' not in session or session['usuario']['role'] != 'Tutor':
+        return redirect(url_for('inicioSesion'))
+
+    correo_tutor = session['usuario'].get('CorreoTutor')
+
+    cursor = coneccion.cursor(dictionary=True)
+
+    cursor.execute("SELECT IdAlumno, Nombre, Apellido, Foto, CorreoTutor, IdGrupo FROM Alumno WHERE CorreoTutor = %s;", (correo_tutor,))
+    alumno_info = cursor.fetchone()
+
+    id_grupo = alumno_info.get('IdGrupo')
+
+    cursor.execute("SELECT CorreoDocente FROM Grupo WHERE IdGrupo = %s;", (id_grupo,))
+    grupo_info = cursor.fetchone()
+
+    correo_docente = grupo_info.get('CorreoDocente')
+    cursor.close()
+
+    cursor = coneccion.cursor()
+    cursor.execute("SELECT Titulo,IdEjercicio FROM Ejercicio WHERE CorreoDocente=%s;",(correo_docente,))
+    ejerciciosTitulos = cursor.fetchall()
+
+    return render_template('/pages/ejerciciosAlumnos.html',ejercicios=ejerciciosTitulos)
+
 @app.route('/actualizar-ejercicio', methods=['PUT'])
 def actualizar_ejercicio():
     data = request.get_json()
