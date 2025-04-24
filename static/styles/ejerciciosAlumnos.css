@@ -1,7 +1,59 @@
+@font-face {
+    font-family: 'Eracake';
+    src: url('/static/fonts/Eracake.ttf');
+}
+
 .ejercicio{
+    background-image: url('/static/img/alumnos/n2.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 230px;
+    height: 130px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
-    background-color: rgb(62, 62, 224);
-    width: 150px;
-    height: 50px;
-    font-size: 30px;
+    padding: 1rem;
+    font-family: 'Eracake';
+    font-size: 40px;
+    transition: transform 0.3s ease,box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.ejercicio:hover{
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.ejercicio a{
+    text-decoration: none;
+    color: #07c;
+}
+
+.cuerpo{
+    text-align: center;
+    font-size: 40px;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    color: white;
+    position: relative;
+    width: 800px;
+    height: 600px;
+    padding: 5px;
+    border-radius: 10px;
+    margin: 0 auto 50px;
+    background-color: #37ABE4;
+}
+
+.cuerpo #titulo{
+    background-color: #07c;
+}
+
+.ejercicios{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    padding: 2rem;
 }
