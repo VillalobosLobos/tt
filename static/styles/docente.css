@@ -98,7 +98,7 @@ body {
 
 /* Tarjeta principal para mostrar la información del grupo */
 .grupo-info {
-    width: 500px;
+    width: 600px;
     margin: 20px auto;
     background-color: #12D0DE;
     border-radius: 10px;
@@ -265,7 +265,12 @@ body {
     cursor: pointer;
 }
 
+#ejerPerImg{
+    width: 80px;
+}
+
 .btnProgreso p {
+    text-align: center;
     font-size: 18px;
     font-weight: bold;
     margin: 0 0 10px;

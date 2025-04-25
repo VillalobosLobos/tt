@@ -17,19 +17,22 @@
     text-align: center;
     padding: 1rem;
     font-family: 'Eracake';
-    font-size: 40px;
+    font-size: 30px;
     transition: transform 0.3s ease,box-shadow 0.3s ease;
     cursor: pointer;
 }
 
 .ejercicio:hover{
     transform: scale(1.05);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .ejercicio a{
     text-decoration: none;
     color: #07c;
+}
+
+.ejercicio a:hover{
+    color: rgb(31, 243, 77);
 }
 
 .cuerpo{
@@ -44,6 +47,7 @@
     border-radius: 10px;
     margin: 0 auto 50px;
     background-color: #37ABE4;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .cuerpo #titulo{

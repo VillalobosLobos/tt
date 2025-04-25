@@ -3,48 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles/crud.css" type="text/css">
+    <link rel="icon" href="/static/img/iconos/8.png" type="image/png">
     <title>CRUD Ejercicios</title>
 </head>
 <body>
     
-    <label>
-        Ejercicios personalizados
-    </label>
+    <div class="todo">
+        <label>
+            Ejercicios personalizados
+        </label>
+        
+        <br><br>
+        <a href="/crudEjercicios?correo={{correo_docente}}" >
+            Agregar
+        </a>
     
-    <br><br>
-    <a href="/crudEjercicios?correo={{correo_docente}}" >
-        Agregar
-    </a>
+        <div>
+            <p>Ejercicios del docente</p>
+    
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th id="campoTitulo">Titulo</th>
+                        <th id="campoActualizar">Actualizar</th>
+                        <th id="campoEliminar">Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ejercicio in titulos %}
+                    <tr>
+                        <td>{{ejercicio[0]}}</td>
+                        <td>
+                            <a href="/actualizarEjercicioPagina?id={{ejercicio[1]}}">
+                                <button>Actualizar</button>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="/eliminarEjercicio?id={{ejercicio[1]}}">
+                                <button>Eliminar</button>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
-    <div>
-        <p>Ejercicios del docente</p>
-
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Titulo</th>
-                    <th>Actualizar</th>
-                    <th>Eliminar</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for ejercicio in titulos %}
-                <tr>
-                    <td>{{ejercicio[0]}}</td>
-                    <td>
-                        <a href="/actualizarEjercicioPagina?id={{ejercicio[1]}}">
-                            <button>Actualizar</button>
-                        </a>
-                    </td>
-                    <td>
-                        <a href="/eliminarEjercicio?id={{ejercicio[1]}}">
-                            <button>Eliminar</button>
-                        </a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
     </div>
+
 </body>
 </html>

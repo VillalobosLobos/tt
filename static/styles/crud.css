@@ -1,0 +1,38 @@
+/* ------------------ RESET Y ESTILOS GLOBALES ------------------ */
+body, html {
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    padding-top: 30px;
+}
+
+
+.todo{
+    text-align: center;
+    font-size: 30px;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    color: white;
+    position: relative;
+    width: 800px;
+    height: 600px;
+    padding: 5px;
+    border-radius: 10px;
+    margin: 0 auto 50px;
+    background-color: #37ABE4;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Para la tabla */
+table{
+    margin: auto;
+}
+
+#campoTitulo{
+    width: 500px;
+}
