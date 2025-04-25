@@ -6,10 +6,16 @@
     <title>Ejercicios del maestro</title>
     <link rel="icon" href="/static/img/iconos/1.png" type="image/png">
     <link rel="stylesheet" href="../../static/styles/ejerciciosAlumnos.css" type="text/css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=arrow_back" />
+        
 </head>
 <body>
     <div class="cuerpo">
-        <p id="titulo">Ejercicios propuestos por el docente</p>
+        <p id="titulo">
+            <button onclick="history.back()" class="btn-regresar">
+                <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="40px" fill="#07c"><path d="m287-446.67 240 240L480-160 160-480l320-320 47 46.67-240 240h513v66.66H287Z"/></svg>
+            </button>
+           Ejercicios propuestos por el docente</p>
     
         <div class="ejercicios">
             {% for titulo in ejercicios %}

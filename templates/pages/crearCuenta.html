@@ -6,8 +6,29 @@
   <title>Crea una cuenta para el alumno</title>
 
   <link rel="stylesheet" href="../../static/styles/crearCuenta.css" type="text/css">
-
   <link rel="icon" href="../../static/img/iconos/F.png" type="image/png">
+
+  <!-- Estilos para mensajes -->
+  <style>
+    .alert-message {
+      margin-bottom: 20px;
+      padding: 10px;
+      background-color: #e0f7fa;
+      color: #00796b;
+      border-left: 5px solid #00796b;
+      font-weight: bold;
+      border-radius: 5px;
+      animation: fadeOut 0.5s ease-out forwards;
+      animation-delay: 5s;
+    }
+
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -22,11 +43,17 @@
       <div class="form-content">
         <h1>Crea una cuenta para el alumno</h1>
 
+        <!-- Aquí se muestra el mensaje si existe -->
+        {% if message %}
+          <div class="alert-message" id="alert-message">
+            {{ message }}
+          </div>
+        {% endif %}
+
         <form action="/crearAlumno" method="post">
           <!-- Nombre(s) -->
           <div class="form-group">
             <label for="nombre">Nombre(s)*</label>
-            <!-- Contenedor con borde -->
             <div class="input-container">
               <input 
                 type="text" 
@@ -66,7 +93,7 @@
             </div>
           </div>
 
-          <!-- Contraseña con ícono de ojo dentro del mismo recuadro -->
+          <!-- Contraseña -->
           <div class="form-group">
             <label for="contraseña">Contraseña*</label>
             <div class="input-container password-container">
@@ -78,7 +105,6 @@
                 minlength="8"
                 required
               >
-              <!-- Ícono del ojo dentro del mismo recuadro -->
               <span 
                 class="toggle-icon"
                 onmousedown="showPassword()" 
@@ -95,7 +121,7 @@
             Utilice 8 o más caracteres con una combinación de letras, números y símbolos
           </p>
 
-          <!-- Checkbox con texto legal -->
+          <!-- Checkbox -->
           <div class="checkbox-group">
             <input 
               type="checkbox" 
@@ -112,7 +138,7 @@
           <button type="submit" class="btn">Crear</button>
         </form>
 
-        <!-- Enlace a Iniciar sesión -->
+        <!-- Enlace a iniciar sesión -->
         <p class="already-account">
           ¿Ya tienes una cuenta? 
           <a href="{{ url_for('sesion') }}">Inicia sesión</a>
@@ -121,7 +147,7 @@
     </div>
   </div>
 
-  <!-- Script para mostrar/ocultar la contraseña mientras se presione el ícono -->
+  <!-- Script para mostrar/ocultar contraseña -->
   <script>
     function showPassword() {
       document.getElementById('contraseña').type = 'text';
@@ -129,6 +155,14 @@
     function hidePassword() {
       document.getElementById('contraseña').type = 'password';
     }
+
+    // Script para ocultar mensaje después de 5 segundos
+    setTimeout(function() {
+      var alert = document.getElementById('alert-message');
+      if (alert) {
+        alert.style.display = 'none';
+      }
+    }, 5000);
   </script>
 </body>
 </html>

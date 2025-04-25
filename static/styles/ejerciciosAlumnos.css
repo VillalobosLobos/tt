@@ -61,3 +61,13 @@
     justify-content: center;
     padding: 2rem;
 }
+
+.btn-regresar{
+    border-radius: 50%;
+    background-color: white;
+}
+
+.btn-regresar:hover{
+    background-color: rgb(201, 202, 206);
+}
+
