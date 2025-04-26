@@ -137,12 +137,9 @@
       btn.closest('tr').remove();
     }
 
-    function subirEjercicio(correo) {
-      // lógica para enviar datos al servidor…
-      alert('Ejercicio subido para ' + correo);
-    }
-
     document.addEventListener('DOMContentLoaded', mostrarFormulario);
   </script>
+
+<script src="{{ url_for('static', filename='js/mostrarCrudPreguntas.js') }}"></script>
 </body>
 </html>
