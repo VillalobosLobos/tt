@@ -105,7 +105,6 @@ button:hover .boton {
   filter: brightness(0.9);
 }
 
-/* Media Queries para diseño responsive */
 @media (max-width: 768px) {
   .contenedor {
     padding: 30px 20px;
@@ -123,12 +122,21 @@ button:hover .boton {
   }
   .boton {
     width: 50px;
+    height: auto;
   }
   .opciones {
     gap: 20px;
   }
+
+  button img {
+    max-width: 90%;
+  }
+  .btn-salir .boto {
+    width: 90%;
+  }
 }
 
+/* Para pantallas de hasta 480px */
 @media (max-width: 480px) {
   .contenedor {
     padding: 20px 10px;
@@ -146,8 +154,20 @@ button:hover .boton {
   }
   .boton {
     width: 40px;
+    height: auto;
   }
   .opciones {
     gap: 10px;
   }
+
+  /* ICONO “SALIR” AÚN MÁS PEQUEÑO EN MÓVIL */
+  button img {
+    max-width: 120%;
+  }
+  .btn-salir .boto {
+    width: 120%;
+  }
 }
+
+
+

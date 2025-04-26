@@ -1,10 +1,83 @@
+/* ======================================
+   FONT
+====================================== */
 @font-face {
     font-family: 'Eracake';
-    src: url('/static/fonts/Eracake.ttf');
-}
-
-.ejercicio{
-    background-image: url('/static/img/alumnos/n2.png');
+    src: url('/static/fonts/Eracake.ttf') format('truetype');
+  }
+  
+  /* ======================================
+     CONTENEDOR PRINCIPAL
+  ====================================== */
+  .cuerpo {
+    position: relative;            /* para posicionar el botón */
+    text-align: center;
+    font-size: 40px;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    color: white;
+    width: 800px;
+    height: 600px;
+    padding: 5px;
+    border-radius: 10px;
+    margin: 0 auto 50px;
+    background-color: #37ABE4;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* ======================================
+     BOTÓN REGRESAR
+  ====================================== */
+  .arrow-icon {
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 4px;
+  }
+  
+  .back-btn {
+    position: absolute;   /* fija en la .cuerpo */
+    top: 10px;            /* distancia del borde superior */
+    left: 10px;           /* distancia del borde izquierdo */
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    color: #fff;          /* blanco para contraste */
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 0;            /* elimina márgenes extra */
+  }
+  
+  .back-btn:hover {
+    color: #000;
+  }
+  
+  /* ======================================
+     TÍTULO
+  ====================================== */
+  .cuerpo #titulo {
+    background-color: #07c;
+    margin-top: 50px;     /* baja el título para evitar solaparse con el botón */
+    padding: 10px 0;
+  }
+  
+  /* ======================================
+     LISTADO DE EJERCICIOS
+  ====================================== */
+  .ejercicios {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    padding: 2rem;
+  }
+  
+  /* ======================================
+     TARJETA DE EJERCICIO
+  ====================================== */
+  .ejercicio {
+    background-image: url('/static/img/alumnos/n1.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -18,46 +91,58 @@
     padding: 1rem;
     font-family: 'Eracake';
     font-size: 30px;
-    transition: transform 0.3s ease,box-shadow 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
-}
-
-.ejercicio:hover{
+  }
+  
+  .ejercicio:hover {
     transform: scale(1.05);
-}
-
-.ejercicio a{
+  }
+  
+  .ejercicio a {
     text-decoration: none;
     color: #07c;
-}
-
-.ejercicio a:hover{
+  }
+  
+  .ejercicio a:hover {
     color: rgb(31, 243, 77);
-}
-
-.cuerpo{
-    text-align: center;
-    font-size: 40px;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    color: white;
-    position: relative;
-    width: 800px;
-    height: 600px;
-    padding: 5px;
-    border-radius: 10px;
-    margin: 0 auto 50px;
-    background-color: #37ABE4;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-}
-
-.cuerpo #titulo{
-    background-color: #07c;
-}
-
-.ejercicios{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;
-    padding: 2rem;
-}
+  }
+  
+  /* ======================================
+     MEDIA QUERIES (RESPONSIVE)
+  ====================================== */
+  @media (max-width: 900px) {
+    .cuerpo {
+      width: 95%;
+      height: auto;
+      padding: 20px;
+    }
+    .cuerpo #titulo {
+      font-size: 32px;
+    }
+    .ejercicio {
+      width: 45%;
+      margin-bottom: 1rem;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .cuerpo {
+      font-size: 28px;
+    }
+    .back-btn {
+      top: 5px;
+      left: 5px;
+      font-size: 14px;
+    }
+    .cuerpo #titulo {
+      font-size: 28px;
+      margin-top: 40px;
+    }
+    .ejercicio {
+      width: 90%;
+      font-size: 24px;
+      height: 100px;
+    }
+  }
+  

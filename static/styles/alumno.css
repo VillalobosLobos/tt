@@ -9,7 +9,6 @@
 
 html, body {
   width: 100%;
-  height: 100%;
   font-family: Arial, sans-serif;
   background-color: #ffffff;
   background-size: cover;
@@ -97,20 +96,20 @@ header {
   margin-top: 15px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 50px;
 }
 
 /* Ícono dentro del botón */
 .btn-icon {
-  width: 25px;
-  height: 25px;
+  width: 35px;
+  height: 35px;
   margin-right: 8px;
   vertical-align: middle;
 }
 
 .btn-ico {
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   margin-right: 8px;
   vertical-align: middle;
 }
@@ -165,7 +164,7 @@ header {
   font-size: 30px;
   margin-bottom: 20px;
   text-align: center;
-  margin-left: 195px; 
+  margin-left: 110px; 
 }
 
 /* ============================
@@ -203,7 +202,7 @@ header {
 .nube-2 {
     position: relative;
     top: 0;       /* Quita la superposición (antes: -10px) */
-    left: 240px;   /* Desplaza un poco más a la derecha (antes: 40px) */
+    left: 265px;   /* Desplaza un poco más a la derecha (antes: 40px) */
 }
 
 /* ============================
@@ -331,109 +330,108 @@ header {
   background-color: rgb(177, 26, 26);
 }
 
-
-
 /* ----------------------------
  MEDIA QUERIES (RESPONSIVE)
 ---------------------------- */
+
+/* Para pantallas de hasta 800px */
 @media screen and (max-width: 800px) {
+  /* Contenedor principal: de dos columnas a bloque vertical */
   .contenedor {
-    width: 100%;   
-    max-width: 800px;  
-    height: auto;    
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    height: auto;
     margin: 0 auto 20px;
+    padding: 20px;
   }
 
+  /* Columnas apiladas y centradas */
+  .left-col,
+  .right-col {
+    width: 100%;
+    margin: 0 0 20px;
+  }
+
+  /* Foto un poco más pequeña si hace falta */
+  .left-col .user-img {
+    width: 100px;
+    height: 100px;
+  }
+
+  /* Botones columna izquierda: más separación */
+  .botones {
+    gap: 30px;
+  }
+
+  /* Nubes: anular desplazamientos manuales y centrar */
+  .nube-1,
   .nube-2 {
-    position: static;   
-    margin-top: 20px;   
+    position: static !important;
+    margin: 20px auto !important;
+    display: block;
+  }
+  .nube-1 img,
+  .nube-2 img {
+    width: 80%;
+    max-width: 300px;
   }
 
-  .bienvenido {
-      margin-left: 0;
-      text-align: center; 
-    }
-  }
-    @media screen and (max-width: 800px) and (min-width: 600px) {
-      .form-container {
-        width: 90%;
-        height: auto;
-        margin: 30px auto;
-        padding-bottom: 20px;
-      }
-      .form-content {
-        gap: 20px;
-        padding: 15px;
-      }
-      .profile-img {
-        width: 140px;
-        height: 140px;
-        margin-top: -10px;
-        margin-left: 0;
-      }
-      .right-section {
-        gap: 10px;
-      }
-      .numbers-img {
-        width: 120px;
-      }
-      .txt {
-        font-size: 16px;
-      }
-      .codigoCampo {
-        width: 130px;
-        height: 35px;
-        font-size: 14px;
-        margin: 10px auto;
-      }
-      .aceptar,
-      .btn-salir {
-        width: 150px;
-        height: 40px;
-        font-size: 16px;
-        margin-top: 10px;
-      }
+  /* Ajuste de texto “Bienvenido” en columna derecha (se ocultará) */
+  .right-col .bienvenido {
+    display: none;
   }
 
-    @media screen and (max-width: 600px) {
-      .form-container {
-        width: 95%;
-        height: auto;
-        margin: 20px auto;
-        padding: 15px;
-      }
-      .form-content {
-        flex-direction: column;
-        gap: 20px;
-        padding: 10px;
-      }
-      .profile-img {
-        width: 120px;
-        height: 120px;
-        margin-top: 0;
-        margin-left: 0;
-      }
-      .right-section {
-        align-items: center;
-        gap: 15px;
-      }
-      .numbers-img {
-        width: 100px;
-      }
-      .txt {
-        font-size: 16px;
-      }
-      .codigoCampo {
-        width: 80%;
-        height: 35px;
-        font-size: 14px;
-        margin: 10px auto;
-      }
-      .aceptar,
-      .btn-salir {
-        width: 80%;
-        height: 40px;
-        font-size: 16px;
-        margin: 10px auto;
-      }
+  /* Insertar “Bienvenido” arriba de la foto en columna izquierda */
+  .left-col {
+    position: relative;
   }
+  .left-col::before {
+    content: "Bienvenido";
+    display: block;
+    color: #fff;
+    font-size: 26px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px;
+    width: 100%;
+  }
+}
+
+/* Para pantallas de hasta 600px */
+@media screen and (max-width: 600px) {
+  /* Ajustes adicionales en el contenedor */
+  .contenedor {
+    padding: 15px;
+  }
+
+  /* Foto de usuario más pequeña */
+  .left-col .user-img {
+    width: 80px;
+    height: 80px;
+  }
+
+  /* Texto “Bienvenido” creado con ::before, un poco más pequeño */
+  .left-col::before {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  /* Imágenes de nubes más estrechas */
+  .nube-1 img,
+  .nube-2 img {
+    width: 90%;
+    max-width: 250px;
+  }
+
+  /* Botones de columna izquierda más compactos */
+  .progreso,
+  .conf,
+  .salir {
+    width: 140px;
+    height: 36px;
+    font-size: 14px;
+    padding: 0 8px;
+  }
+}

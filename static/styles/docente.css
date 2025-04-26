@@ -163,17 +163,6 @@ body {
     justify-content: center; /* Centra los recuadros horizontalmente */
 }
 
-/* Recuadro "Ver alumnos y progreso" */
-.progreso {
-    flex: 1;
-    background-color: #FFD66B; /* Fondo amarillo suave */
-    border-radius: 10px;
-    padding: 20px;
-    text-align: center;
-    color: #000;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
-}
-
 .progreso p {
     font-size: 18px;
     font-weight: bold;
@@ -222,7 +211,7 @@ body {
     align-items: center;
     gap: 8px;
     margin-top: 35px; /* o un valor menor al que tenías */
-}
+    }
 
 
 #codigo-grupo {
@@ -232,6 +221,7 @@ body {
     text-align: center;
     margin-right: 8px;
     margin-left: 37px; /* Ajusta este valor según lo que necesites */
+    width: 45px; 
   }
   
 
@@ -248,37 +238,39 @@ body {
 }
 
 /* ------------------ BOTÓN PARA "VER ALUMNOS Y PROGRESO" ------------------ */
-/* Se sugiere que esta parte se defina en el HTML con etiqueta <a> o <button> con la clase .btnProgreso */
 .btnProgreso {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
-    text-decoration: none;
-    border: none;
-    color: #000;
-    cursor: pointer;
-}
-
-#ejerPerImg{
-    width: 80px;
-}
-
-.btnProgreso p {
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-    margin: 0 0 10px;
-}
-
-.btnProgreso:hover {
-    filter: brightness(95%);
-}
+        flex: 1;
+        display: flex;
+        height: 150px;
+        width: 125px; 
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        text-decoration: none;
+        border: none;
+        color: #000;
+        cursor: pointer;
+    }
+    
+    #ejerPerImg{
+        width: 80px;
+    }
+    
+    .btnProgreso p {
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        margin: 0 0 10px;
+    }
+    
+    .btnProgreso:hover {
+        filter: brightness(95%);
+    }
+    
 
 /* ------------------ IMAGEN DEL BOTÓN "CREAR GRUPO" ------------------ */
 /* Se mantiene la definición original */
@@ -295,7 +287,7 @@ body {
     border-radius: 8px;
     cursor: pointer;
     transition: transform 0.3s;
-    margin-left:45px
+    margin-left:100px
 }
 
 .imgCrear:hover {
