@@ -2,93 +2,147 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CRUD Ejercicios</title>
+  <!-- Enlaza tu CSS correctamente -->
+  <link rel="stylesheet" href="/static/styles/crudEjercicios.css" type="text/css">
 </head>
 <body>
 
-    <label>Ingrese un título</label>
-    <input type="text" name="titulo" id="titulo">    
+  <button class="back-btn" onclick="window.history.back()">
+    &#10094; Regresar
+  </button>
 
-  <br><br>
 
-  <label for="opciones">Elige una opción</label>
-  <select id="opciones" onchange="mostrarFormulario()">
-    <option value="">Opciones</option>
-    <option value="letra">Letras</option>
-    <option value="numero">Números</option>
-  </select>
+  <div class="cuerpo">
+    <!-- Título del ejercicio -->
+    <label for="titulo">Ingrese un título:</label>
+    <input type="text" name="titulo" id="titulo">
 
-  <!-- Formulario de letras -->
-  <form id="formLetra" style="display: none; margin-top: 20px;" onsubmit="agregarLetra(event)">
-    <label for="selectLetra">Escoja una letra</label>
-    <select id="selectLetra">
-      <option value="">Opciones</option>
-      <option value="A">A</option>
-      <option value="B">B</option>
-      <option value="C">C</option>
-      <option value="D">D</option>
-      <option value="E">E</option>
-      <option value="F">F</option>
-      <option value="G">G</option>
-      <option value="H">H</option>
-      <option value="I">I</option>
-      <option value="J">J</option>
-      <option value="K">K</option>
-      <option value="L">L</option>
-      <option value="M">M</option>
-      <option value="N">N</option>
-      <option value="O">O</option>
-      <option value="P">P</option>
-      <option value="Q">Q</option>
-      <option value="R">R</option>
-      <option value="S">S</option>
-      <option value="T">T</option>
-      <option value="U">U</option>
-      <option value="V">V</option>
-      <option value="W">W</option>
-      <option value="X">X</option>
-      <option value="Y">Y</option>
-      <option value="Z">Z</option>
+    <br><br>
+
+    <!-- Selector de tipo -->
+    <label for="opciones">Elige una opción:</label>
+    <select id="opciones" onchange="mostrarFormulario()">
+      <option value="letra">Letras</option>
+      <option value="numero">Dígitos</option>
     </select>
-    <button type="submit">Agregar</button>
-  </form>
 
-  <!-- Formulario de números -->
-  <form id="formNumero" style="display: none; margin-top: 20px;" onsubmit="agregarNumero(event)">
-    <label for="selectNumero">Escoja un número</label>
-    <select id="selectNumero">
-      <option value="">Opciones</option>
-      <option value="1">1</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-      <option value="5">5</option>
-      <option value="6">6</option>
-      <option value="7">7</option>
-      <option value="8">8</option>
-      <option value="9">9</option>
-      <option value="10">10</option>
-    </select>
-    <button type="submit">Agregar</button>
-  </form>
+    <!-- Formulario de letras -->
+    <form id="formLetra" style="display: none; margin-top: 20px;" onsubmit="agregarLetra(event)">
+      <label for="selectLetra">Escoja una letra:</label>
+      <select id="selectLetra">
+        <option value="">-- Letra --</option>
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+        <option value="D">D</option>
+        <option value="E">E</option>
+        <option value="F">F</option>
+        <option value="G">G</option>
+        <option value="H">H</option>
+        <option value="I">I</option>
+        <option value="J">J</option>
+        <option value="K">K</option>
+        <option value="L">L</option>
+        <option value="M">M</option>
+        <option value="N">N</option>
+        <option value="O">O</option>
+        <option value="P">P</option>
+        <option value="Q">Q</option>
+        <option value="R">R</option>
+        <option value="S">S</option>
+        <option value="T">T</option>
+        <option value="U">U</option>
+        <option value="V">V</option>
+        <option value="W">W</option>
+        <option value="X">X</option>
+        <option value="Y">Y</option>
+        <option value="Z">Z</option>
+      </select>
+      <button type="submit">Agregar</button>
+    </form>
 
-  <!-- Div para mostrar resultados -->
-  <table id="tablaValores" border="1" style="margin-top: 40px; border-collapse: collapse;">
-    <thead>
-      <tr>
-        <th>Valor</th>
-        <th>Eliminar</th>
-      </tr>
-    </thead>
-    <tbody id="cuerpoTabla">
-      <!-- Aquí se agregan las filas -->
-    </tbody>
-  </table>
-  
-  <button onclick="subirEjercicio('{{correo_docente}}')" style="margin-top: 20px;">Subir ejercicio</button>
+    <!-- Formulario de números -->
+    <form id="formNumero" style="display: none; margin-top: 20px;" onsubmit="agregarNumero(event)">
+      <label for="selectNumero">Escoja un dígito:</label>
+      <select id="selectNumero">
+        <option value="">-- Dígito --</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+      </select>
+      <button type="submit">Agregar</button>
+    </form>
 
-  <!-- Cargar JS externo -->
-  <script src="{{ url_for('static', filename='js/mostrarCrudPreguntas.js') }}"></script>
+    <!-- Tabla de resultados -->
+    <table id="tablaValores" border="1" style="margin-top: 40px; border-collapse: collapse; width:100%;">
+      <thead>
+        <tr>
+          <th>Letra o Dígito</th>
+          <th>Eliminar</th>
+        </tr>
+      </thead>
+      <tbody id="cuerpoTabla">
+        <!-- Filas generadas dinámicamente -->
+      </tbody>
+    </table>
+
+    <!-- Botón subir ejercicio -->
+    <button onclick="subirEjercicio('{{ correo_docente }}')" style="margin-top: 20px;" class="subireje">
+      Subir ejercicio
+    </button>
+  </div> <!-- /.cuerpo -->
+
+  <!-- JavaScript -->
+  <script>
+    function mostrarFormulario() {
+      const opcion = document.getElementById('opciones').value;
+      document.getElementById('formLetra').style.display = (opcion === 'letra') ? 'block' : 'none';
+      document.getElementById('formNumero').style.display = (opcion === 'numero') ? 'block' : 'none';
+    }
+
+    function agregarLetra(event) {
+      event.preventDefault();
+      const letra = document.getElementById('selectLetra').value;
+      if (!letra) return;
+      agregarAFila(letra);
+    }
+
+    function agregarNumero(event) {
+      event.preventDefault();
+      const numero = document.getElementById('selectNumero').value;
+      if (!numero) return;
+      agregarAFila(numero);
+    }
+
+    function agregarAFila(valor) {
+      const tbody = document.getElementById('cuerpoTabla');
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${valor}</td>
+        <td><button onclick="eliminarFila(this)">Eliminar</button></td>
+      `;
+      tbody.appendChild(tr);
+    }
+
+    function eliminarFila(btn) {
+      btn.closest('tr').remove();
+    }
+
+    function subirEjercicio(correo) {
+      // lógica para enviar datos al servidor…
+      alert('Ejercicio subido para ' + correo);
+    }
+
+    document.addEventListener('DOMContentLoaded', mostrarFormulario);
+  </script>
 </body>
 </html>

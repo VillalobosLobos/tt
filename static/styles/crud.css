@@ -2,8 +2,7 @@
 body, html {
     margin: 0;
     padding: 0;
-    background: #080454;
-background: radial-gradient(circle, rgba(8, 4, 84, 1) 0%, rgba(23, 23, 191, 1) 45%, rgba(0, 212, 255, 1) 100%);
+    background: #fff;
 }
 
 body {
@@ -51,9 +50,8 @@ table{
     background-color: #00796b;
     color: white;
     text-decoration: none;
-    padding: 10px 20px;
+    padding-left: 40px;
     border-radius: 10px;
-    font-weight: bold;
     gap: 10px;
     transition: background-color 0.3s ease;
   }
@@ -122,7 +120,6 @@ table{
 .titulo-texto {
     color: white;
     font-size: 35px;
-    font-weight: bold;
     text-align: center;
 }
 
