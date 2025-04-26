@@ -373,7 +373,7 @@ def agregarDocente():
         coneccion.commit()
         return render_template("pages/admin.html",message="Docente guardado correctamente")
     except mysql.connector.errors.IntegrityError:
-        return render_template("pages/admin.html",message="El docente ya existe")
+        return render_template("pages/admin.html",message="Ese correo ya está asignado a un docente")
 
 @app.route('/admin')
 def admin():
@@ -487,41 +487,35 @@ def recuperarContraseña():
 
 @app.route('/crearAlumno', methods=["GET", "POST"])
 def crearAlumno():
-    nombre = request.form['nombre']
-    apellidos = request.form['apellido']
-    correo = request.form['correo']
-    contraseña = request.form['contraseña']
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        apellidos = request.form['apellido']
+        correo = request.form['correo']
+        contraseña = request.form['contraseña']
 
-    hash = hashlib.sha256(contraseña.encode()).hexdigest()
+        hash_pass = hashlib.sha256(contraseña.encode()).hexdigest()
 
-    try:
-        if request.form.get('remember-me'):
-            try:
-                cursor.execute("INSERT INTO Tutor (CorreoTutor, Contraseña) VALUES (%s, %s)", (correo, hash))
+        try:
+            if request.form.get('remember-me'):
+                # Insertar en Tutor
+                cursor.execute("INSERT INTO Tutor (CorreoTutor, Contraseña) VALUES (%s, %s)", (correo, hash_pass))
                 coneccion.commit()
-                print("Inserción en Tutor exitosa.")
-                cursor.execute("INSERT INTO Alumno (Nombre, Apellido, Foto, AciertosNumeros, CorreoTutor, AciertosLetras) VALUES (%s, %s, %s, %s, %s, %s)",(nombre, apellidos, "static/img/alumnos/usuario.png", 0, correo, 0))
+                
+                # Insertar en Alumno
+                cursor.execute("INSERT INTO Alumno (Nombre, Apellido, Foto, AciertosNumeros, CorreoTutor, AciertosLetras) VALUES (%s, %s, %s, %s, %s, %s)", (nombre, apellidos, "static/img/alumnos/usuario.png", 0, correo, 0))
                 coneccion.commit()
-                print("Inserción en Alumno exitosa.")
 
-            except Exception as e:
-                coneccion.rollback()  # Revierte cambios si hay error
-                print(f"Error en la inserción: {e}")
+                return render_template('pages/crearCuenta.html', message="Alumno registrado correctamente.")
+        
+        except mysql.connector.IntegrityError as e:
+            if e.errno == 1062:  # Código de error para "entrada duplicada"
+                return render_template('pages/crearCuenta.html', message="El correo ya está registrado. Intenta con otro.")
 
+        except mysql.connector.Error as e:
+            return render_template('pages/crearCuenta.html', message=f"Error en la base de datos: {e}")
 
-            return render_template('index.html')
-
-    except mysql.connector.IntegrityError as e:
-        if e.errno == 1062:  # Código de error para entrada duplicada
-            return "Error: El correo ya está registrado. Intenta con otro."
-
-    except mysql.connector.Error as e:
-        return f"Error en la base de datos: {e}"
-
-    finally:
-        cursor.close()
-        coneccion.close()
-        return render_template('index.html')
+    # Si llega por GET, sólo muestra el formulario sin mensaje
+    return render_template('pages/crearCuenta.html')
 
 @app.route('/crearCuenta')
 def crearCuenta():

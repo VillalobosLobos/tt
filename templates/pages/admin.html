@@ -8,6 +8,28 @@
   <link rel="icon" href="/static/img/iconos/1.png" type="image/png">
   <!-- Vincula tu CSS (misma ruta que tenías antes) -->
   <link rel="stylesheet" href="{{ url_for('static', filename='styles/confA.css') }}">
+
+  <style>
+    .alert-message {
+      margin-bottom: 20px;
+      padding: 10px;
+      background-color: #e0f7fa;
+      color: #00796b;
+      border-left: 5px solid #00796b;
+      font-weight: bold;
+      border-radius: 5px;
+      animation: fadeOut 0.5s ease-out forwards;
+      animation-delay: 5s;
+    }
+  
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+  </style>
+  
 </head>
 <body>
   <div class="container">
@@ -67,6 +89,14 @@
     <div class="main-content" id="main-content">
       <!-- PESTAÑA INICIAL: Dar de alta docentes -->
       <div class="header">
+
+        {% if message %}
+          <div class="alert-message" id="alert-message">
+            {{ message }}
+          </div>
+        {% endif %}
+
+
         <h1>Dar de alta docentes</h1>
         <p class="subtext">
           En este apartado, podrás registrar nuevos docentes en la aplicación.
@@ -327,5 +357,16 @@
     });
 
   </script>
+
+<script>
+  // Hacer que el mensaje desaparezca después de 5 segundos
+  setTimeout(function() {
+    var alert = document.getElementById('alert-message');
+    if (alert) {
+      alert.style.display = 'none';
+    }
+  }, 5000);
+</script>
+
 </body>
 </html>
