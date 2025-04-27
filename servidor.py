@@ -373,7 +373,7 @@ def agregarDocente():
     try:
         cursor.execute("INSERT INTO Docente(CorreoDocente,Nombre,Apellido,Contraseña) VALUES (%s,%s,%s,%s)", (correo, nombre,apellidos,hash))
         coneccion.commit()
-        return render_template("pages/admin.html",message="Docente guardado correctamente")
+        return render_template("pages/admin.html",message="Docente registrado correctamente")
     except mysql.connector.errors.IntegrityError:
         return render_template("pages/admin.html",message="Ese correo ya está asignado a un docente")
 
