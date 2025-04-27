@@ -107,7 +107,7 @@ def ejercicio():
     if not resultado:
         return "Ejercicio no encontrado", 404
 
-    valores = json.loads(resultado[0].decode('utf-8'))
+    valores = json.loads(resultado[0])
 
     return render_template('pages/ejercicio.html', ejercicio=valores)
 
