@@ -153,6 +153,7 @@ def actualizar_ejercicio():
     )
     coneccion.commit()
     cursor.close()  # Buen hábito cerrar el cursor
+    print(f'{data}')
 
     return jsonify({'mensaje': 'Ejercicio actualizado correctamente'})
 
