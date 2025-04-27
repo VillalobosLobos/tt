@@ -164,7 +164,8 @@ def actualizarEjercicio():
     cursor = coneccion.cursor()
     cursor.execute("SELECT * FROM Ejercicio WHERE IdEjercicio=%s;",(id,))
     ejercicio = cursor.fetchone()
-    respuesta=json.loads(ejercicio[2].decode('utf-8'))
+    #respuesta=json.loads(ejercicio[2].decode('utf-8'))
+    respuesta = json.loads(ejercicio[2])
 
     return render_template('/pages/actualizarEjercicio.html',ejercicio=ejercicio,respuesta=respuesta)
 
