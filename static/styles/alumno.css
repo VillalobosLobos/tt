@@ -210,8 +210,8 @@ header {
 ============================ */
 
 .sin-grupo {
+  min-height: 100vh;
   width: 100%;
-  height: 100%;
   font-family: Arial, sans-serif;
   background-color: #ffffff;
   background: url("/static/img/sinGrupo/fondo.png") no-repeat center center fixed; 
@@ -397,11 +397,50 @@ header {
     margin-bottom: 15px;
     width: 100%;
   }
+
+  /* ==========================
+     RESPONSIVE SIN-GRUPO
+  ========================= */
+  .sin-grupo {
+    background-position: center top;
+  }
+  .form-container {
+    width: 90%;
+    height: auto;
+    margin: 30px auto;
+    padding: 20px;
+  }
+  .form-container .bienvenido {
+    font-size: 22px;
+  }
+  .form-content {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .profile-img {
+    width: 140px;
+    height: 140px;
+    margin: 0 auto -20px;
+  }
+  .numbers-img {
+    width: 120px;
+  }
+  .txt {
+    font-size: 16px;
+  }
+  .codigoCampo {
+    width: 150px;
+  }
+  .aceptar,
+  .btn-salir {
+    width: 160px;
+    font-size: 16px;
+  }
 }
 
 /* Para pantallas de hasta 600px */
 @media screen and (max-width: 600px) {
-  /* Ajustes adicionales en el contenedor */
+  /* Ajustes adicionales en el contenedor principal */
   .contenedor {
     padding: 15px;
   }
@@ -433,5 +472,48 @@ header {
     height: 36px;
     font-size: 14px;
     padding: 0 8px;
+  }
+
+  /* ==========================
+     RESPONSIVE SIN-GRUPO
+  ========================= */
+  /* Identifica el selector correcto, por ejemplo: */
+.sin-grupo .txt {
+  margin-top: 20px; /* sube o baja este valor hasta que quede a tu gusto */
+  text-align: center;
+  font-size: 14px;
+  color: #000;
+}
+
+  .form-container {
+    width: 95%;
+    padding: 15px;
+    margin: 20px auto;
+  }
+  .form-container .bienvenido {
+    font-size: 20px;
+  }
+  .form-content {
+    gap: 10px;
+  }
+  .profile-img {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto -15px;
+  }
+  .numbers-img {
+    width: 100px;
+  }
+  .txt {
+    font-size: 14px;
+  }
+  .codigoCampo {
+    width: 100%;
+  }
+  .aceptar,
+  .btn-salir {
+    width: 100%;
+    font-size: 14px;
+    padding: 8px 0;
   }
 }
