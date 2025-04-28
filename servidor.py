@@ -208,7 +208,7 @@ def subir_ejercicio():
     """, (titulo, json.dumps(valores), correo))
     coneccion.commit()
 
-    return jsonify({"mensaje": "Ejercicio recibido correctamente", "titulo": titulo, "valores": valores})
+    return jsonify({"mensaje": "Ejercicio se subio correctamente", "titulo": titulo, "valores": valores})
 
 @app.route('/crudEjercicios')
 def crud_ejercicios():
@@ -390,9 +390,10 @@ def restablecer():
 def cambiar_contraseña():
     nueva=request.form['nueva_contraseña']
     conf=request.form['confirmar_contraseña']
+    hash = hashlib.sha256(nueva.encode()).hexdigest()
 
     if nueva == conf:
-        cursor.execute("UPDATE Tutor SET Contraseña=%s WHERE CorreoTutor=%s", (nueva, correoAux))
+        cursor.execute("UPDATE Tutor SET Contraseña=%s WHERE CorreoTutor=%s", (hash, correoAux))
         coneccion.commit()
         flash("Contraseña cambiada exitosamente.", "success")
         return render_template("index.html")
@@ -413,29 +414,44 @@ def verificar_codigo():
 @app.route("/recuperar_contraseña", methods=["POST"])
 def recuperar_contraseña():
     correo = request.form.get("email")
-    global correoAux
-    correoAux=correo
-    codigo=generar_codigo()
 
-    global token
-    token=codigo
-    print(f'recuperar token: {token}')
+    #Buscar para el docente
+    cursor.execute("select CorreoDocente from Docente where CorreoDocente=%s;", (correo,))
+    correoDocValido = cursor.fetchone()
+    
+    #Buscar para el Tutor
+    cursor.execute("select CorreoTutor from Tutor where CorreoTutor=%s;", (correo,))
+    correoTutValido = cursor.fetchone()
 
-    #bmds xqfj iskd vrqk 
-    servidor=smtplib.SMTP('smtp.gmail.com',587)
-    servidor.starttls()
-    servidor.login("eduvoz212@gmail.com","bmds xqfj iskd vrqk")
+    #Buscar para el Admin
+    cursor.execute("select CorreoAdministrador from Administrador where CorreoAdministrador=%s;", (correo,))
+    correoAdmValido = cursor.fetchone()
 
-    msj=MIMEText(f'Tu codigo es: {codigo}')
+    if correoDocValido or correoTutValido or correoAdmValido:
+        global correoAux
+        correoAux=correo
+        codigo=generar_codigo()
 
-    msj["From"]="eduvoz212@gmail.com"
-    msj["To"]=correo
-    msj["Subject"]="Recuperar contraseña"
+        global token
+        token=codigo
+        print(f'recuperar token: {token}')
 
-    servidor.sendmail("eduvoz212@gmail.com",correo,msj.as_string())
-    servidor.quit()
+        servidor=smtplib.SMTP('smtp.gmail.com',587)
+        servidor.starttls()
+        servidor.login("eduvoz212@gmail.com","bmds xqfj iskd vrqk")
 
-    return render_template('pages/contraseñaRecuperada.html')
+        msj=MIMEText(f'Tu codigo es: {codigo}')
+
+        msj["From"]="eduvoz212@gmail.com"
+        msj["To"]=correo
+        msj["Subject"]="Recuperar contraseña"
+
+        servidor.sendmail("eduvoz212@gmail.com",correo,msj.as_string())
+        servidor.quit()
+
+        return render_template('pages/contraseñaRecuperada.html')
+    else:
+        return redirect(url_for('recuperarContraseña'))
 
 @app.route('/')
 def index():
