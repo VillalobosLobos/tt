@@ -105,6 +105,88 @@
 
   </div> <!-- /.cuerpo -->
   
+  <script>
+    let draggedRow = null;
+    const cuerpoTabla = document.getElementById('cuerpoTabla');
+    
+    // Al iniciar, marcar todas las filas existentes
+    document.querySelectorAll('#cuerpoTabla tr').forEach(fila => {
+        prepararFilaParaDrag(fila);
+    });
+    
+    function prepararFilaParaDrag(fila) {
+      fila.setAttribute('draggable', 'true'); // ¡Importante!
+    
+      fila.addEventListener('dragstart', function(event) {
+        draggedRow = fila;
+        fila.classList.add('dragging');
+      });
+    
+      fila.addEventListener('dragend', function(event) {
+        fila.classList.remove('dragging');
+        draggedRow = null;
+      });
+    }
+    
+    // Evento sobre el cuerpo de la tabla para ordenar
+    cuerpoTabla.addEventListener('dragover', function(event) {
+      event.preventDefault();
+      const afterElement = getDragAfterElement(cuerpoTabla, event.clientY);
+      if (afterElement == null) {
+        cuerpoTabla.appendChild(draggedRow);
+      } else {
+        cuerpoTabla.insertBefore(draggedRow, afterElement);
+      }
+    });
+    
+    // Función para encontrar el lugar correcto donde insertar
+    function getDragAfterElement(container, y) {
+      const draggableElements = [...container.querySelectorAll('tr:not(.dragging)')];
+    
+      return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+          return { offset: offset, element: child };
+        } else {
+          return closest;
+        }
+      }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+    
+    // Esta es tu función para agregar dinámicamente filas
+    function agregarFilaATabla(valor) {
+      const fila = document.createElement('tr');
+      fila.innerHTML = `
+        <td style="text-align:center;">${valor}</td>
+        <td style="text-align:center;">
+          <button onclick="eliminarFila(this)" style="background-color: #f66; border: none; padding: 5px 10px; border-radius: 5px;">Eliminar</button>
+        </td>
+      `;
+      prepararFilaParaDrag(fila); // <<< IMPORTANTE: marcar cada fila nueva
+      cuerpoTabla.appendChild(fila);
+    }
+    
+    // Para eliminar filas
+    function eliminarFila(boton) {
+      const fila = boton.closest('tr');
+      fila.remove();
+    }
+    
+    // Aquí llenas la tabla inicialmente con los datos que te mandan
+    let respuesta = {{ respuesta | tojson }};
+    respuesta.forEach(function(valor) {
+        agregarFilaATabla(valor);
+    });
+    </script>
+    
+
+<style>
+  #cuerpoTabla tr {
+    cursor: move; /* Mostrar la manita para saber que se puede arrastrar */
+  }
+  </style>  
+
     <!-- Cargar JS externo -->
     <script src="{{ url_for('static', filename='js/mostrarCrudPreguntas.js') }}"></script>
     <script>
