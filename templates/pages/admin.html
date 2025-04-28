@@ -335,26 +335,23 @@
     // 5) VIDEO TUTORIAL
     // ======================
     tutorial.addEventListener('click', function() {
-  const content = `
+      const content = `
     <div class="header">
       <h1>Video tutorial</h1>
-      <p class="subtext">
-        A continuación te proporcionamos un video del uso de tu rol en la aplicación.
-      </p>
-      <div class="video-container">
-        <iframe
-          width="600"
-          height="338"
-          src="https://www.youtube.com/embed/Nm_qIAb3kUI"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
-      </div>
+      <p>A continuación te proporcionamos un video del uso de tu rol en la aplicación.
+    </p>
+      <a 
+        href="https://youtu.be/z0uoW8lXESk" 
+        target="_blank" 
+        rel="noopener noreferrer"
+      > 
+       <br> • Tutorial del administrador
+      </a>
     </div>
-    `;
-    changeContent(content);
-    });
+  `;
+  changeContent(content);
+});
+
 
   </script>
 

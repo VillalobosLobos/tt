@@ -154,21 +154,37 @@
     });
 
     videosTutorialesBtn.addEventListener('click', function() {
-      const content = `
-        <div class="header">
-          <h1>Videos tutoriales</h1>
-          <br>
-          <p>A continuación te proporcionamos videos tutoriales del uso de la aplicación web:</p>
-          <br>
-          <ul>
-            <li><a href="#">Tutorial para el estudiante</a></li>
-            <br>
-            <li><a href="#">Tutorial para el tutor</a></li>
-          </ul>
-        </div>
-      `;
-      changeContent(content);
-    });
+  const content = `
+    <div class="header">
+      <h1>Videos tutoriales</h1>
+      <br>
+      <p>A continuación te proporcionamos videos tutoriales del uso de la aplicación web:</p>
+      <br>
+      <ul>
+        <li>
+          <a 
+            href="https://youtu.be/9SSgh_dx_oE" 
+            target="_blank" 
+            rel="noopener noreferrer"
+          >
+            Tutorial para el estudiante
+          </a>
+        </li>
+        <br>
+        <li>
+          <a 
+            href="https://youtu.be/SPtxpDUNy84" 
+            target="_blank" 
+            rel="noopener noreferrer"
+          >
+            Tutorial para el tutor
+          </a>
+        </li>
+      </ul>
+    </div>
+  `;
+  changeContent(content);
+});
   </script>
 </body>
 </html>
