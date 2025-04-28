@@ -68,9 +68,10 @@ function mostrarFormulario() {
   
     // Extraer valores de la tabla
     filas.forEach(fila => {
-      const valor = fila.querySelector("td").textContent;
+      const valor = fila.querySelectorAll("td")[0].textContent; // índice 1
       valores.push(valor);
     });
+    
   
     // Mostrar en consola
     console.log("Título:", titulo);
