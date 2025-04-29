@@ -30,25 +30,31 @@ function mostrarFormulario() {
   
   function agregarFilaATabla(valor) {
     const tabla = document.getElementById("cuerpoTabla");
-  
     const fila = document.createElement("tr");
   
+    // 1) Drag-handle
+    const celdaHandle = document.createElement("td");
+    celdaHandle.className = "drag-handle";
+    celdaHandle.innerHTML = "&#9776;"; // ☰
+    fila.appendChild(celdaHandle);
+  
+    // 2) Valor
     const celdaValor = document.createElement("td");
     celdaValor.textContent = valor;
+    fila.appendChild(celdaValor);
   
+    // 3) Eliminar
     const celdaEliminar = document.createElement("td");
     const botonEliminar = document.createElement("button");
     botonEliminar.textContent = "Eliminar";
-    botonEliminar.onclick = function () {
-      tabla.removeChild(fila);
-    };
-  
+    botonEliminar.onclick = () => tabla.removeChild(fila);
     celdaEliminar.appendChild(botonEliminar);
-    fila.appendChild(celdaValor);
     fila.appendChild(celdaEliminar);
   
     tabla.appendChild(fila);
   }
+  
+  
 
   function subirEjercicio(correo_docente) {
     const titulo = document.getElementById("titulo").value.trim();
@@ -68,7 +74,7 @@ function mostrarFormulario() {
   
     // Extraer valores de la tabla
     filas.forEach(fila => {
-      const valor = fila.querySelectorAll("td")[0].textContent; // índice 1
+      const valor = fila.querySelectorAll("td")[1].textContent; // índice 1
       valores.push(valor);
     });
     

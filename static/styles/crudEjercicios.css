@@ -225,3 +225,12 @@
     }
   }
   
+  #tablaValores td:first-child { /* columna del handle */
+    width: 40px;
+    text-align: center;
+  }
+  .drag-handle {
+    font-size: 1.2em;
+    user-select: none;
+  }
+  
