@@ -58,12 +58,14 @@ CREATE TABLE `Alumno` (
   `IdGrupo` int(11) DEFAULT NULL,
   `CorreoTutor` varchar(100) DEFAULT NULL,
   `AciertosLetras` int(11) NOT NULL DEFAULT 0,
+  `FechaAciertosNumeros` datetime DEFAULT '2025-01-01 00:00:00',
+  `FechaAciertosLetras` datetime DEFAULT '2025-01-01 00:00:00',
   PRIMARY KEY (`IdAlumno`),
   UNIQUE KEY `unique_tutor` (`CorreoTutor`),
   KEY `Alumno_ibfk_1` (`IdGrupo`),
   CONSTRAINT `Alumno_ibfk_1` FOREIGN KEY (`IdGrupo`) REFERENCES `Grupo` (`IdGrupo`) ON DELETE SET NULL,
   CONSTRAINT `fk_tutor` FOREIGN KEY (`CorreoTutor`) REFERENCES `Tutor` (`CorreoTutor`) ON DELETE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -73,11 +75,37 @@ CREATE TABLE `Alumno` (
 LOCK TABLES `Alumno` WRITE;
 /*!40000 ALTER TABLE `Alumno` DISABLE KEYS */;
 INSERT INTO `Alumno` VALUES
-(13,'Ezequiel','Villalobos Sanchez','static/img/usuarios/psychohappy2002@gmail.com.jpg',0,18,'psychohappy2002@gmail.com',0),
-(15,'Cesar Osvaldo','Zamudio Onofre','static/img/usuarios/cesar@gmail.com.png',0,19,'cesar@gmail.com',1),
-(18,'Wendy','Lopez Martinez','static/img/alumnos/usuario.png',0,NULL,'ween@gmail.com',0);
+(13,'Ezequiel','Villalobos Sanchez','static/img/usuarios/psychohappy2002@gmail.com.jpg',10,18,'psychohappy2002@gmail.com',9,'2025-04-30 08:23:47','2025-04-30 08:29:19'),
+(15,'Cesar Osvaldo','Zamudio Onofre','static/img/usuarios/cesar@gmail.com.png',0,19,'cesar@gmail.com',1,NULL,NULL),
+(19,'Wendy','Lopez Martinez','static/img/alumnos/usuario.png',0,18,'ween@gmail.com',0,NULL,NULL);
 /*!40000 ALTER TABLE `Alumno` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb3 */ ;
+/*!50003 SET character_set_results = utf8mb3 */ ;
+/*!50003 SET collation_connection  = utf8mb3_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`villalobos`@`localhost`*/ /*!50003 TRIGGER actualizar_fechas_aciertos
+BEFORE UPDATE ON Alumno
+FOR EACH ROW
+BEGIN
+  IF NEW.AciertosNumeros != OLD.AciertosNumeros THEN
+    SET NEW.FechaAciertosNumeros = NOW();
+  END IF;
+
+  IF NEW.AciertosLetras != OLD.AciertosLetras THEN
+    SET NEW.FechaAciertosLetras = NOW();
+  END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `Docente`
@@ -122,7 +150,7 @@ CREATE TABLE `Ejercicio` (
   PRIMARY KEY (`IdEjercicio`),
   KEY `CorreoDocente` (`CorreoDocente`),
   CONSTRAINT `Ejercicio_ibfk_1` FOREIGN KEY (`CorreoDocente`) REFERENCES `Docente` (`CorreoDocente`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -132,8 +160,10 @@ CREATE TABLE `Ejercicio` (
 LOCK TABLES `Ejercicio` WRITE;
 /*!40000 ALTER TABLE `Ejercicio` DISABLE KEYS */;
 INSERT INTO `Ejercicio` VALUES
-(16,'vocales','[\"A\", \"E\", \"I\", \"O\", \"U\"]','docente@gmail.com'),
-(17,'conbinado','[\"A\", \"B\", \"C\", \"1\", \"2\", \"3\"]','docente@gmail.com');
+(17,'vareado','[\"K\", \"10\"]','docente@gmail.com'),
+(27,'Vocales','[\"A\", \"E\", \"I\", \"O\", \"U\"]','docente@gmail.com'),
+(28,'números','[\"1\", \"2\", \"3\", \"4\"]','docente@gmail.com'),
+(29,'hola','[\"A\", \"A\"]','2docente@gmail.com');
 /*!40000 ALTER TABLE `Ejercicio` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -165,7 +195,7 @@ LOCK TABLES `Grupo` WRITE;
 /*!40000 ALTER TABLE `Grupo` DISABLE KEYS */;
 INSERT INTO `Grupo` VALUES
 (13,'Primero A','W996N',0,NULL),
-(18,'fabi','4VHFX',1,'docente@gmail.com'),
+(18,'2A','4VHFX',2,'docente@gmail.com'),
 (19,'Cet1','DVRO6',1,'2docente@gmail.com');
 /*!40000 ALTER TABLE `Grupo` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -189,7 +219,7 @@ CREATE TABLE `Resultado` (
   KEY `Resultado_ibfk_1` (`IdAlumno`),
   CONSTRAINT `Resultado_ibfk_1` FOREIGN KEY (`IdAlumno`) REFERENCES `Alumno` (`IdAlumno`) ON DELETE CASCADE,
   CONSTRAINT `Resultado_ibfk_2` FOREIGN KEY (`IdEjercicio`) REFERENCES `Ejercicio` (`IdEjercicio`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -199,8 +229,8 @@ CREATE TABLE `Resultado` (
 LOCK TABLES `Resultado` WRITE;
 /*!40000 ALTER TABLE `Resultado` DISABLE KEYS */;
 INSERT INTO `Resultado` VALUES
-(1,13,16,5,0,'2025-04-24 02:51:23'),
-(3,13,17,5,1,'2025-04-24 21:23:27');
+(3,13,17,5,1,'2025-04-24 21:23:27'),
+(5,13,27,5,0,'2025-04-28 19:08:36');
 /*!40000 ALTER TABLE `Resultado` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -240,4 +270,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-24 15:45:07
+-- Dump completed on 2025-04-30  8:44:00
