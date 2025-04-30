@@ -27,15 +27,16 @@ h1 {
 
 /* Fuente personalizada para la letra */
 @font-face {
-  font-family: 'Eracake';
-  src: url('/static/fonts/Eracake.ttf') format('truetype');
+  font-family: 'Chewy';
+  src: url('/static/fonts/Chewy.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
 /* Letra grande */
 #letra {
-  font-family: 'Eracake', sans-serif;
+  /*font-family: Arial, sans-serif;*/
+  font-family: 'Arial', sans-serif;
   font-size: 200px;     /* Ajusta el tamaño */
   color: #D7263D;       /* Rojo vivo, por ejemplo */
   margin: 0 0 20px;     /* Espacio inferior para separarla de los botones */
@@ -43,7 +44,7 @@ h1 {
 
 /* Número grande */
 #numero {
-  font-family: 'Eracake', sans-serif; /* O la fuente que prefieras */
+  font-family: 'Arial', sans-serif; /* O la fuente que prefieras */
   font-size: 200px;                   /* Ajusta el tamaño que quieras */
   color: #D7263D;                     /* Color del número */
   margin: 0 0 20px;                   /* Separación inferior */
