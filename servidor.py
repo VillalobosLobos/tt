@@ -915,13 +915,30 @@ def listaAlumnos():
 
 @app.route('/eliminarGrupo', methods=['DELETE'])
 def eliminar_grupo():
-    print('eliminar grupo')  # Verificación para saber si se ejecuta esta ruta
+    print('eliminar grupo')
+
     if 'usuario' not in session or session['usuario']['role'] != 'Docente':
         return redirect(url_for('inicioSesion'))
 
     correo_docente = session['usuario']['CorreoDocente']
     cursor = coneccion.cursor()
+
+    # Paso 1: Obtener todos los IdEjercicio del docente
+    cursor.execute("SELECT IdEjercicio FROM Ejercicio WHERE CorreoDocente = %s", (correo_docente,))
+    ejercicios = cursor.fetchall()
+    ids_ejercicios = [e[0] for e in ejercicios]
+
+    # Paso 2: Si hay ejercicios, eliminar primero los resultados asociados
+    if ids_ejercicios:
+        formato = ','.join(['%s'] * len(ids_ejercicios))
+        cursor.execute(f"DELETE FROM Resultado WHERE IdEjercicio IN ({formato})", tuple(ids_ejercicios))
+
+        # Paso 3: Luego eliminar los ejercicios del docente
+        cursor.execute("DELETE FROM Ejercicio WHERE CorreoDocente = %s", (correo_docente,))
+
+    # Paso 4: Finalmente eliminar el grupo del docente
     cursor.execute("DELETE FROM Grupo WHERE CorreoDocente = %s", (correo_docente,))
+
     coneccion.commit()
 
     return jsonify({"success": True})
