@@ -586,7 +586,7 @@ def progresoAlumno():
      cursor = coneccion.cursor(dictionary=True)
     
     # Obtener la información del alumno
-     cursor.execute("SELECT IdAlumno, Nombre, Apellido, Foto, AciertosNumeros,AciertosLetras, IdGrupo, CorreoTutor FROM Alumno WHERE CorreoTutor = %s;", (correo_alumno,))
+     cursor.execute("SELECT IdAlumno, Nombre, Apellido, Foto, AciertosNumeros,AciertosLetras, IdGrupo, CorreoTutor,FechaAciertosLetras,FechaAciertosNumeros FROM Alumno WHERE CorreoTutor = %s;", (correo_alumno,))
      alumno_info = cursor.fetchone()
 
      cursor.execute("""
@@ -866,7 +866,7 @@ def progresoAlumnoDocente():
 
     # Obtener la información del alumno usando el correo proporcionado
     cursor.execute("""
-        SELECT IdAlumno, Nombre, Apellido, Foto, AciertosNumeros, AciertosLetras, IdGrupo, CorreoTutor 
+        SELECT IdAlumno, Nombre, Apellido, Foto, AciertosNumeros, AciertosLetras, IdGrupo, CorreoTutor,FechaAciertosLetras,FechaAciertosNumeros 
         FROM Alumno 
         WHERE CorreoTutor = %s
     """, (correo_alumno,))
