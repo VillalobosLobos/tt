@@ -8,7 +8,11 @@
 <div class="contenedor">
   <!-- COLUMNA IZQUIERDA -->
   <div class="left-col">
+    {% if alumno.Foto=="static/img/alumnos/usuario.png" %}
+    <img src="/static/img/alumnos/usaurio.png" alt="Foto Alumno" class="user-img">
+    {% else %}
     <img src="{{ alumno.Foto }}" alt="Foto Alumno" class="user-img">
+    {% endif %}
     <h2 class="nombre-alumno">{{ alumno.Nombre }}</h2>
 
     <div class="botones">
