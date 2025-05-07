@@ -915,8 +915,6 @@ def listaAlumnos():
 
 @app.route('/eliminarGrupo', methods=['DELETE'])
 def eliminar_grupo():
-    print('eliminar grupo')
-
     if 'usuario' not in session or session['usuario']['role'] != 'Docente':
         return redirect(url_for('inicioSesion'))
 
@@ -1020,4 +1018,4 @@ def inicioSesion():
         return jsonify({"status": "error", "message": f"Error en la base de datos: {err}"}), 500
 
 if __name__ == '__main__':
-    app.run(port=8000,debug=True)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
